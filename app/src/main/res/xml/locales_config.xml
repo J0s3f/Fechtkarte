@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- T9.8: the languages this app ships translations for. Android 13+ reads this to populate
+     the per-app language entry in system settings; AppCompat reads it on older versions.
+     Keep in step with the values-*/ resource directories — a locale listed here without a
+     translation falls back to English, which is worse than not offering it at all. -->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="de" />
+    <locale android:name="fr" />
+</locale-config>

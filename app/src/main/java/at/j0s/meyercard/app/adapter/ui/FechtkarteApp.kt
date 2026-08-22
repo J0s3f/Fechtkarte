@@ -1,0 +1,247 @@
+package at.j0s.meyercard.app.adapter.ui
+
+import android.content.Intent
+import android.widget.Toast
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import at.j0s.meyercard.app.R
+import at.j0s.meyercard.app.adapter.ui.configure.ConfigureScreen
+import at.j0s.meyercard.app.adapter.ui.configure.ConfigureScreenState
+import at.j0s.meyercard.app.adapter.ui.learn.LearnScreen
+import at.j0s.meyercard.app.adapter.ui.library.LibraryScreen
+import at.j0s.meyercard.app.adapter.ui.notices.NoticesScreen
+import at.j0s.meyercard.app.adapter.ui.notices.RUNTIME_DEPENDENCY_NOTICES
+import at.j0s.meyercard.app.adapter.ui.notices.readFontLicenceAsset
+import at.j0s.meyercard.app.adapter.ui.train.ShakeToGenerate
+import at.j0s.meyercard.app.adapter.ui.train.TrainScreen
+import at.j0s.meyercard.app.application.port.api.BrowseHistoricalCards
+import at.j0s.meyercard.app.application.port.api.ExportCard
+import at.j0s.meyercard.app.application.port.api.ShareCard
+import at.j0s.meyercard.app.application.port.spi.ExportResult
+import at.j0s.meyercard.app.application.port.spi.PreferencesStore
+import at.j0s.meyercard.app.domain.DrillGenerator
+import at.j0s.meyercard.app.domain.Hand
+import at.j0s.meyercard.app.domain.HistoricalDrill
+import at.j0s.meyercard.app.domain.MeyerCard
+import kotlinx.coroutines.launch
+
+private object Route {
+    const val LIBRARY = "library"
+    const val TRAIN = "train"
+    const val CONFIGURE = "configure"
+    const val LEARN = "learn"
+    const val NOTICES = "notices"
+}
+
+/**
+ * Three peer destinations (Library, Train, Learn) in a bottom nav bar, with Configure pushed
+ * on top of Train rather than being a peer of its own. There's also a fourth, standalone
+ * "Home" screen with its own title treatment; that's T7.1's job (original artwork),
+ * not this task's — until it exists, Library is the start destination, same as before Learn
+ * was added.
+ */
+@Composable
+fun FechtkarteApp(
+    browseHistoricalCards: BrowseHistoricalCards,
+    preferencesStore: PreferencesStore,
+    exportCard: ExportCard,
+    shareCard: ShareCard,
+    modifier: Modifier = Modifier,
+) {
+    val navController = rememberNavController()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route
+
+    Scaffold(
+        modifier = modifier,
+        bottomBar = {
+            NavigationBar {
+                NavigationBarItem(
+                    selected = currentRoute == Route.LIBRARY,
+                    onClick = { navController.navigate(Route.LIBRARY) { launchSingleTop = true } },
+                    icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+                    label = { Text(stringResource(R.string.nav_library)) },
+                )
+                NavigationBarItem(
+                    selected = currentRoute == Route.TRAIN || currentRoute == Route.CONFIGURE,
+                    onClick = { navController.navigate(Route.TRAIN) { launchSingleTop = true } },
+                    icon = { Icon(Icons.Filled.PlayArrow, contentDescription = null) },
+                    label = { Text(stringResource(R.string.nav_train)) },
+                )
+                NavigationBarItem(
+                    selected = currentRoute == Route.LEARN,
+                    onClick = { navController.navigate(Route.LEARN) { launchSingleTop = true } },
+                    icon = { Icon(Icons.AutoMirrored.Filled.MenuBook, contentDescription = null) },
+                    label = { Text(stringResource(R.string.nav_learn)) },
+                )
+            }
+        },
+    ) { contentPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = Route.LIBRARY,
+            modifier = Modifier.padding(contentPadding),
+        ) {
+            composable(Route.LIBRARY) { LibraryRoute(browseHistoricalCards) }
+            composable(Route.TRAIN) {
+                TrainRoute(
+                    preferencesStore,
+                    exportCard,
+                    shareCard,
+                    onConfigure = { navController.navigate(Route.CONFIGURE) },
+                )
+            }
+            composable(Route.CONFIGURE) { ConfigureRoute(preferencesStore) }
+            composable(Route.LEARN) {
+                LearnScreen(onNoticesClick = { navController.navigate(Route.NOTICES) })
+            }
+            composable(Route.NOTICES) { NoticesRoute() }
+        }
+    }
+}
+
+private data class LibraryContent(val drills: List<HistoricalDrill>, val techniqueCards: List<MeyerCard>)
+
+@Composable
+private fun LibraryRoute(browseHistoricalCards: BrowseHistoricalCards, modifier: Modifier = Modifier) {
+    val content by produceState<LibraryContent?>(initialValue = null, browseHistoricalCards) {
+        value = LibraryContent(browseHistoricalCards.drills(), browseHistoricalCards.techniqueCards())
+    }
+
+    val loaded = content
+    if (loaded == null) {
+        CircularProgressIndicator(modifier = modifier.wrapContentSize(Alignment.Center))
+    } else {
+        LibraryScreen(drills = loaded.drills, techniqueCards = loaded.techniqueCards, modifier = modifier)
+    }
+}
+
+@Composable
+private fun TrainRoute(
+    preferencesStore: PreferencesStore,
+    exportCard: ExportCard,
+    shareCard: ShareCard,
+    onConfigure: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var card by remember { mutableStateOf<MeyerCard?>(null) }
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    suspend fun regenerate() {
+        val preferences = preferencesStore.load()
+        val outcome = DrillGenerator.generateWithRules(
+            actionCount = preferences.actionCount,
+            thrustCount = preferences.thrustCount,
+            rules = preferences.enabledRules,
+        )
+        val palette = if (outcome.card.hand == Hand.RIGHT) preferences.rightHandPalette else preferences.leftHandPalette
+        card = outcome.card.copy(palette = palette)
+    }
+
+    suspend fun save(cardToSave: MeyerCard, export: suspend (MeyerCard) -> ExportResult) {
+        val messageRes = try {
+            export(cardToSave)
+            R.string.card_saved
+        } catch (_: Exception) {
+            R.string.error_saving
+        }
+        Toast.makeText(context, messageRes, Toast.LENGTH_SHORT).show()
+    }
+
+    suspend fun share(cardToShare: MeyerCard) {
+        val shareable = try {
+            shareCard.prepare(cardToShare)
+        } catch (_: Exception) {
+            Toast.makeText(context, R.string.error_sharing, Toast.LENGTH_SHORT).show()
+            return
+        }
+        val sendIntent = Intent(Intent.ACTION_SEND).apply {
+            type = shareable.mimeType
+            putExtra(Intent.EXTRA_STREAM, shareable.uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        context.startActivity(Intent.createChooser(sendIntent, null))
+    }
+
+    LaunchedEffect(Unit) { regenerate() }
+    ShakeToGenerate(onShake = { scope.launch { regenerate() } })
+
+    val current = card
+    if (current == null) {
+        CircularProgressIndicator(modifier = modifier.wrapContentSize(Alignment.Center))
+    } else {
+        TrainScreen(
+            card = current,
+            onGenerate = { scope.launch { regenerate() } },
+            onConfigure = onConfigure,
+            onSavePng = { scope.launch { save(current, exportCard::asPng) } },
+            onSavePdf = { scope.launch { save(current, exportCard::asPdf) } },
+            onShare = { scope.launch { share(current) } },
+            modifier = modifier,
+        )
+    }
+}
+
+@Composable
+private fun NoticesRoute(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val fontLicenceText by produceState<String?>(initialValue = null) {
+        value = context.readFontLicenceAsset()
+    }
+
+    val loaded = fontLicenceText
+    if (loaded == null) {
+        CircularProgressIndicator(modifier = modifier.wrapContentSize(Alignment.Center))
+    } else {
+        NoticesScreen(entries = RUNTIME_DEPENDENCY_NOTICES, fontLicenceText = loaded, modifier = modifier)
+    }
+}
+
+@Composable
+private fun ConfigureRoute(preferencesStore: PreferencesStore, modifier: Modifier = Modifier) {
+    var state by remember { mutableStateOf<ConfigureScreenState?>(null) }
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) { state = ConfigureScreenState(preferencesStore.load()) }
+
+    val current = state
+    if (current == null) {
+        CircularProgressIndicator(modifier = modifier.wrapContentSize(Alignment.Center))
+    } else {
+        ConfigureScreen(
+            state = current,
+            onStateChange = { newState ->
+                state = newState
+                scope.launch { preferencesStore.save(newState.preferences) }
+            },
+            modifier = modifier,
+        )
+    }
+}
