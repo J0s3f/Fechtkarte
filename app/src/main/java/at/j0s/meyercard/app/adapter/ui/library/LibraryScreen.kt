@@ -26,8 +26,8 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -65,7 +65,7 @@ fun LibraryScreen(drills: List<HistoricalDrill>, techniqueCards: List<MeyerCard>
     var tab by remember { mutableStateOf(LibraryTab.DRILLS) }
 
     Column(modifier = modifier.fillMaxSize()) {
-        TabRow(selectedTabIndex = tab.ordinal) {
+        PrimaryTabRow(selectedTabIndex = tab.ordinal) {
             Tab(
                 selected = tab == LibraryTab.DRILLS,
                 onClick = { tab = LibraryTab.DRILLS },

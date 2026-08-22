@@ -4,8 +4,10 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
+    // No `org.jetbrains.kotlin.android` plugin: AGP 9's built-in Kotlin support covers it, and
+    // applying it explicitly on top is deprecated (it re-triggers the legacy variant API AGP
+    // 9's "new DSL" retired) — see the gradle.properties comment by android.newDsl's removal.
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
@@ -32,8 +34,8 @@ android {
         applicationId = "at.j0s.meyercard.app"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

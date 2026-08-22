@@ -1,6 +1,6 @@
 package at.j0s.meyercard.app.adapter.ui
 
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.v2.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.j0s.meyercard.app.adapter.ui.learn.LearnScreen
