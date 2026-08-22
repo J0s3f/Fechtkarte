@@ -1,0 +1,142 @@
+name: "Play Store"
+
+# Adapted from https://github.com/AlpineMapsOrg/renderer/blob/main/.github/workflows/play-store.yml
+# -- same three-job shape (check tag / build / deploy), but building via this project's own
+# Dockerfile instead of a bespoke CMake/Qt recipe: a successful image build already runs the
+# full clean test suite (the same commit gate `scripts/build.sh` uses locally), so this workflow
+# never has to duplicate a second, potentially-diverging description of how to build the app.
+
+on:
+  push:
+    tags: [ "v*" ]
+  workflow_dispatch:
+
+concurrency:
+  group: play-store-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check_release_tag:
+    if: github.repository == 'J0s3f/Fechtkarte'
+    runs-on: ubuntu-24.04
+    outputs:
+      tagged: ${{ steps.release_tag.outputs.tagged }}
+      tag: ${{ steps.release_tag.outputs.tag }}
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Check release tag
+        id: release_tag
+        shell: bash
+        run: |
+          TAGS="$(git tag --points-at HEAD | sort -V)"
+          if [ -z "$TAGS" ]; then
+            echo "No tag points at HEAD; skipping Play Store deployment."
+            echo "tagged=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          TAG="$(echo "$TAGS" | tail -n 1)"
+          echo "Deploying tag $TAG to Google Play."
+          echo "tagged=true" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+  build-aab:
+    if: needs.check_release_tag.outputs.tagged == 'true'
+    needs:
+      - check_release_tag
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v7
+
+      # This is the project's own commit gate (`scripts/build.sh`'s `podman build`, here via
+      # Docker instead): a successful image build already ran `gradle clean build`, the full
+      # test suite, before any signed artifact is produced.
+      - name: Build the verified image
+        run: docker build -t fechtkarte-builder .
+
+      # keystore.properties/release.keystore are gitignored and .dockerignore'd -- never part
+      # of the image itself. Written to the checkout directly, then bind-mounted into a
+      # container from the already-built (and already-tested) image for the signed build only.
+      - name: Write release signing credentials
+        shell: bash
+        env:
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          if [ -z "${RELEASE_KEYSTORE_PASSWORD}" ] || [ -z "${RELEASE_KEY_PASSWORD}" ]; then
+            echo "RELEASE_KEYSTORE_PASSWORD and RELEASE_KEY_PASSWORD are required for signed builds."
+            exit 1
+          fi
+
+          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > release.keystore
+          cat > keystore.properties <<EOF
+          storeFile=release.keystore
+          storePassword=${RELEASE_KEYSTORE_PASSWORD}
+          keyAlias=fechtkarte
+          keyPassword=${RELEASE_KEY_PASSWORD}
+          EOF
+
+      - name: Build signed AAB
+        run: |
+          docker run --rm -v "$PWD":/app -w /app fechtkarte-builder \
+            ./gradlew --no-daemon :app:bundleRelease
+
+      - name: Verify AAB signature
+        run: |
+          AAB="app/build/outputs/bundle/release/app-release.aab"
+          test -f "$AAB" || { echo "No AAB produced at $AAB"; exit 1; }
+          # Fails the job (non-zero exit) if the signature doesn't verify against the keystore
+          # just used to produce it -- the real check; nothing here is cosmetic.
+          jarsigner -verify -verbose -certs "$AAB"
+
+      - name: Clean up signing credentials
+        if: always()
+        run: rm -f release.keystore keystore.properties
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: fechtkarte_aab
+          path: app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+
+  deploy:
+    if: needs.check_release_tag.outputs.tagged == 'true'
+    needs:
+      - check_release_tag
+      - build-aab
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v7
+
+      - name: Download AAB artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: fechtkarte_aab
+          path: ${{ github.workspace }}/play-store
+
+      # "internal" (Google's current name for the old "alpha" track) is this project's first
+      # ever upload to Play Console -- the safest starting track, promoted manually to
+      # closed/open/production testing once that first build has actually been checked.
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: 'at.j0s.meyercard.app'
+          releaseFiles: ${{ github.workspace }}/play-store/app-release.aab
+          track: 'internal'
+          releaseName: ${{ needs.check_release_tag.outputs.tag }}
+          whatsNewDirectory: fastlane/metadata/android

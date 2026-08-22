@@ -8,6 +8,8 @@ build
 *.apk
 *.aab
 *.zip
+*.keystore
+keystore.properties
 node_modules
 __pycache__
 *.pyc
