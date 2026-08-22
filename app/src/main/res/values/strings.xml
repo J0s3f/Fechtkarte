@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Fechtkarte</string>
+
+    <!-- Navigation -->
+    <string name="nav_library">Library</string>
+    <string name="nav_train">Train</string>
+    <string name="nav_learn">Learn</string>
+
+    <!-- Train screen -->
+    <string name="generate">Generate</string>
+    <string name="configure">Configure</string>
+    <string name="save_png">Save PNG</string>
+    <string name="save_pdf">Save PDF</string>
+    <string name="share">Share</string>
+    <string name="card_saved">Card saved to gallery</string>
+    <string name="error_saving">Error saving image</string>
+    <string name="error_sharing">Error preparing card to share</string>
+
+    <!-- Configure screen -->
+    <string name="configure_actions">Actions: %1$d</string>
+    <string name="configure_thrusts">Thrusts: %1$d</string>
+    <string name="configure_right_hand_colour">Right hand colour</string>
+    <string name="configure_left_hand_colour">Left hand colour</string>
+    <string name="configure_generation_rules">Generation rules</string>
+    <string name="rule_no_repeated_direction">No repeated direction</string>
+    <string name="rule_minimum_angular_distance">Minimum angular distance</string>
+    <string name="rule_minimum_steps_apart">Minimum steps apart: %1$d</string>
+    <string name="rule_alternate_hands">Alternate hands</string>
+    <string name="rule_outer_ring_only">Outer ring only</string>
+    <string name="rule_match_historical_distribution">Match historical distribution</string>
+
+    <!-- Library screen -->
+    <string name="library_tab_drills">Drills</string>
+    <string name="library_tab_techniques">Techniques</string>
+    <string name="library_filter_all">All</string>
+    <plurals name="library_filter_actions">
+        <item quantity="one">%1$d action</item>
+        <item quantity="other">%1$d actions</item>
+    </plurals>
+    <plurals name="library_filter_thrusts">
+        <item quantity="one">%1$d thrust</item>
+        <item quantity="other">%1$d thrusts</item>
+    </plurals>
+    <string name="library_hand">Hand: %1$s</string>
+    <string name="library_hand_right">Right</string>
+    <string name="library_hand_left">Left</string>
+    <string name="library_no_drills_match">No drills match this filter</string>
+    <string name="library_no_techniques_match">No technique cards match this filter</string>
+    <string name="library_drill_position">Drill %1$d of %2$d</string>
+    <string name="library_card_position">Card %1$d of %2$d</string>
+    <string name="library_nav_first">First</string>
+    <string name="library_nav_back_ten">Back 10</string>
+    <string name="library_nav_previous">Previous</string>
+    <string name="library_nav_next">Next</string>
+    <string name="library_nav_forward_ten">Forward 10</string>
+    <string name="library_nav_last">Last</string>
+    <string name="library_nav_random">Random</string>
+
+    <!-- Technique instructions. Also drawn onto the card's own banner, so an exported PNG/PDF
+         carries the app's current language — which the user controls explicitly (see the
+         language setting below), rather than it being dictated by the device locale. -->
+    <string name="instruction_double_feint">Execute as Doublefeint</string>
+    <string name="instruction_moulinet">Execute as Moulinet</string>
+    <string name="instruction_provoker_taker_hitter">Provoker – Taker – Hitter</string>
+
+    <!-- App language setting -->
+    <string name="configure_language">App language</string>
+    <string name="language_system_default">System default</string>
+
+    <!-- Learn screen -->
+    <string name="learn_about_title">About Fechtkarte</string>
+    <string name="learn_about_body">Fechtkarte generates warm-up and routine drill cards for Historical European Martial Arts practice — short sequences to run through before or between the real work of a session.</string>
+    <string name="learn_how_to_read_title">How to read a card</string>
+    <string name="learn_how_to_read_notation">The notation is adapted from Joachim Meyer\'s diagrams in the Lund manuscript, his later fencing treatise. Each numbered circle marks the starting point of a cut, which travels along its line through the centre to the opening opposite. Work through the numbers in sequence — one, then two, and so on.</string>
+    <string name="learn_how_to_read_thrust">A dot beneath a numeral means thrust instead of cut, from that same starting point.</string>
+    <string name="learn_how_to_read_branching">Where lines branch, the choice is yours — the notation fixes the opening a cut starts from, not the path it takes to get there.</string>
+    <string name="learn_how_to_read_colour">The card\'s background colour tells you which hand leads: the two shades alternate a drill between right and left hand, card to card. Edge, guard, footwork and tempo are left to you — the card only fixes the sequence of openings, not how you get there.</string>
+    <string name="learn_how_to_read_repetitions">A reasonable way to work through a card: about fifty repetitions, or five minutes, before moving on to the next one.</string>
+    <string name="learn_worked_example_title">Worked example</string>
+    <string name="learn_worked_example_intro">A right-hand card with three actions, the second a thrust:</string>
+    <string name="learn_open_source_notices">Open-source notices</string>
+
+    <!-- Notices screen -->
+    <string name="notices_title">Notices</string>
+    <string name="notices_intro">Fechtkarte is licensed under the Apache License, Version 2.0. It depends on the open-source software listed below.</string>
+    <string name="notices_font_title">UnifrakturMaguntia (numeral font)</string>
+    <string name="notices_font_licence" translatable="false">SIL Open Font License, Version 1.1</string>
+
+    <!-- Card description for screen readers (TalkBack). The assembly templates are
+         themselves translatable so word order can differ per language — a literal
+         translation of the English fragments alone would produce wrong grammar. -->
+    <string name="a11y_card_description">%1$s, %2$s: %3$s.</string>
+    <!-- Quoted so the trailing space survives: Android trims leading/trailing whitespace in
+         string resources unless the value is wrapped in double quotes. Without it TalkBack runs
+         the actions together ("outer;two") instead of pausing between them. Translatable
+         because punctuation spacing is itself locale-specific — French puts a space before a
+         semicolon, English and German do not. -->
+    <string name="a11y_sequence_separator">"; "</string>
+    <string name="a11y_hand_right">Right hand</string>
+    <string name="a11y_hand_left">Left hand</string>
+    <string name="a11y_hand_neutral">Technique card</string>
+    <plurals name="a11y_action_count">
+        <item quantity="one">%1$s action</item>
+        <item quantity="other">%1$s actions</item>
+    </plurals>
+    <!-- %1$s is the spoken sequence number, %2$s the position. -->
+    <string name="a11y_action_cut">%1$s, %2$s</string>
+    <string name="a11y_action_thrust">%1$s, thrust to %2$s</string>
+    <!-- %1$s is the direction, %2$s the ring. -->
+    <string name="a11y_position_on_ring">%1$s %2$s</string>
+    <string name="a11y_position_centre">centre</string>
+    <string name="a11y_ring_inner">inner</string>
+    <string name="a11y_ring_outer">outer</string>
+    <string name="a11y_direction_n">top</string>
+    <string name="a11y_direction_ne">upper right</string>
+    <string name="a11y_direction_e">right</string>
+    <string name="a11y_direction_se">lower right</string>
+    <string name="a11y_direction_s">bottom</string>
+    <string name="a11y_direction_sw">lower left</string>
+    <string name="a11y_direction_w">left</string>
+    <string name="a11y_direction_nw">upper left</string>
+    <!-- Spoken sequence numbers, indexed 0..8. Words rather than digits: "one, upper
+         left outer" reads more naturally than "1, upper left outer". -->
+    <string-array name="a11y_spoken_numbers">
+        <item>zero</item>
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+        <item>four</item>
+        <item>five</item>
+        <item>six</item>
+        <item>seven</item>
+        <item>eight</item>
+    </string-array>
+</resources>

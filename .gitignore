@@ -1,0 +1,47 @@
+# Build and IDE artifacts
+build/
+.gradle/
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Gradle
+.gradletasknamecache
+gradle-app.setting
+
+# Local properties
+local.properties
+
+# Android
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Local archives, never redistributed
+*.zip
+
+# Release signing (T9.4) -- credentials never committed
+*.keystore
+*.jks
+keystore.properties
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.Python
+venv/
+env/
+
+# Runtime generated
+*.log
+
+# Claude Code local machine settings
+.claude/settings.local.json

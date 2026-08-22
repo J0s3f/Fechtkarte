@@ -1,0 +1,15 @@
+Fechtkarte
+Copyright 2026 Josef H.B. Schneider
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product includes the historical drill-pattern data in data/original_cards.json,
+recovered by measurement from card artwork depicting 16th-century manuscript diagrams
+by Joachim Meyer (MS A.4º.2, Lund; MS Var.82, Rostock). The data records positions and
+sequences, not authored expression, and is not itself subject to this NOTICE.
+
+This product is developed with AI assistance: an AI coding agent contributes code,
+documentation and translations under human direction and review.
+
+Third-party dependency licences are listed in docs/ASSET_PROVENANCE.md and, at
+runtime, on the app's notices screen (Learn > Open-source notices).

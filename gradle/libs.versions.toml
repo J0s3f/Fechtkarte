@@ -1,0 +1,181 @@
+[versions]
+# Modern toolchain, verified rather than assumed — see docs/NEXT_STEPS.md T2.4
+# and DESIGN_CHOICES.md for how each of these was actually confirmed (GitHub
+# releases API for exact current versions; javap on real jars for anything
+# whose docs turned out unreliable; a real compile-and-run for the rest).
+#
+# Kotlin 2.4.10 is the current stable release (GitHub API: tag_name v2.4.10,
+# published 2026-07-14, prerelease:false — not the "2.4.0/August 11" an
+# earlier web search claimed, which didn't hold up against the authoritative
+# source).
+#
+# AGP was bumped 8.13.0 -> 9.3.0 (T8.5, docs/NEXT_STEPS.md Phase 8): AGP
+# 8.13.0's bundled R8 (8.13.6, per its own stack traces) doesn't fully
+# understand Kotlin 2.4's `@Metadata` format — developer.android.com/build/
+# kotlin-support's compatibility table calls for R8 9.1.29+, which only
+# AGP 8.5.2+ ships, and 8.13.0 (the last 8.x release) turned out to still be
+# short of it. The alternative was downgrading Kotlin to 2.3.x instead;
+# explicitly not taken — see DESIGN_CHOICES.md. AGP 9.3.0 is the latest
+# *stable* release (9.4 is preview-only as of this writing) and needs Gradle
+# 9.5.0+ (`gradle/wrapper/gradle-wrapper.properties`, regenerated via
+# `./gradlew wrapper --gradle-version 9.5.0`, not hand-edited). `gradle.
+# properties`' `android.newDsl=false` / `android.builtInKotlin=false` opt out
+# of AGP 9.0's other breaking changes — see its own comment for why.
+#
+# KSP 2.3.11 is its current release (GitHub API, 2026-08-03) — KSP dropped
+# the old "{kotlinVersion}-{kspRevision}" naming around 2.3.7 and now
+# versions itself independently, which is why this number doesn't visually
+# match the Kotlin version the way ksp = "1.9.24-1.0.20" once did;
+# kotlinlang.org's own KSP quickstart guide pairs "Kotlin 2.4.10" with "KSP
+# 2.3.10" in its example, one patch behind this project's 2.3.11.
+agp = "9.3.0"
+kotlin = "2.4.10"
+ksp = "2.3.11"
+# 36 is deliberately kept, not bumped to the 37 AGP 9.3.0 now supports —
+# that's a separate decision (targetSdk changes carry their own Android
+# behaviour changes) from the toolchain bump T8.5 is actually about. 36 also
+# happens to be exactly what the Compose BOM below needs. targetSdk tracks
+# it for consistency; minSdk is unrelated and untouched.
+compileSdk = "36"
+minSdk = "24"
+targetSdk = "36"
+
+coreKtx = "1.12.0"
+# Latest stable per Google's Maven metadata (dl.google.com/android/maven2/androidx/core/
+# core-splashscreen/maven-metadata.xml) — 1.2.0 is the newest non-alpha/beta/rc release.
+coreSplashscreen = "1.2.0"
+# T9.8: per-app language selection. AppCompatDelegate.setApplicationLocales backports
+# Android 13's per-app language API to API 21+, persists the choice itself, and on 13+ hands
+# off to the platform so the setting also appears in Android's own app-language settings --
+# none of which a hand-rolled locale override would give us. Latest stable per Google's Maven
+# metadata.
+appcompat = "1.7.1"
+lifecycle = "2.7.0"
+activityCompose = "1.8.2"
+
+# Compose Compiler is no longer a separately-pinned extension version — Kotlin
+# 2.0+ moved it into the Kotlin repo itself as the
+# org.jetbrains.kotlin.plugin.compose Gradle plugin, versioned identically to
+# Kotlin. See the kotlin-compose plugin entry below; there is no
+# composeCompiler version here any more, deliberately.
+#
+# Deliberately not the newest BOM (2026.08.00): that one maps to
+# androidx.compose.ui:ui 1.12.0, whose release notes say plainly ("Updated
+# Compose compileSdk to API 37... a minimum AGP version of 9.2.0 is
+# required") that it forces the exact AGP-9 migration this change is staying
+# off. 2026.06.01 is the newest BOM still on the 1.11.x compose-ui line, one
+# release behind — found only by hitting the real error from the real build
+# (27 dependency-resolution failures citing "requires Android Gradle plugin
+# 9.1.0 or higher"), not by reading changelogs first.
+composeBom = "2026.06.01"
+
+# 2.6.1 (the version that predates this session's toolchain bump) failed real DAO
+# compilation under KSP2/Kotlin 2.4 — Room's KSP-generated `_Impl.java` classes used
+# raw `Continuation<List<Long>>` where the Kotlin-compiled interface's actual JVM
+# signature is `Continuation<? super List<Long>>`, a javac override/name-clash error
+# on every suspend DAO method, not just one. 2.8.4 (Maven metadata, `<release>`) is
+# current and built against this generation of KSP; confirmed fixing it by rebuilding,
+# not assumed from a changelog. See docs/NEXT_STEPS.md T3.2.
+room = "2.8.4"
+datastore = "1.0.0"
+navigationCompose = "2.7.6"
+
+# 1.11.0 (GitHub API, published 2026-04-09) — the last kotlinx.serialization
+# release usable was pinned to 1.6.3 for Kotlin 1.9.x; this line moves with
+# Kotlin now that both are current.
+kotlinxSerialization = "1.11.0"
+
+androidxTestJunit = "1.1.5"
+espresso = "3.5.1"
+
+# JVM unit tests run on JUnit 5 (Jupiter) via testOptions.unitTests.all.useJUnitPlatform()
+# in app/build.gradle.kts — no plugin needed for that. androidTest instrumentation
+# stays on the AndroidX JUnit4 runner above, since Compose's ui-test-junit4 requires
+# it. The de.mannodermaus.android-junit5 plugin (for running Jupiter tests
+# on-device) is still deliberately not added — see docs/NEXT_STEPS.md T1.1;
+# revisit its version requirement against this now-modern Kotlin when
+# instrumentation tests actually land.
+junit5 = "5.14.1"
+konsist = "0.17.3"
+
+# Roborazzi, not Paparazzi — see docs/NEXT_STEPS.md T2.4 for the full story.
+# Paparazzi's last stable release was 1.3.5 (Nov 2024); its only activity
+# since is a stalled 2.0.0-alpha line. Roborazzi 1.72.0 (GitHub API,
+# published 2026-08-13 — six days before this line was written) is
+# genuinely actively maintained. Like Paparazzi, its rule-based JUnit
+# integration is JUnit 4 (@get:Rule) — that part is not a differentiator
+# between the two libraries — bridged into this project's JUnit 5 test task
+# via the Vintage engine below.
+#
+# Unlike Paparazzi (which renders via a bundled LayoutLib and needs no test
+# runner), Roborazzi renders through Robolectric — the test class runs under
+# RobolectricTestRunner, real ComposeTestRule.setContent(), and
+# captureRoboImage() on the rendered node. Robolectric 4.16.1 (GitHub API,
+# published 2026-01-21) is its current stable release and comfortably clears
+# Roborazzi's stated "4.10-alpha1 or later" floor.
+roborazzi = "1.72.0"
+robolectric = "4.16.1"
+junit4 = "4.13.2"
+
+licenseReport = "3.1.4"
+
+# Core library desugaring: java.time.Instant (used by domain/CardOrigin.kt) is
+# API 26+ natively. minSdk is 24, so desugaring is what makes it safe there —
+# without this, the app would compile and pass JVM tests fine but crash with
+# NoClassDefFoundError on real API 24/25 devices. See docs/NEXT_STEPS.md T1.8.
+desugarJdkLibs = "2.1.5"
+
+[libraries]
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
+androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
+
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit5" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+junit-vintage-engine = { module = "org.junit.vintage:junit-vintage-engine" }
+junit4 = { module = "junit:junit", version.ref = "junit4" }
+
+desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+
+konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
+roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
+roborazzi-compose = { module = "io.github.takahirom.roborazzi:roborazzi-compose", version.ref = "roborazzi" }
+roborazzi-junit-rule = { module = "io.github.takahirom.roborazzi:roborazzi-junit-rule", version.ref = "roborazzi" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+license-report = { id = "com.github.jk1.dependency-license-report", version.ref = "licenseReport" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
