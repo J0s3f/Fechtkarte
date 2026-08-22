@@ -41,6 +41,20 @@ android {
         }
     }
 
+    // AGP writes a "Dependency metadata" block into the APK/AAB signing block by default (a
+    // Play Console feature listing third-party dependencies). F-Droid's build scanner flags
+    // any extra signing block it doesn't recognise -- found when its own APK check job failed
+    // an F-Droid submission with "Found extra signing block 'Dependency metadata'".
+    //
+    // Kept for the Play Store / GitHub release builds (Play Console reads it; it's otherwise
+    // harmless), dropped only for F-Droid's own build. F-Droid's recipe passes -Pfdroid via
+    // Build.gradleprops specifically to flip this; without that property (every build this
+    // project itself runs) the block is included as normal.
+    dependenciesInfo {
+        includeInApk = !project.hasProperty("fdroid")
+        includeInBundle = !project.hasProperty("fdroid")
+    }
+
     signingConfigs {
         if (keystorePropertiesFile.exists()) {
             create("release") {
