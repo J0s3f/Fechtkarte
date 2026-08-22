@@ -1,0 +1,5 @@
+{
+  "ignoredFiles": [
+    "app/src/testDebug/screenshots/**"
+  ]
+}
