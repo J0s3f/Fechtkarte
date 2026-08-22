@@ -1,0 +1,8 @@
+Initial release.
+
+- Browse more than 100 classic drill cards, filterable by hand, action count, thrust count, and technique
+- Generate random drill cards with configurable action/thrust counts and five opt-in shaping rules
+- Six colour palettes per hand, verified for colour-vision-deficiency accessibility
+- Export to PNG or vector PDF, or share directly to another app
+- Landscape layout, dark theme, and screen reader support
+- Works fully offline

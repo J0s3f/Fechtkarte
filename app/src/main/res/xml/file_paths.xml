@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Only the cache subdirectory Share (T6.3) actually renders into is exposed — not the
+     whole cache dir, and nothing from files/ or external storage, since nothing else in
+     the app needs to hand a file to another app. -->
+<paths>
+    <cache-path name="shared_cards" path="shared_cards/" />
+</paths>
