@@ -18,7 +18,16 @@
 
     <!-- Configure screen -->
     <string name="configure_actions">Actions : %1$d</string>
+    <plurals name="configure_actions_maximum">
+        <item quantity="one">Jusqu\'à %1$d action</item>
+        <item quantity="other">Jusqu\'à %1$d actions</item>
+    </plurals>
     <string name="configure_thrusts">Estocs : %1$d</string>
+    <plurals name="configure_thrusts_maximum">
+        <item quantity="one">Jusqu\'à %1$d estoc</item>
+        <item quantity="other">Jusqu\'à %1$d estocs</item>
+    </plurals>
+    <string name="configure_count_is_maximum">Nombre aléatoire, jusqu\'à cette valeur</string>
     <string name="configure_right_hand_colour">Couleur de la main droite</string>
     <string name="configure_left_hand_colour">Couleur de la main gauche</string>
     <string name="configure_generation_rules">Règles de génération</string>

@@ -3,6 +3,7 @@ package at.j0s.meyercard.app.adapter.persistence
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -44,6 +45,8 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
         return GenerationPreferences(
             actionCount = stored[ACTION_COUNT] ?: defaults.actionCount,
             thrustCount = stored[THRUST_COUNT] ?: defaults.thrustCount,
+            actionCountIsMaximum = stored[ACTION_COUNT_IS_MAXIMUM] ?: defaults.actionCountIsMaximum,
+            thrustCountIsMaximum = stored[THRUST_COUNT_IS_MAXIMUM] ?: defaults.thrustCountIsMaximum,
             rightHandPalette = stored[RIGHT_HAND_PALETTE]?.let { CardPalette.valueOf(it) } ?: defaults.rightHandPalette,
             leftHandPalette = stored[LEFT_HAND_PALETTE]?.let { CardPalette.valueOf(it) } ?: defaults.leftHandPalette,
             enabledRules = stored[ENABLED_RULES]?.mapNotNull { it.toGenerationRule() } ?: defaults.enabledRules,
@@ -54,6 +57,8 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
         dataStore.edit { stored ->
             stored[ACTION_COUNT] = preferences.actionCount
             stored[THRUST_COUNT] = preferences.thrustCount
+            stored[ACTION_COUNT_IS_MAXIMUM] = preferences.actionCountIsMaximum
+            stored[THRUST_COUNT_IS_MAXIMUM] = preferences.thrustCountIsMaximum
             stored[RIGHT_HAND_PALETTE] = preferences.rightHandPalette.name
             stored[LEFT_HAND_PALETTE] = preferences.leftHandPalette.name
             stored[ENABLED_RULES] = preferences.enabledRules.map { it.toToken() }.toSet()
@@ -63,6 +68,8 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
     private companion object {
         val ACTION_COUNT = intPreferencesKey("actionCount")
         val THRUST_COUNT = intPreferencesKey("thrustCount")
+        val ACTION_COUNT_IS_MAXIMUM = booleanPreferencesKey("actionCountIsMaximum")
+        val THRUST_COUNT_IS_MAXIMUM = booleanPreferencesKey("thrustCountIsMaximum")
         val RIGHT_HAND_PALETTE = stringPreferencesKey("rightHandPalette")
         val LEFT_HAND_PALETTE = stringPreferencesKey("leftHandPalette")
         val ENABLED_RULES = stringSetPreferencesKey("enabledRules")

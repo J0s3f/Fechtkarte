@@ -25,6 +25,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.material3.FilterChip
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -52,7 +53,11 @@ fun ConfigureScreen(state: ConfigureScreenState, onStateChange: (ConfigureScreen
     ) {
         Column {
             Text(
-                stringResource(R.string.configure_actions, state.preferences.actionCount),
+                if (state.preferences.actionCountIsMaximum) {
+                    pluralStringResource(R.plurals.configure_actions_maximum, state.preferences.actionCount, state.preferences.actionCount)
+                } else {
+                    stringResource(R.string.configure_actions, state.preferences.actionCount)
+                },
                 style = MaterialTheme.typography.titleMedium,
             )
             Slider(
@@ -61,11 +66,20 @@ fun ConfigureScreen(state: ConfigureScreenState, onStateChange: (ConfigureScreen
                 valueRange = 1f..8f,
                 steps = 6,
             )
+            RuleToggleRow(
+                label = stringResource(R.string.configure_count_is_maximum),
+                checked = state.preferences.actionCountIsMaximum,
+                onCheckedChange = { onStateChange(state.toggleActionCountIsMaximum()) },
+            )
         }
 
         Column {
             Text(
-                stringResource(R.string.configure_thrusts, state.preferences.thrustCount),
+                if (state.preferences.thrustCountIsMaximum) {
+                    pluralStringResource(R.plurals.configure_thrusts_maximum, state.preferences.thrustCount, state.preferences.thrustCount)
+                } else {
+                    stringResource(R.string.configure_thrusts, state.preferences.thrustCount)
+                },
                 style = MaterialTheme.typography.titleMedium,
             )
             Slider(
@@ -73,6 +87,11 @@ fun ConfigureScreen(state: ConfigureScreenState, onStateChange: (ConfigureScreen
                 onValueChange = { onStateChange(state.withThrustCount(it.toInt())) },
                 valueRange = 0f..state.preferences.actionCount.toFloat(),
                 steps = (state.preferences.actionCount - 1).coerceAtLeast(0),
+            )
+            RuleToggleRow(
+                label = stringResource(R.string.configure_count_is_maximum),
+                checked = state.preferences.thrustCountIsMaximum,
+                onCheckedChange = { onStateChange(state.toggleThrustCountIsMaximum()) },
             )
         }
 

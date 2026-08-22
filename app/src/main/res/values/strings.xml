@@ -19,7 +19,16 @@
 
     <!-- Configure screen -->
     <string name="configure_actions">Actions: %1$d</string>
+    <plurals name="configure_actions_maximum">
+        <item quantity="one">Up to %1$d action</item>
+        <item quantity="other">Up to %1$d actions</item>
+    </plurals>
     <string name="configure_thrusts">Thrusts: %1$d</string>
+    <plurals name="configure_thrusts_maximum">
+        <item quantity="one">Up to %1$d thrust</item>
+        <item quantity="other">Up to %1$d thrusts</item>
+    </plurals>
+    <string name="configure_count_is_maximum">Random count, up to this many</string>
     <string name="configure_right_hand_colour">Right hand colour</string>
     <string name="configure_left_hand_colour">Left hand colour</string>
     <string name="configure_generation_rules">Generation rules</string>

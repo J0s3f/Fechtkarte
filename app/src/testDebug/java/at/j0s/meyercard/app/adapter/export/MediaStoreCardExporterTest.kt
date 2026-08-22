@@ -13,6 +13,7 @@ import at.j0s.meyercard.app.domain.Hand
 import at.j0s.meyercard.app.domain.MeyerCard
 import at.j0s.meyercard.app.domain.Radius
 import at.j0s.meyercard.app.domain.Slot
+import at.j0s.meyercard.app.domain.contentCode
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
@@ -20,9 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import java.time.Clock
 import java.time.Instant
-import java.time.ZoneOffset
 
 /**
  * Robolectric, JUnit 4 bridged via the Vintage engine, debug-only — same
@@ -45,7 +44,6 @@ import java.time.ZoneOffset
 class MediaStoreCardExporterTest {
 
     private val context = ApplicationProvider.getApplicationContext<Context>()
-    private val fixedClock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC)
 
     private val card = MeyerCard(
         id = CardId(1L),
@@ -58,11 +56,11 @@ class MediaStoreCardExporterTest {
     @Test
     @Config(sdk = [29])
     fun `exports a PNG at the expected resolution on Android 10+`() = runBlocking {
-        val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT, fixedClock)
+        val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT)
 
         val result = exporter.exportPng(card)
 
-        assertEquals("fechtkarte-0.png", result.displayName)
+        assertEquals("fechtkarte-${card.contentCode()}.png", result.displayName)
         context.contentResolver.openInputStream(result.uri)!!.use { input ->
             val bitmap = BitmapFactory.decodeStream(input)
             assertEquals(2048, bitmap.width)
@@ -70,9 +68,21 @@ class MediaStoreCardExporterTest {
     }
 
     @Test
+    @Config(sdk = [29])
+    fun `exporting the same card twice reuses the same file instead of duplicating it`() = runBlocking {
+        val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT)
+
+        val first = exporter.exportPng(card)
+        val second = exporter.exportPng(card)
+
+        assertEquals(first.uri, second.uri)
+        assertEquals(first.displayName, second.displayName)
+    }
+
+    @Test
     @Config(sdk = [28])
     fun `refuses to export either format on Android versions before 10`() {
-        val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT, fixedClock)
+        val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT)
         assertThrows(IllegalStateException::class.java) { runBlocking { exporter.exportPng(card) } }
         assertThrows(IllegalStateException::class.java) { runBlocking { exporter.exportPdf(card) } }
     }

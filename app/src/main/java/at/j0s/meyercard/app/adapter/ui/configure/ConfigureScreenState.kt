@@ -26,6 +26,12 @@ data class ConfigureScreenState(val preferences: GenerationPreferences) {
 
     fun withThrustCount(newThrustCount: Int) = copy(preferences = preferences.copy(thrustCount = newThrustCount))
 
+    fun toggleActionCountIsMaximum() =
+        copy(preferences = preferences.copy(actionCountIsMaximum = !preferences.actionCountIsMaximum))
+
+    fun toggleThrustCountIsMaximum() =
+        copy(preferences = preferences.copy(thrustCountIsMaximum = !preferences.thrustCountIsMaximum))
+
     fun withRightHandPalette(palette: CardPalette) = copy(preferences = preferences.copy(rightHandPalette = palette))
 
     fun withLeftHandPalette(palette: CardPalette) = copy(preferences = preferences.copy(leftHandPalette = palette))

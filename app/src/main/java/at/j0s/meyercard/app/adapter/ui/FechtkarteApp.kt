@@ -156,9 +156,10 @@ private fun TrainRoute(
 
     suspend fun regenerate() {
         val preferences = preferencesStore.load()
+        val (actionCount, thrustCount) = preferences.resolveCounts()
         val outcome = DrillGenerator.generateWithRules(
-            actionCount = preferences.actionCount,
-            thrustCount = preferences.thrustCount,
+            actionCount = actionCount,
+            thrustCount = thrustCount,
             rules = preferences.enabledRules,
         )
         val palette = if (outcome.card.hand == Hand.RIGHT) preferences.rightHandPalette else preferences.leftHandPalette

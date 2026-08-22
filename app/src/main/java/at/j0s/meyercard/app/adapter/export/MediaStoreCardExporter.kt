@@ -1,6 +1,7 @@
 package at.j0s.meyercard.app.adapter.export
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.res.Resources
 import android.content.ContentValues
 import android.graphics.Bitmap
@@ -17,7 +18,7 @@ import at.j0s.meyercard.app.application.port.spi.ExportResult
 import at.j0s.meyercard.app.domain.CARD_ASPECT_INVERSE
 import at.j0s.meyercard.app.adapter.ui.displayName
 import at.j0s.meyercard.app.domain.MeyerCard
-import java.time.Clock
+import at.j0s.meyercard.app.domain.contentCode
 
 /**
  * Renders [card] off-screen through the same [CardRenderer] the live UI
@@ -30,25 +31,25 @@ import java.time.Clock
  * doesn't request it (see `AndroidManifest.xml`'s storage-permission
  * comment), so export simply isn't offered pre-Q rather than silently
  * failing with a `SecurityException` the caller didn't ask for.
+ *
+ * The saved file is named after [MeyerCard.contentCode] — what the card actually shows, not
+ * when it was saved — so exporting the same card twice overwrites the one file already on disk
+ * (see [findExistingEntry]) instead of piling up timestamped duplicates of an identical image.
  */
 class MediaStoreCardExporter(
     private val contentResolver: ContentResolver,
     private val resources: Resources,
     private val numeralTypeface: Typeface,
-    private val clock: Clock = Clock.systemUTC(),
 ) : CardExporter {
 
     override suspend fun exportPng(card: MeyerCard): ExportResult {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) throwUnsupported()
         val bitmap = renderCardBitmap(card, numeralTypeface, card.instruction?.displayName(resources))
-        val fileName = "fechtkarte-${clock.millis()}.png"
+        val fileName = "fechtkarte-${card.contentCode()}.png"
 
-        val uri = createMediaStoreEntry(
-            collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            fileName = fileName,
-            mimeType = "image/png",
-            relativePath = "Pictures/$ALBUM_NAME",
-        )
+        val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val uri = findExistingEntry(collection, fileName)
+            ?: createMediaStoreEntry(collection, fileName, mimeType = "image/png", relativePath = "Pictures/$ALBUM_NAME")
         contentResolver.openOutputStream(uri)?.use { out -> bitmap.compress(Bitmap.CompressFormat.PNG, 100, out) }
             ?: error("Could not open an output stream for $uri")
 
@@ -58,14 +59,11 @@ class MediaStoreCardExporter(
     override suspend fun exportPdf(card: MeyerCard): ExportResult {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) throwUnsupported()
         val document = renderPdf(card)
-        val fileName = "fechtkarte-${clock.millis()}.pdf"
+        val fileName = "fechtkarte-${card.contentCode()}.pdf"
 
-        val uri = createMediaStoreEntry(
-            collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI,
-            fileName = fileName,
-            mimeType = "application/pdf",
-            relativePath = "Download/$ALBUM_NAME",
-        )
+        val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
+        val uri = findExistingEntry(collection, fileName)
+            ?: createMediaStoreEntry(collection, fileName, mimeType = "application/pdf", relativePath = "Download/$ALBUM_NAME")
         contentResolver.openOutputStream(uri)?.use { out -> document.writeTo(out) }
             ?: error("Could not open an output stream for $uri")
         document.close()
@@ -123,6 +121,25 @@ class MediaStoreCardExporter(
             put(MediaStore.MediaColumns.RELATIVE_PATH, relativePath)
         }
         return contentResolver.insert(collection, values) ?: error("MediaStore refused to create an entry for $fileName")
+    }
+
+    /**
+     * A previous export of this exact card, if MediaStore still has one — matched by
+     * [fileName] alone within [collection] (PNG and PDF already live in separate collections,
+     * and this app only ever writes one fixed relative path per collection, so name alone is
+     * unambiguous without also filtering on [MediaStore.MediaColumns.RELATIVE_PATH], which
+     * MediaStore normalises in ways that make an exact-string match unreliable).
+     */
+    private fun findExistingEntry(collection: Uri, fileName: String): Uri? {
+        val projection = arrayOf(MediaStore.MediaColumns._ID)
+        val selection = "${MediaStore.MediaColumns.DISPLAY_NAME} = ?"
+        return contentResolver.query(collection, projection, selection, arrayOf(fileName), null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                ContentUris.withAppendedId(collection, cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)))
+            } else {
+                null
+            }
+        }
     }
 
     private companion object {

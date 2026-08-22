@@ -77,6 +77,29 @@ class ConfigureScreenStateTest {
     }
 
     @Test
+    @DisplayName("toggling actionCountIsMaximum flips only that flag")
+    fun `toggling actionCountIsMaximum flips only that flag`() {
+        val state = ConfigureScreenState(GenerationPreferences(actionCount = 5, thrustCount = 2))
+        val toggled = state.toggleActionCountIsMaximum()
+        assertTrue(toggled.preferences.actionCountIsMaximum)
+        assertFalse(toggled.preferences.thrustCountIsMaximum)
+        assertEquals(5, toggled.preferences.actionCount)
+        assertEquals(2, toggled.preferences.thrustCount)
+
+        val toggledBack = toggled.toggleActionCountIsMaximum()
+        assertFalse(toggledBack.preferences.actionCountIsMaximum)
+    }
+
+    @Test
+    @DisplayName("toggling thrustCountIsMaximum flips only that flag")
+    fun `toggling thrustCountIsMaximum flips only that flag`() {
+        val state = ConfigureScreenState(GenerationPreferences(actionCount = 5, thrustCount = 2))
+        val toggled = state.toggleThrustCountIsMaximum()
+        assertTrue(toggled.preferences.thrustCountIsMaximum)
+        assertFalse(toggled.preferences.actionCountIsMaximum)
+    }
+
+    @Test
     @DisplayName("selecting a palette replaces only that hand's palette")
     fun `selecting a palette replaces only that hand's palette`() {
         val state = ConfigureScreenState(GenerationPreferences())

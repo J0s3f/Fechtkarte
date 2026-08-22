@@ -18,7 +18,16 @@
 
     <!-- Configure screen -->
     <string name="configure_actions">Aktionen: %1$d</string>
+    <plurals name="configure_actions_maximum">
+        <item quantity="one">Bis zu %1$d Aktion</item>
+        <item quantity="other">Bis zu %1$d Aktionen</item>
+    </plurals>
     <string name="configure_thrusts">Stiche: %1$d</string>
+    <plurals name="configure_thrusts_maximum">
+        <item quantity="one">Bis zu %1$d Stich</item>
+        <item quantity="other">Bis zu %1$d Stiche</item>
+    </plurals>
+    <string name="configure_count_is_maximum">Zufällige Anzahl, bis zu diesem Wert</string>
     <string name="configure_right_hand_colour">Farbe rechte Hand</string>
     <string name="configure_left_hand_colour">Farbe linke Hand</string>
     <string name="configure_generation_rules">Regeln für die Erzeugung</string>

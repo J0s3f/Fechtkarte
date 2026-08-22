@@ -39,6 +39,8 @@ class DataStorePreferencesStoreTest {
         val saved = GenerationPreferences(
             actionCount = 6,
             thrustCount = 2,
+            actionCountIsMaximum = true,
+            thrustCountIsMaximum = true,
             rightHandPalette = CardPalette.VERDIGRIS,
             leftHandPalette = CardPalette.MOSS,
             enabledRules = listOf(NoRepeatedDirection, MinimumAngularDistance(3)),
