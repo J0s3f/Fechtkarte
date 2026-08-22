@@ -1,0 +1,15 @@
+.git
+.gradle
+build
+.vscode
+.claude
+.idea
+*.iml
+*.apk
+*.aab
+*.zip
+node_modules
+__pycache__
+*.pyc
+.DS_Store
+Thumbs.db

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pre-API-31 equivalent of data_extraction_rules.xml (API 31+) — same exclusion, same
+     reasoning: the Room database is fully reproducible and not worth restoring; DataStore
+     preferences are left included. See DESIGN_CHOICES.md (T8.3). -->
+<full-backup-content>
+    <exclude domain="database" path="fechtkarte.db" />
+    <exclude domain="database" path="fechtkarte.db-shm" />
+    <exclude domain="database" path="fechtkarte.db-wal" />
+</full-backup-content>

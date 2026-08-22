@@ -1,0 +1,4037 @@
+{
+ "source": "Digitised from card artwork depicting Joachim Meyer's 16th-century manuscript diagrams (MS A.4o.2, Lund; MS Var.82, Rostock).",
+ "geometry": {
+  "cardAspect": "644 x 931 (w x h) inner rect",
+  "directions": [
+   "N",
+   "NE",
+   "E",
+   "SE",
+   "S",
+   "SW",
+   "W",
+   "NW"
+  ],
+  "radius": "0.0 = centre, 1.0 = rect edge along that ray",
+  "sequenceNumbering": "1..n consecutive. Cards 25, 69 deviate in the source artwork and were renumbered; see each card's sourceNote."
+ },
+ "cards": [
+  {
+   "id": 1,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.739,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.753,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "N",
+     "radius": 0.3,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.54,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.719,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.742,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.754,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.545,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "NW",
+     "radius": 0.484,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.743,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.274,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.536,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NE",
+     "radius": 0.761,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.729,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "W",
+     "radius": 0.729,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.753,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.537,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.521,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.742,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.763,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.753,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SW",
+     "radius": 0.513,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.761,
+     "thrust": true
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.728,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "E",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.469,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NW",
+     "radius": 0.46,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.747,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.741,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.526,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.728,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "N",
+     "radius": 0.757,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.662,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.66,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.719,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.592,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "NW",
+     "radius": 0.587,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "S",
+     "radius": 0.739,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.753,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.761,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.736,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.747,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.747,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.334,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.753,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.542,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.548,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.763,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 16,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.634,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.589,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.62,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.762,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 17,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.62,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.619,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.614,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.632,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 18,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.747,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.757,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.767,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NE",
+     "radius": 0.541,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 19,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.729,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.754,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.762,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.763,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SW",
+     "radius": 0.744,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 20,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.731,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.504,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.745,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.524,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "N",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "W",
+     "radius": 0.724,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 21,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.72,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.338,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.75,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "SW",
+     "radius": 0.747,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "SE",
+     "radius": 0.751,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 22,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.779,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "N",
+     "radius": 0.514,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.757,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "SW",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NE",
+     "radius": 0.538,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 23,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.754,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.537,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "E",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SW",
+     "radius": 0.744,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 24,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.761,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.753,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.753,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NW",
+     "radius": 0.493,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 25,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.745,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.514,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.751,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.763,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SW",
+     "radius": 0.745,
+     "thrust": true
+    }
+   ],
+   "sourceNote": "Source artwork numbers these actions 1,2,3,4,6 (no 5); renumbered consecutively for the rewrite."
+  },
+  {
+   "id": 26,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.762,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 27,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.741,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.522,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.531,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 28,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.116,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "W",
+     "radius": 0.726,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "E",
+     "radius": 0.753,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 29,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.524,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.304,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.761,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SW",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NW",
+     "radius": 0.755,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 30,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.761,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.461,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.752,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "W",
+     "radius": 0.726,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 31,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "E",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "W",
+     "radius": 0.724,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "N",
+     "radius": 0.756,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 32,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.754,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "W",
+     "radius": 0.729,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "N",
+     "radius": 0.456,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "S",
+     "radius": 0.718,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 33,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "W",
+     "radius": 0.73,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SW",
+     "radius": 0.739,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "E",
+     "radius": 0.749,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 34,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "W",
+     "radius": 0.73,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.489,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "S",
+     "radius": 0.424,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 35,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.728,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.754,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 36,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "S",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.761,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.747,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 37,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.468,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.477,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "E",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.762,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 38,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.764,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.51,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.525,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.371,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "S",
+     "radius": 0.748,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 39,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.488,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "N",
+     "radius": 0.76,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.408,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 40,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": true
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.44,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.43,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "S",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "S",
+     "radius": 0.462,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 41,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": true
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.454,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.75,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.452,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "E",
+     "radius": 0.751,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "E",
+     "radius": 0.37,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "S",
+     "radius": 0.743,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 42,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.015,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "S",
+     "radius": 0.748,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 43,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.761,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.508,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.58,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "N",
+     "radius": 0.308,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 44,
+   "hand": "RIGHT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.751,
+     "thrust": true
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.472,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "W",
+     "radius": 0.718,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "E",
+     "radius": 0.751,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 45,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.743,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "N",
+     "radius": 0.3,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.541,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.75,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 46,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.735,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.754,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.761,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.544,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "NE",
+     "radius": 0.494,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 47,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.762,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.711,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.274,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.542,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NW",
+     "radius": 0.748,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 48,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.741,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.726,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "E",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 49,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.695,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.76,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.743,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.527,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 50,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.736,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.743,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.525,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.752,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.755,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 51,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.735,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.759,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.764,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SE",
+     "radius": 0.522,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 52,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.749,
+     "thrust": true
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.732,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "W",
+     "radius": 0.718,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.754,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.458,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NE",
+     "radius": 0.47,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 53,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.763,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.747,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.752,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.534,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 54,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.723,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.754,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "N",
+     "radius": 0.757,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.749,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 55,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.733,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.659,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.669,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "N",
+     "radius": 0.868,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 56,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.733,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.76,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.581,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "NE",
+     "radius": 0.594,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 57,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "S",
+     "radius": 0.739,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.764,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.752,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 58,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.729,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.331,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 59,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.725,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.545,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.537,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.763,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 60,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.621,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.62,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.614,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.762,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 61,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.634,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.61,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.619,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.623,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 62,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.723,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.767,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NW",
+     "radius": 0.529,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 63,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.76,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.757,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.763,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SE",
+     "radius": 0.751,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 64,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.514,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.742,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.514,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "N",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "E",
+     "radius": 0.738,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 65,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.764,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.366,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "SE",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "SW",
+     "radius": 0.742,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 66,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.779,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "N",
+     "radius": 0.514,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.761,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "SE",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NW",
+     "radius": 0.527,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 67,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.763,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.535,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "W",
+     "radius": 0.718,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SE",
+     "radius": 0.751,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 68,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.761,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.718,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NE",
+     "radius": 0.503,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 69,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.521,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.744,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.763,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SE",
+     "radius": 0.755,
+     "thrust": true
+    }
+   ],
+   "sourceNote": "Source artwork numbers these actions 1,2,3,4,6 (no 5); renumbered consecutively for the rewrite."
+  },
+  {
+   "id": 70,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.739,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.762,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.751,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 71,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.742,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.525,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "NE",
+     "radius": 0.538,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 72,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.732,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.162,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "E",
+     "radius": 0.732,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "W",
+     "radius": 0.7,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 73,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.738,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.516,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.301,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SE",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "NE",
+     "radius": 0.764,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 74,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.761,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.741,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.454,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "E",
+     "radius": 0.754,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 75,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.743,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.767,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "W",
+     "radius": 0.724,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "E",
+     "radius": 0.765,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "N",
+     "radius": 0.756,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 76,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.764,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.747,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "E",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "N",
+     "radius": 0.456,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "S",
+     "radius": 0.718,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 77,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.765,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "E",
+     "radius": 0.754,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "SE",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "W",
+     "radius": 0.705,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 78,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.765,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "E",
+     "radius": 0.754,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.748,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.489,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "S",
+     "radius": 0.424,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 79,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.755,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.749,
+     "thrust": true
+    }
+   ]
+  },
+  {
+   "id": 80,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "S",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.759,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SW",
+     "radius": 0.742,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 81,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.739,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.767,
+     "thrust": true
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.472,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.47,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "W",
+     "radius": 0.712,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.762,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 82,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.764,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.765,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.516,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.515,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.371,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "S",
+     "radius": 0.748,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 83,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.743,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.741,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.485,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "N",
+     "radius": 0.76,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.408,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 84,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.737,
+     "thrust": true
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.431,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.434,
+     "thrust": true
+    },
+    {
+     "seq": 5,
+     "direction": "S",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "S",
+     "radius": 0.462,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 85,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.738,
+     "thrust": true
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.448,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": true
+    },
+    {
+     "seq": 4,
+     "direction": "NE",
+     "radius": 0.459,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "W",
+     "radius": 0.707,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "W",
+     "radius": 0.34,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "S",
+     "radius": 0.743,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 86,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.015,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.767,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "N",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "S",
+     "radius": 0.748,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 87,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.753,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.741,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.756,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.748,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "NW",
+     "radius": 0.514,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.58,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "N",
+     "radius": 0.308,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 88,
+   "hand": "LEFT",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.742,
+     "thrust": true
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.763,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.467,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "SE",
+     "radius": 0.747,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "E",
+     "radius": 0.759,
+     "thrust": true
+    },
+    {
+     "seq": 6,
+     "direction": "W",
+     "radius": 0.716,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 89,
+   "hand": "NEUTRAL",
+   "instruction": null,
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.726,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.351,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 4,
+     "direction": "NW",
+     "radius": 0.521,
+     "thrust": false
+    },
+    {
+     "seq": 5,
+     "direction": "N",
+     "radius": 0.761,
+     "thrust": false
+    },
+    {
+     "seq": 6,
+     "direction": "N",
+     "radius": 0.491,
+     "thrust": false
+    },
+    {
+     "seq": 7,
+     "direction": "NE",
+     "radius": 0.757,
+     "thrust": false
+    },
+    {
+     "seq": 8,
+     "direction": "NE",
+     "radius": 0.53,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 90,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.543,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 91,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.761,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "S",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "N",
+     "radius": 0.504,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 92,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "N",
+     "radius": 0.481,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 93,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "N",
+     "radius": 0.76,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.723,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "N",
+     "radius": 0.488,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 94,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.757,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "N",
+     "radius": 0.762,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "E",
+     "radius": 0.368,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 95,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.719,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "N",
+     "radius": 0.762,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "W",
+     "radius": 0.35,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 96,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.753,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.532,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 97,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 98,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.74,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.759,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 99,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS DOUBLEFEINT",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.752,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.754,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 100,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS MOULINET",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "N",
+     "radius": 0.762,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 101,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS MOULINET",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.75,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "S",
+     "radius": 0.746,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 102,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS MOULINET",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "N",
+     "radius": 0.763,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 103,
+   "hand": "NEUTRAL",
+   "instruction": "EXECUTE AS MOULINET",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.758,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "S",
+     "radius": 0.746,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 104,
+   "hand": "NEUTRAL",
+   "instruction": "PROVOKER - TAKER - HITTER",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "W",
+     "radius": 0.725,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SE",
+     "radius": 0.744,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SW",
+     "radius": 0.742,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 105,
+   "hand": "NEUTRAL",
+   "instruction": "PROVOKER - TAKER - HITTER",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SE",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "SW",
+     "radius": 0.739,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "E",
+     "radius": 0.747,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 106,
+   "hand": "NEUTRAL",
+   "instruction": "PROVOKER - TAKER - HITTER",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "SW",
+     "radius": 0.742,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "E",
+     "radius": 0.745,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NW",
+     "radius": 0.753,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 107,
+   "hand": "NEUTRAL",
+   "instruction": "PROVOKER - TAKER - HITTER",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "E",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NW",
+     "radius": 0.751,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "NE",
+     "radius": 0.756,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 108,
+   "hand": "NEUTRAL",
+   "instruction": "PROVOKER - TAKER - HITTER",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NW",
+     "radius": 0.746,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "NE",
+     "radius": 0.757,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "W",
+     "radius": 0.732,
+     "thrust": false
+    }
+   ]
+  },
+  {
+   "id": 109,
+   "hand": "NEUTRAL",
+   "instruction": "PROVOKER - TAKER - HITTER",
+   "actions": [
+    {
+     "seq": 1,
+     "direction": "NE",
+     "radius": 0.749,
+     "thrust": false
+    },
+    {
+     "seq": 2,
+     "direction": "W",
+     "radius": 0.727,
+     "thrust": false
+    },
+    {
+     "seq": 3,
+     "direction": "SE",
+     "radius": 0.735,
+     "thrust": false
+    }
+   ]
+  }
+ ]
+}

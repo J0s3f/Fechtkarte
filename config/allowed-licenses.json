@@ -1,0 +1,10 @@
+{
+  "allowedLicenses": [
+    { "moduleLicense": "Apache License, Version 2.0" },
+    { "moduleLicense": "MIT License" },
+    { "moduleLicense": "The 2-Clause BSD License" },
+    { "moduleLicense": "The 3-Clause BSD License" },
+    { "moduleLicense": "Eclipse Public License - v 2.0" },
+    { "moduleLicense": "SIL Open Font License 1.1" }
+  ]
+}

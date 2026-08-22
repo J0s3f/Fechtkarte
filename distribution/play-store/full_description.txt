@@ -1,0 +1,13 @@
+Fechtkarte generates warm-up and routine drill cards for Historical European Martial Arts (HEMA) practice, using notation adapted from Joachim Meyer's 16th-century fencing diagrams (MS A.4º.2, held at Lund University Library, and MS Var.82, held at the University of Rostock).
+
+Each card shows a numbered sequence of cuts to work through, with a dot marking a thrust instead of a cut. Card background colour indicates which hand leads, so a drill can alternate sides. Edge choice, guard, footwork and tempo are left to the practitioner — the card only fixes the sequence of openings.
+
+Features:
+
+* A library of all 109 historical drill cards from the manuscripts, browsable by hand and filterable by action count, thrust count, and technique
+* Random drill generation with configurable action count, thrust count, and five opt-in shaping rules
+* Six palettes to choose from per hand, designed and verified for colour-vision-deficiency accessibility
+* Export a generated card as a high-resolution PNG or a true-vector, print-ready PDF, or share it directly to another app
+* Works fully offline, with no accounts, no analytics, and no network access required
+
+Fechtkarte is free and open-source software (Apache License 2.0), with no proprietary dependencies. See PRIVACY_POLICY.md in the source repository for the full data-handling disclosure.
