@@ -1,10 +1,16 @@
-name: "Play Store"
+name: "Release"
 
 # Adapted from https://github.com/AlpineMapsOrg/renderer/blob/main/.github/workflows/play-store.yml
-# -- same three-job shape (check tag / build / deploy), but building via this project's own
+# -- same tag-triggered shape (check tag / build / deploy), but building via this project's own
 # Dockerfile instead of a bespoke CMake/Qt recipe: a successful image build already runs the
 # full clean test suite (the same commit gate `scripts/build.sh` uses locally), so this workflow
 # never has to duplicate a second, potentially-diverging description of how to build the app.
+#
+# Two independent deliverables from one signed build: `deploy` uploads the AAB to Google Play,
+# `github-release` publishes the APK as a GitHub Release. `github-release` depends only on
+# `build-aab`, not on `deploy` -- Play Console verification being pending (see T9.16) must not
+# block GitHub releases; the two destinations have nothing to do with each other once the
+# signed artifacts exist.
 
 on:
   push:
@@ -87,10 +93,13 @@ jobs:
           keyPassword=${RELEASE_KEY_PASSWORD}
           EOF
 
-      - name: Build signed AAB
+      # Both outputs from one signed build -- the AAB for Play Store, the APK for the GitHub
+      # release -- so `github-release` never has to re-run (and re-sign) anything build-aab
+      # already did.
+      - name: Build signed AAB and APK
         run: |
           docker run --rm -v "$PWD":/app -w /app fechtkarte-builder \
-            ./gradlew --no-daemon :app:bundleRelease
+            ./gradlew --no-daemon :app:bundleRelease :app:assembleRelease
 
       - name: Verify AAB signature
         run: |
@@ -99,6 +108,12 @@ jobs:
           # Fails the job (non-zero exit) if the signature doesn't verify against the keystore
           # just used to produce it -- the real check; nothing here is cosmetic.
           jarsigner -verify -verbose -certs "$AAB"
+
+      - name: Verify APK signature
+        run: |
+          APK="app/build/outputs/apk/release/app-release.apk"
+          test -f "$APK" || { echo "No APK produced at $APK"; exit 1; }
+          jarsigner -verify -verbose -certs "$APK"
 
       - name: Clean up signing credentials
         if: always()
@@ -109,6 +124,13 @@ jobs:
         with:
           name: fechtkarte_aab
           path: app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: fechtkarte_apk
+          path: app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
 
   deploy:
@@ -140,3 +162,65 @@ jobs:
           track: 'internal'
           releaseName: ${{ needs.check_release_tag.outputs.tag }}
           whatsNewDirectory: fastlane/metadata/android
+
+  github-release:
+    if: needs.check_release_tag.outputs.tagged == 'true'
+    needs:
+      - check_release_tag
+      - build-aab
+    runs-on: ubuntu-24.04
+    permissions:
+      # The only job in this workflow that writes anything -- build-aab and deploy stay at the
+      # workflow-level `contents: read` default; this is the sole reason to escalate.
+      contents: write
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v7
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: fechtkarte_apk
+          path: release-apk
+
+      # versionName/versionCode read straight from the build config that produced this exact
+      # APK, not re-derived from the tag -- this project's tag (v1.0.2) and versionName (1.0.2)
+      # have matched by convention so far, but nothing enforces that, and versionCode has no
+      # fixed relationship to either. The changelog lookup below needs the real versionCode.
+      - name: Determine version and locate this version's changelog
+        id: version
+        shell: bash
+        run: |
+          NAME="$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts)"
+          CODE="$(grep -oP 'versionCode\s*=\s*\K[0-9]+' app/build.gradle.kts)"
+          CHANGELOG="fastlane/metadata/android/en-US/changelogs/${CODE}.txt"
+
+          # A release with no notes is a release nobody can act on -- fail loudly rather than
+          # publish one silently blank, or silently fall back to some other text.
+          if [ ! -f "$CHANGELOG" ]; then
+            echo "::error::No changelog at $CHANGELOG for versionCode $CODE -- add one before tagging a release."
+            exit 1
+          fi
+
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "changelog=$CHANGELOG" >> "$GITHUB_OUTPUT"
+
+      - name: Rename APK to the release naming convention
+        run: mv release-apk/app-release.apk "fechtkarte-${{ steps.version.outputs.name }}.apk"
+
+      - name: Assemble release notes
+        run: |
+          cat "${{ steps.version.outputs.changelog }}" > release-notes.md
+          echo "" >> release-notes.md
+          cat .github/release-footer.md >> release-notes.md
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ needs.check_release_tag.outputs.tag }}" \
+            "fechtkarte-${{ steps.version.outputs.name }}.apk" \
+            --repo "${{ github.repository }}" \
+            --title "Fechtkarte ${{ steps.version.outputs.name }}" \
+            --notes-file release-notes.md
