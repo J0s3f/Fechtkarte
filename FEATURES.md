@@ -53,6 +53,12 @@ picker in Configure defaults to following the device but can be set explicitly, 
 13+ the same choice appears in Android's own per-app language settings. The language names in
 the picker are each written in their own language, so a wrong choice is always recoverable.
 
+**A verifiable release, signed by the same key wherever you get it.** The release APK is
+reproducible: F-Droid rebuilds it from the tagged source and publishes it only if their build
+matches the APK on GitHub Releases byte for byte, so two independent parties vouch for what
+you install. Because F-Droid then ships this project's signature rather than its own, an
+install from GitHub updates cleanly from F-Droid and vice versa — no uninstall, no data loss.
+
 This section stays honest: a feature lands here when it works end to end, not when the code
 compiles.
 

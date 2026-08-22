@@ -34,8 +34,8 @@ android {
         applicationId = "at.j0s.meyercard.app"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 3
-        versionName = "1.0.2"
+        versionCode = 4
+        versionName = "1.0.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -44,17 +44,24 @@ android {
     }
 
     // AGP writes a "Dependency metadata" block into the APK/AAB signing block by default (a
-    // Play Console feature listing third-party dependencies). F-Droid's build scanner flags
-    // any extra signing block it doesn't recognise -- found when its own APK check job failed
-    // an F-Droid submission with "Found extra signing block 'Dependency metadata'".
+    // Play Console feature listing third-party dependencies, encrypted to a Google key).
     //
-    // Kept for the Play Store / GitHub release builds (Play Console reads it; it's otherwise
-    // harmless), dropped only for F-Droid's own build. F-Droid's recipe passes -Pfdroid via
-    // Build.gradleprops specifically to flip this; without that property (every build this
-    // project itself runs) the block is included as normal.
+    // The APK must not carry it. F-Droid publishes this project's own signed APK rather than
+    // an F-Droid-signed one (its metadata pairs Binaries with AllowedAPKSigningKeys), which
+    // means F-Droid rebuilds the release from source and only ships it if that rebuild is
+    // byte-identical to the APK on GitHub Releases. F-Droid's rebuild can never contain the
+    // block -- its scanner rejects any signing block it doesn't recognise, which is how this
+    // surfaced in the first place ("Found extra signing block 'Dependency metadata'").
+    //
+    // So this is deliberately unconditional. It used to be dropped only when F-Droid passed
+    // -Pfdroid, which made F-Droid's APK and the published one differ by construction -- the
+    // one thing reproducibility forbids.
+    //
+    // The bundle keeps it: the AAB goes only to Play Console, which is the consumer that
+    // actually reads the block, and is never compared against a rebuild.
     dependenciesInfo {
-        includeInApk = !project.hasProperty("fdroid")
-        includeInBundle = !project.hasProperty("fdroid")
+        includeInApk = false
+        includeInBundle = true
     }
 
     signingConfigs {
@@ -75,6 +82,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // AGP 8.3+ embeds the checkout's git revision in META-INF/version-control-info.
+            // textproto. It reproduces only as long as F-Droid's rebuild sits on exactly the
+            // same commit as the tagged release build -- true today, but it makes the APK's
+            // bytes depend on someone else's checkout mechanics rather than on this source
+            // tree, and F-Droid lists it as a known cause of verification failures. The
+            // release tag already records which commit an APK came from, so nothing is lost
+            // by leaving it out.
+            vcsInfo {
+                include = false
+            }
             // Real signing when keystore.properties exists (T9.4); debug-signed fallback
             // otherwise so assembleRelease/bundleRelease keep working on a fresh checkout. A
             // debug-signed release build must never actually ship — see T9.4's own checklist.
@@ -135,6 +152,20 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+        // androidx.graphics:graphics-path (pulled in by Compose UI) ships prebuilt, already
+        // stripped .so files for four ABIs. AGP strips native libraries again on their way
+        // into the APK -- but only when it finds an NDK, and the result depends on which NDK
+        // it finds. The release image has none, so the published APKs carry those bytes
+        // verbatim: all four hashes in fechtkarte-1.0.2.apk match the ones inside
+        // graphics-path-1.0.1.aar exactly. F-Droid's buildserver does ship NDKs, so its
+        // rebuild would strip them and diverge from the APK it is meant to reproduce.
+        //
+        // Keeping the symbols makes the copy verbatim on both sides, which takes the NDK out
+        // of the equation instead of trying to pin the same one in two build environments we
+        // only control one of. Costs nothing in size -- upstream already stripped these.
+        jniLibs {
+            keepDebugSymbols += "**/*.so"
         }
     }
 }

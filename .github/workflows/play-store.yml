@@ -115,6 +115,14 @@ jobs:
           test -f "$APK" || { echo "No APK produced at $APK"; exit 1; }
           jarsigner -verify -verbose -certs "$APK"
 
+      # F-Droid republishes this exact APK only if its own rebuild matches it byte for byte,
+      # and a signing block AGP derives from the build environment rather than from the source
+      # tree defeats that silently -- the build succeeds, the APK installs, and only F-Droid's
+      # verification notices, after the tag is already public. Checked against the artifact
+      # rather than against the setting that is supposed to prevent it.
+      - name: Verify the APK carries no unreproducible signing block
+        run: python3 scripts/check-apk-signing-block.py app/build/outputs/apk/release/app-release.apk
+
       - name: Clean up signing credentials
         if: always()
         run: rm -f release.keystore keystore.properties
