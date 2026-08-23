@@ -76,6 +76,9 @@
     <string name="configure_language">Langue de l\'application</string>
     <string name="language_system_default">Langue du système</string>
 
+    <!-- Version footer -->
+    <string name="configure_version">Version %1$s</string>
+
     <!-- Learn screen -->
     <string name="learn_about_title">À propos de Fechtkarte</string>
     <string name="learn_about_body">Fechtkarte génère des cartes d\'exercice pour l\'échauffement et la routine dans la pratique des arts martiaux historiques européens (AMHE) — de courtes séquences à dérouler avant le vrai travail d\'une séance, ou entre deux passages.</string>

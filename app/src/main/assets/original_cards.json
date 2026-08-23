@@ -474,16 +474,17 @@
     {
      "seq": 5,
      "direction": "NE",
-     "radius": 0.592,
+     "radius": 0.57,
      "thrust": true
     },
     {
      "seq": 6,
      "direction": "NW",
-     "radius": 0.587,
+     "radius": 0.569,
      "thrust": true
     }
-   ]
+   ],
+   "sourceNote": "Actions 5 and 6's radius nudged inward slightly from the source artwork's measured value (0.592/0.587) so their discs clear actions 3/4 on the same ray - the raw measurement put them close enough to visibly overlap on screen. Same reasoning as Radius.INNER's own adjustment: legibility over exact measurement preservation where they conflict."
   },
   {
    "id": 13,
@@ -2217,16 +2218,17 @@
     {
      "seq": 5,
      "direction": "NW",
-     "radius": 0.581,
+     "radius": 0.568,
      "thrust": true
     },
     {
      "seq": 6,
      "direction": "NE",
-     "radius": 0.594,
+     "radius": 0.578,
      "thrust": true
     }
-   ]
+   ],
+   "sourceNote": "Actions 5 and 6's radius nudged inward slightly from the source artwork's measured value (0.581/0.594) so their discs clear actions 3/4 on the same ray - the raw measurement put them close enough to visibly overlap on screen. Same reasoning as Radius.INNER's own adjustment: legibility over exact measurement preservation where they conflict."
   },
   {
    "id": 57,

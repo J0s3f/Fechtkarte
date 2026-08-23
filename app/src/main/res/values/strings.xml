@@ -77,6 +77,9 @@
     <string name="configure_language">App language</string>
     <string name="language_system_default">System default</string>
 
+    <!-- Version footer -->
+    <string name="configure_version">Version %1$s</string>
+
     <!-- Learn screen -->
     <string name="learn_about_title">About Fechtkarte</string>
     <string name="learn_about_body">Fechtkarte generates warm-up and routine drill cards for Historical European Martial Arts practice — short sequences to run through before or between the real work of a session.</string>

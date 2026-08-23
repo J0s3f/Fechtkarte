@@ -1,14 +1,18 @@
 package at.j0s.meyercard.app.adapter.persistence
 
+import at.j0s.meyercard.app.adapter.ui.render.BORDER_STROKE_WIDTH_FRACTION
+import at.j0s.meyercard.app.adapter.ui.render.DISC_DIAMETER_FRACTION
 import at.j0s.meyercard.app.domain.CardId
 import at.j0s.meyercard.app.domain.CardOrigin
 import at.j0s.meyercard.app.domain.MeyerCard
+import at.j0s.meyercard.app.domain.toCardPoint
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.math.abs
+import kotlin.math.hypot
 
 /**
  * Exercises [OriginalCardsDataSource] against the real recovered dataset, not
@@ -87,5 +91,34 @@ class OriginalCardsDataSourceTest {
         }
 
         assertTrue(matchingPairs >= 42, "only $matchingPairs/44 pairs mirrored within tolerance")
+    }
+
+    @Test
+    @DisplayName("no two actions on the same card render with overlapping discs")
+    fun `no two actions overlap on screen`() {
+        // The stroke extends outward from each disc's nominal edge, so two discs whose
+        // nominal radii are merely touching still visibly merge - found on cards 12/56,
+        // where a same-ray pair sat just outside a naive "disc radii sum" check
+        // (0.1406 vs a 0.140 threshold) yet clearly overlapped once the stroke was
+        // accounted for. Uses actual CardRenderer positions/sizes, not a reimplementation
+        // of its ray-projection math, so this can't silently drift out of sync with what
+        // actually gets drawn.
+        val minCentreDistance = DISC_DIAMETER_FRACTION + BORDER_STROKE_WIDTH_FRACTION
+
+        for (card in cards) {
+            val points = card.actions.map { it.sequenceNumber to it.slot.toCardPoint() }
+            for (i in points.indices) {
+                for (j in i + 1 until points.size) {
+                    val (seqA, a) = points[i]
+                    val (seqB, b) = points[j]
+                    val distance = hypot((a.x - b.x).toDouble(), (a.y - b.y).toDouble())
+                    assertTrue(
+                        distance >= minCentreDistance,
+                        "card ${card.id} actions $seqA and $seqB are $distance apart, " +
+                            "closer than $minCentreDistance - their discs would visibly overlap",
+                    )
+                }
+            }
+        }
     }
 }

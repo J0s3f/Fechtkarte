@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import at.j0s.meyercard.app.BuildConfig
 import at.j0s.meyercard.app.R
 import at.j0s.meyercard.app.domain.AlternateHands
 import at.j0s.meyercard.app.domain.CardPalette
@@ -152,6 +153,17 @@ fun ConfigureScreen(state: ConfigureScreenState, onStateChange: (ConfigureScreen
         HorizontalDivider()
 
         LanguagePicker()
+
+        // Lets a user (or a bug report) confirm which build is actually running, rather than
+        // assuming an app-store/sideloaded update applied just because it was triggered — an
+        // update can silently not take effect from the data's point of view even when the APK
+        // itself installed fine (an already-seeded local database isn't reseeded from a newer
+        // bundled dataset on its own; see FechtkarteDatabase's own doc comment).
+        Text(
+            stringResource(R.string.configure_version, BuildConfig.VERSION_NAME),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 

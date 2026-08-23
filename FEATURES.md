@@ -59,6 +59,10 @@ matches the APK on GitHub Releases byte for byte, so two independent parties vou
 you install. Because F-Droid then ships this project's signature rather than its own, an
 install from GitHub updates cleanly from F-Droid and vice versa — no uninstall, no data loss.
 
+**The running version, visible in Configure.** A small "Version X.Y.Z" line at the bottom of the
+Configure screen, so it's always possible to confirm which build is actually installed — useful
+when troubleshooting whether an update really took effect.
+
 This section stays honest: a feature lands here when it works end to end, not when the code
 compiles.
 

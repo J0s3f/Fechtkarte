@@ -1,6 +1,9 @@
 package at.j0s.meyercard.app.adapter.persistence
 
 import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import androidx.test.core.app.ApplicationProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -9,10 +12,28 @@ import kotlinx.coroutines.runBlocking
 import java.util.concurrent.atomic.AtomicInteger
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+
+/**
+ * Stand-ins for [FechtkarteDatabase] at two different literal schema versions, so a test can
+ * simulate "the app was updated" (which changes [at.j0s.meyercard.app.BuildConfig.VERSION_CODE],
+ * and so the real schema version) without depending on the actual build's version code, which
+ * is fixed for the whole test run. Same entity, same table — only the version differs, which is
+ * exactly what an app update does to the real database file on disk.
+ */
+@Database(entities = [HistoricalCardEntity::class], version = 1, exportSchema = false)
+internal abstract class DatabaseAtVersionOne : RoomDatabase() {
+    abstract fun historicalCardDao(): HistoricalCardDao
+}
+
+@Database(entities = [HistoricalCardEntity::class], version = 2, exportSchema = false)
+internal abstract class DatabaseAtVersionTwo : RoomDatabase() {
+    abstract fun historicalCardDao(): HistoricalCardDao
+}
 
 /**
  * Robolectric, not instrumentation — an emulator inside the build container
@@ -78,5 +99,53 @@ class RoomCardRepositoryTest {
 
         assertEquals(1, parseCount.get())
         assertTrue(results.all { it.size == 109 })
+    }
+
+    /**
+     * Reproduces the bug this file's [DatabaseAtVersionOne]/[DatabaseAtVersionTwo] exist for:
+     * an app *update* (not a fresh install) leaves the previous database file, and its row
+     * count, in place, so [RoomCardRepository]'s count-then-insert seed check never re-runs —
+     * any dataset correction shipped in the update never reaches an already-installed device.
+     * [FechtkarteDatabase] fixes this by tying its schema version to
+     * [at.j0s.meyercard.app.BuildConfig.VERSION_CODE] with
+     * `fallbackToDestructiveMigration(dropAllTables = true)`, so every update forces a reseed
+     * regardless of the existing row count — simulated here by opening the same underlying file
+     * at two different literal versions, standing in for two different app builds.
+     */
+    @Test
+    fun `opening the database at a higher schema version reseeds from the current bundled asset`() = runBlocking {
+        val beforeUpdate = Room.databaseBuilder(context, DatabaseAtVersionOne::class.java, databaseName).build()
+        // A row the real bundled asset could never produce (id 999 is outside 1..109) - proof,
+        // not just an assumption, that this specific row is gone after the "update".
+        beforeUpdate.historicalCardDao().insertAll(
+            listOf(HistoricalCardEntity(id = 999L, hand = "RIGHT", instructionName = null, actionsJson = "[]", sourceNote = "stale")),
+        )
+        beforeUpdate.close()
+
+        val afterUpdate = Room.databaseBuilder(context, DatabaseAtVersionTwo::class.java, databaseName)
+            .fallbackToDestructiveMigration(dropAllTables = true)
+            .build()
+        val cards = RoomCardRepository(afterUpdate.historicalCardDao()) { context.readOriginalCardsAsset() }.allCards()
+        afterUpdate.close()
+
+        assertEquals(109, cards.size)
+        assertFalse("the stale pre-update row survived the schema-version bump", cards.any { it.id.value == 999L })
+    }
+
+    /**
+     * The previous test proves the *mechanism* (schema-version bump + destructive migration
+     * reseeds) works; this one proves [FechtkarteDatabase] actually wires into it, rather than
+     * silently reverting to a hand-maintained literal version that would reintroduce this bug.
+     * `@Database`'s `version` isn't retained for reflection at runtime, so this checks the
+     * artifact Room actually produces instead: SQLite's own `PRAGMA user_version`, which Room
+     * writes to on open and is what a *real* migration decision is based on.
+     */
+    @Test
+    fun `FechtkarteDatabase's on-disk schema version is the app's own version code`() {
+        val database = FechtkarteDatabase.create(context, databaseName)
+        val persistedVersion = database.openHelper.readableDatabase.version
+        database.close()
+
+        assertEquals(at.j0s.meyercard.app.BuildConfig.VERSION_CODE, persistedVersion)
     }
 }

@@ -76,6 +76,9 @@
     <string name="configure_language">App-Sprache</string>
     <string name="language_system_default">Systemsprache</string>
 
+    <!-- Version footer -->
+    <string name="configure_version">Version %1$s</string>
+
     <!-- Learn screen -->
     <string name="learn_about_title">Über Fechtkarte</string>
     <string name="learn_about_body">Fechtkarte erzeugt Übungskarten zum Aufwärmen und für die Routinearbeit im Training der Historischen Europäischen Kampfkünste (HEMA) – kurze Abfolgen, die du vor oder zwischen der eigentlichen Arbeit einer Trainingseinheit durchgehst.</string>
