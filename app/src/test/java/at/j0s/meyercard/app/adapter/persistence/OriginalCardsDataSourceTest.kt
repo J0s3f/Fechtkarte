@@ -57,14 +57,15 @@ class OriginalCardsDataSourceTest {
     }
 
     @Test
-    @DisplayName("cards 1-44 mirror to 45-88 for at least 40 of the 44 pairs")
-    fun `cards 1-44 mirror to 45-88 for at least 40 of 44 pairs`() {
+    @DisplayName("cards 1-44 mirror to 45-88 for at least 42 of the 44 pairs")
+    fun `cards 1-44 mirror to 45-88 for at least 42 of 44 pairs`() {
         val byId = cards.associateBy { it.id }
-        // 0.05 is the tightest tolerance that reproduces exactly the 4 known
-        // exceptions (5, 11, 28, 42 — hand-placed numerals a few pixels off the
-        // ray) and no others; tighter values start failing pairs that are
-        // ordinary manual-digitisation noise, not real exceptions. Found by
-        // sweeping tolerance values against the real dataset, not assumed.
+        // 0.05 is the tightest tolerance that reproduces exactly the 2 remaining known
+        // exceptions (5, 28 — hand-placed numerals a few pixels off the ray) and no
+        // others; tighter values start failing pairs that are ordinary manual-digitisation
+        // noise, not real exceptions. Found by sweeping tolerance values against the real
+        // dataset, not assumed. Two further exceptions (11, 42) were corrected directly in
+        // the dataset — see each card's sourceNote — rather than tolerated here.
         val radiusTolerance = 0.05f
 
         fun MeyerCard.actionSignatures(mirrorDirection: Boolean) = actions
@@ -85,6 +86,6 @@ class OriginalCardsDataSourceTest {
             matchesWithinTolerance(byId.getValue(CardId(rightId)), byId.getValue(CardId(rightId + 44)))
         }
 
-        assertTrue(matchingPairs >= 40, "only $matchingPairs/44 pairs mirrored within tolerance")
+        assertTrue(matchingPairs >= 42, "only $matchingPairs/44 pairs mirrored within tolerance")
     }
 }

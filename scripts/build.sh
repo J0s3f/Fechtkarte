@@ -4,13 +4,17 @@
 # Gradle build, deliberately not reusing anything from a previous run of the app
 # layers. For the fast inner loop while writing a test, use scripts/test.sh instead.
 #
+# Uses podman if available, otherwise docker — see scripts/container-engine.sh.
+#
 # Usage: scripts/build.sh [--no-cache]
 
 set -eu
 cd "$(dirname "$0")/.."
 
+. ./scripts/container-engine.sh
+
 # MSYS_NO_PATHCONV stops Git Bash on Windows from mangling the image tag or any
 # leading-slash argument into a Windows path. Harmless, and a no-op, on other shells.
 export MSYS_NO_PATHCONV=1
 
-exec podman build "$@" -t fechtkarte-builder .
+exec "$CONTAINER_ENGINE" build "$@" -t fechtkarte-builder .

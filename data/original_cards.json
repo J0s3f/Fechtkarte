@@ -435,11 +435,12 @@
     },
     {
      "seq": 5,
-     "direction": "NE",
-     "radius": 0.719,
+     "direction": "N",
+     "radius": 0.868,
      "thrust": true
     }
-   ]
+   ],
+   "sourceNote": "Action 5 sits in the source artwork ambiguously between two of the model's eight rays; direction and radius aligned with card 55's reading of the same action for mirror consistency."
   },
   {
    "id": 12,
@@ -3380,7 +3381,7 @@
    "actions": [
     {
      "seq": 1,
-     "direction": "NE",
+     "direction": "NW",
      "radius": 0.015,
      "thrust": false
     },
@@ -3408,7 +3409,8 @@
      "radius": 0.748,
      "thrust": false
     }
-   ]
+   ],
+   "sourceNote": "Action 1's direction corrected to mirror card 42's reading; its near-centre placement (radius 0.015) makes the ray direction largely immaterial visually."
   },
   {
    "id": 87,
