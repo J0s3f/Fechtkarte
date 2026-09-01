@@ -1,6 +1,7 @@
 package at.j0s.meyercard.app.adapter.ui.configure
 
 import at.j0s.meyercard.app.domain.AlternateHands
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardPalette
 import at.j0s.meyercard.app.domain.GenerationPreferences
 import at.j0s.meyercard.app.domain.MinimumAngularDistance
@@ -97,6 +98,24 @@ class ConfigureScreenStateTest {
         val toggled = state.toggleThrustCountIsMaximum()
         assertTrue(toggled.preferences.thrustCountIsMaximum)
         assertFalse(toggled.preferences.actionCountIsMaximum)
+    }
+
+    @Test
+    @DisplayName("card line style defaults to COMPASS, matching today's always-drawn compass")
+    fun `card line style defaults to COMPASS`() {
+        assertEquals(CardLineStyle.COMPASS, ConfigureScreenState(GenerationPreferences()).preferences.cardLineStyle)
+    }
+
+    @Test
+    @DisplayName("selecting a card line style replaces only that setting")
+    fun `selecting a card line style replaces only that setting`() {
+        val state = ConfigureScreenState(GenerationPreferences())
+
+        val sequence = state.withCardLineStyle(CardLineStyle.SEQUENCE)
+        assertEquals(CardLineStyle.SEQUENCE, sequence.preferences.cardLineStyle)
+
+        val backToCompass = sequence.withCardLineStyle(CardLineStyle.COMPASS)
+        assertEquals(CardLineStyle.COMPASS, backToCompass.preferences.cardLineStyle)
     }
 
     @Test

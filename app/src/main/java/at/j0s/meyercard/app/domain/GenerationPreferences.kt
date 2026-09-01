@@ -21,6 +21,7 @@ data class GenerationPreferences(
     val rightHandPalette: CardPalette = CardPalette.DEFAULT_RIGHT,
     val leftHandPalette: CardPalette = CardPalette.DEFAULT_LEFT,
     val enabledRules: List<GenerationRule> = emptyList(),
+    val cardLineStyle: CardLineStyle = CardLineStyle.COMPASS,
 ) {
     init {
         require(actionCount in 1..8) { "actionCount must be in 1..8, was $actionCount" }

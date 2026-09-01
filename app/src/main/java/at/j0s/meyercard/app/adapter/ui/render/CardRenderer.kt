@@ -13,8 +13,11 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import at.j0s.meyercard.app.domain.CARD_ASPECT_INVERSE
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardPalette
+import at.j0s.meyercard.app.domain.CardSegment
 import at.j0s.meyercard.app.domain.MeyerCard
+import at.j0s.meyercard.app.domain.lineSegments
 import at.j0s.meyercard.app.domain.toCardPoint
 
 // Fractions of card width — this app's own verified rendering constants.
@@ -129,6 +132,11 @@ internal fun thrustDotCenter(discCenter: Offset, cardWidthPx: Float): Offset {
  * light-theme render. Defaults `false`: PNG/PDF export always renders light-theme regardless
  * of the device's theme, the same reasoning a printed page doesn't have a "dark mode" — only
  * the live on-screen Composable (T2.4's `MeyerSquareCard`) passes the device's actual setting.
+ *
+ * [lineStyle] (docs/LINE_STYLE_DESIGN.md) selects between the fixed compass rose drawn behind
+ * the action badges regardless of [card]'s actions ([CardLineStyle.COMPASS], the default and
+ * today's behaviour) and a line tracing the drill's own strike order, action 1 to 2, 2 to 3,
+ * and so on ([CardLineStyle.SEQUENCE]).
  */
 object CardRenderer {
 
@@ -139,6 +147,7 @@ object CardRenderer {
         numeralTypeface: Typeface = Typeface.DEFAULT,
         instructionText: String? = null,
         isDarkTheme: Boolean = false,
+        lineStyle: CardLineStyle = CardLineStyle.COMPASS,
     ) {
         val widthPx = size.width
         val heightPx = widthPx * CARD_ASPECT_INVERSE
@@ -146,7 +155,7 @@ object CardRenderer {
         val (lightColor, darkColor, inkColor, paperColor) = resolveColors(card.palette, isDarkTheme)
 
         drawBackgroundAndQuadrants(canvas, widthPx, heightPx, lightColor, darkColor)
-        drawRays(canvas, widthPx, heightPx, inkColor)
+        drawLines(canvas, card.lineSegments(lineStyle), widthPx, heightPx, inkColor)
         drawBorder(canvas, widthPx, heightPx, inkColor)
 
         // Drawn before the action badges below, not after: technique cards can have up to 8
@@ -198,24 +207,27 @@ object CardRenderer {
 
     /**
      * Clipped to the same rounded-rect card shape [drawBackgroundAndQuadrants]
-     * uses — the rays are drawn corner to corner of the card's bounding box,
-     * which is *sharp*, so without this clip each ray's end pokes past the
+     * uses — a full-scope line runs corner to corner of the card's bounding box,
+     * which is *sharp*, so without this clip its end pokes past the
      * border wherever the border's own corner curves inward (found on a real
      * printed export, not visible enough on screen to have been noticed
-     * earlier).
+     * earlier). Harmless for a shorter, action-anchored line that never reaches the edge.
      */
-    private fun drawRays(canvas: Canvas, widthPx: Float, heightPx: Float, inkColor: Color) {
+    private fun drawLines(canvas: Canvas, segments: List<CardSegment>, widthPx: Float, heightPx: Float, inkColor: Color) {
         canvas.save()
         canvas.clipPath(cardClipPath(widthPx, heightPx))
 
-        val rayPaint = Paint().apply {
+        val linePaint = Paint().apply {
             color = inkColor
             strokeWidth = widthPx * RAY_STROKE_WIDTH_FRACTION
         }
-        canvas.drawLine(Offset(0f, 0f), Offset(widthPx, heightPx), rayPaint)
-        canvas.drawLine(Offset(widthPx, 0f), Offset(0f, heightPx), rayPaint)
-        canvas.drawLine(Offset(widthPx / 2f, 0f), Offset(widthPx / 2f, heightPx), rayPaint)
-        canvas.drawLine(Offset(0f, heightPx / 2f), Offset(widthPx, heightPx / 2f), rayPaint)
+        for (segment in segments) {
+            canvas.drawLine(
+                Offset(segment.from.x * widthPx, segment.from.y * widthPx),
+                Offset(segment.to.x * widthPx, segment.to.y * widthPx),
+                linePaint,
+            )
+        }
 
         canvas.restore()
     }

@@ -14,15 +14,26 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.material3.FilterChip
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.os.LocaleListCompat
 import androidx.compose.ui.res.pluralStringResource
@@ -33,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import at.j0s.meyercard.app.BuildConfig
 import at.j0s.meyercard.app.R
 import at.j0s.meyercard.app.domain.AlternateHands
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardPalette
 import at.j0s.meyercard.app.domain.MatchHistoricalDistribution
 import at.j0s.meyercard.app.domain.MinimumAngularDistance
@@ -41,8 +53,8 @@ import at.j0s.meyercard.app.domain.OuterRingOnly
 
 /**
  * The Configure screen: sliders for `actionCount` and
- * `thrustCount`, palette pickers per hand, and generation rule toggles.
- * [state] and [onStateChange] follow the same hoisted-state shape as the
+ * `thrustCount`, palette pickers per hand, a card line style picker, and generation rule
+ * toggles. [state] and [onStateChange] follow the same hoisted-state shape as the
  * Library screen's tabs — the caller owns persistence (saving to
  * `PreferencesStore`), this composable only edits in memory.
  */
@@ -107,6 +119,14 @@ fun ConfigureScreen(state: ConfigureScreenState, onStateChange: (ConfigureScreen
             label = stringResource(R.string.configure_left_hand_colour),
             selected = state.preferences.leftHandPalette,
             onSelect = { onStateChange(state.withLeftHandPalette(it)) },
+        )
+
+        HorizontalDivider()
+
+        Text(stringResource(R.string.configure_card_appearance), style = MaterialTheme.typography.titleMedium)
+        LineStylePicker(
+            selected = state.preferences.cardLineStyle,
+            onSelect = { onStateChange(state.withCardLineStyle(it)) },
         )
 
         HorizontalDivider()
@@ -263,4 +283,45 @@ private fun PalettePicker(label: String, selected: CardPalette, onSelect: (CardP
             }
         }
     }
+}
+
+/**
+ * A dropdown, not a switch: [CardLineStyle] is deliberately an enum, not a boolean, because more
+ * styles than these two are expected (docs/LINE_STYLE_DESIGN.md's `BRIDGE`/`NONE`) — a picker
+ * that already reads as "choose one of several" needs no rework when a third option arrives,
+ * where a switch would need replacing outright. `ExposedDropdownMenuBox` over a `FilterChip` row
+ * (this screen's usual precedent, see [PalettePicker]/[LanguagePicker]) for the same reason: a
+ * chip row grows wider with every option, a dropdown doesn't.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LineStylePicker(selected: CardLineStyle, onSelect: (CardLineStyle) -> Unit, modifier: Modifier = Modifier) {
+    var expanded by remember { mutableStateOf(false) }
+    ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }, modifier = modifier) {
+        TextField(
+            value = selected.displayName(),
+            onValueChange = {},
+            readOnly = true,
+            label = { Text(stringResource(R.string.configure_line_style)) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable).fillMaxWidth(),
+        )
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            CardLineStyle.entries.forEach { style ->
+                DropdownMenuItem(
+                    text = { Text(style.displayName()) },
+                    onClick = {
+                        onSelect(style)
+                        expanded = false
+                    },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CardLineStyle.displayName(): String = when (this) {
+    CardLineStyle.COMPASS -> stringResource(R.string.line_style_compass)
+    CardLineStyle.SEQUENCE -> stringResource(R.string.line_style_sequence)
 }

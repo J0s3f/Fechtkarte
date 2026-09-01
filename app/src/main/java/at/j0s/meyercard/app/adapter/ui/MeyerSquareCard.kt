@@ -15,6 +15,7 @@ import androidx.core.content.res.ResourcesCompat
 import at.j0s.meyercard.app.R
 import at.j0s.meyercard.app.adapter.ui.render.CardRenderer
 import at.j0s.meyercard.app.domain.CARD_ASPECT
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.MeyerCard
 
 /**
@@ -26,7 +27,7 @@ import at.j0s.meyercard.app.domain.MeyerCard
  * ratio, so [CardRenderer] never has to guess at a height.
  */
 @Composable
-fun MeyerSquareCard(card: MeyerCard, modifier: Modifier = Modifier) {
+fun MeyerSquareCard(card: MeyerCard, modifier: Modifier = Modifier, lineStyle: CardLineStyle = CardLineStyle.COMPASS) {
     val context = LocalContext.current
     val numeralTypeface = remember {
         ResourcesCompat.getFont(context, R.font.unifraktur_maguntia) ?: Typeface.DEFAULT
@@ -47,6 +48,7 @@ fun MeyerSquareCard(card: MeyerCard, modifier: Modifier = Modifier) {
             numeralTypeface = numeralTypeface,
             instructionText = card.instruction?.displayName(context.resources),
             isDarkTheme = isDarkTheme,
+            lineStyle = lineStyle,
         )
     }
 }

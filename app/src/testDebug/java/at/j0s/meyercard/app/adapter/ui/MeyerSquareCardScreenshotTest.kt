@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.j0s.meyercard.app.domain.Action
 import at.j0s.meyercard.app.domain.CardId
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardOrigin
 import at.j0s.meyercard.app.domain.CardPalette
 import at.j0s.meyercard.app.domain.Direction
@@ -123,6 +124,33 @@ class MeyerSquareCardScreenshotTest {
         composeTestRule.setContent {
             MeyerSquareCard(
                 card(Direction.entries.mapIndexed { index, direction -> action(index + 1, direction) }),
+            )
+        }
+        composeTestRule.onRoot().captureRoboImage()
+    }
+
+    /**
+     * `CardLineStyle.SEQUENCE`: the compass rose is replaced by a single line tracing 1→2→3→4
+     * through the action badges in strike order, rather than the four fixed compass axes every
+     * other test in this file exercises (their `lineStyle` all default to `COMPASS`).
+     */
+    @Test
+    fun sequenceLineStyle_fourActionCard() {
+        composeTestRule.setContent {
+            MeyerSquareCard(
+                card(listOf(action(1, Direction.W), action(2, Direction.N), action(3, Direction.E), action(4, Direction.S))),
+                lineStyle = CardLineStyle.SEQUENCE,
+            )
+        }
+        composeTestRule.onRoot().captureRoboImage()
+    }
+
+    @Test
+    fun sequenceLineStyle_eightActionCard() {
+        composeTestRule.setContent {
+            MeyerSquareCard(
+                card(Direction.entries.mapIndexed { index, direction -> action(index + 1, direction) }),
+                lineStyle = CardLineStyle.SEQUENCE,
             )
         }
         composeTestRule.onRoot().captureRoboImage()

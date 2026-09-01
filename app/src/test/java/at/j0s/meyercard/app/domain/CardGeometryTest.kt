@@ -11,8 +11,83 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import java.io.File
+import java.time.Instant
 
 class CardGeometryTest {
+
+    private fun action(seq: Int, direction: Direction, radius: Radius = Radius.OUTER) =
+        Action(seq, Slot(direction, radius), isThrust = false)
+
+    private fun card(actions: List<Action>) = MeyerCard(
+        id = CardId(1L),
+        actions = actions,
+        hand = Hand.RIGHT,
+        palette = CardPalette.WOAD,
+        origin = CardOrigin.Generated(Instant.now()),
+    )
+
+    @Test
+    @DisplayName("COMPASS draws today's four lines - both diagonals plus the centre cross, edge to edge")
+    fun `COMPASS draws the four edge-to-edge lines`() {
+        val anyCard = card(listOf(action(1, Direction.N)))
+
+        val segments = anyCard.lineSegments(CardLineStyle.COMPASS)
+
+        assertEquals(
+            listOf(
+                CardSegment(Direction.NW.edgePointNormalised(), Direction.SE.edgePointNormalised()),
+                CardSegment(Direction.NE.edgePointNormalised(), Direction.SW.edgePointNormalised()),
+                CardSegment(Direction.N.edgePointNormalised(), Direction.S.edgePointNormalised()),
+                CardSegment(Direction.E.edgePointNormalised(), Direction.W.edgePointNormalised()),
+            ),
+            segments,
+        )
+    }
+
+    @Test
+    @DisplayName("SEQUENCE connects each action to the next by sequence number, tracing the strike order")
+    fun `SEQUENCE connects consecutive actions in sequence order`() {
+        val fourActions = card(
+            listOf(
+                action(1, Direction.W),
+                action(2, Direction.N),
+                action(3, Direction.E),
+                action(4, Direction.N, Radius.INNER),
+            ),
+        )
+
+        val segments = fourActions.lineSegments(CardLineStyle.SEQUENCE)
+
+        assertEquals(
+            listOf(
+                CardSegment(Slot(Direction.W, Radius.OUTER).toCardPoint(), Slot(Direction.N, Radius.OUTER).toCardPoint()),
+                CardSegment(Slot(Direction.N, Radius.OUTER).toCardPoint(), Slot(Direction.E, Radius.OUTER).toCardPoint()),
+                CardSegment(Slot(Direction.E, Radius.OUTER).toCardPoint(), Slot(Direction.N, Radius.INNER).toCardPoint()),
+            ),
+            segments,
+        )
+    }
+
+    @Test
+    @DisplayName("SEQUENCE follows sequence number, not the order actions are listed in")
+    fun `SEQUENCE follows sequence number rather than list order`() {
+        val outOfOrder = card(listOf(action(2, Direction.S), action(1, Direction.N)))
+
+        val segments = outOfOrder.lineSegments(CardLineStyle.SEQUENCE)
+
+        assertEquals(
+            listOf(CardSegment(Slot(Direction.N, Radius.OUTER).toCardPoint(), Slot(Direction.S, Radius.OUTER).toCardPoint())),
+            segments,
+        )
+    }
+
+    @Test
+    @DisplayName("SEQUENCE draws nothing for a single-action card - there is no next action to connect to")
+    fun `SEQUENCE draws nothing for a single action`() {
+        val singleAction = card(listOf(action(1, Direction.N)))
+
+        assertEquals(emptyList<CardSegment>(), singleAction.lineSegments(CardLineStyle.SEQUENCE))
+    }
 
     @ParameterizedTest
     @EnumSource(Direction::class)

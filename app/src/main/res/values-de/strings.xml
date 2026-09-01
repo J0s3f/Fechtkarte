@@ -30,6 +30,10 @@
     <string name="configure_count_is_maximum">Zufällige Anzahl, bis zu diesem Wert</string>
     <string name="configure_right_hand_colour">Farbe rechte Hand</string>
     <string name="configure_left_hand_colour">Farbe linke Hand</string>
+    <string name="configure_card_appearance">Kartendarstellung</string>
+    <string name="configure_line_style">Kartenlinien</string>
+    <string name="line_style_compass">Kompass</string>
+    <string name="line_style_sequence">Sequenz</string>
     <string name="configure_generation_rules">Regeln für die Erzeugung</string>
     <string name="rule_no_repeated_direction">Keine Richtung wiederholen</string>
     <string name="rule_minimum_angular_distance">Mindestwinkelabstand</string>

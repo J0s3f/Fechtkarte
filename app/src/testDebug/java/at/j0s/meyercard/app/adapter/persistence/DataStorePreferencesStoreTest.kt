@@ -1,6 +1,9 @@
 package at.j0s.meyercard.app.adapter.persistence
 
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardPalette
 import at.j0s.meyercard.app.domain.GenerationPreferences
 import at.j0s.meyercard.app.domain.MinimumAngularDistance
@@ -44,10 +47,21 @@ class DataStorePreferencesStoreTest {
             rightHandPalette = CardPalette.VERDIGRIS,
             leftHandPalette = CardPalette.MOSS,
             enabledRules = listOf(NoRepeatedDirection, MinimumAngularDistance(3)),
+            cardLineStyle = CardLineStyle.SEQUENCE,
         )
 
         store.save(saved)
 
         assertEquals(saved, store.load())
+    }
+
+    @Test
+    fun `an unrecognised stored line style token falls back to the default rather than throwing`() = runBlocking {
+        val file = File.createTempFile("preferences-test-${System.nanoTime()}", ".preferences_pb")
+        file.deleteOnExit()
+        val dataStore = PreferenceDataStoreFactory.create(produceFile = { file })
+        dataStore.edit { it[stringPreferencesKey("cardLineStyle")] = "SomeFutureStyle" }
+
+        assertEquals(CardLineStyle.COMPASS, DataStorePreferencesStore(dataStore).load().cardLineStyle)
     }
 }

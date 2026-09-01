@@ -45,6 +45,7 @@ import at.j0s.meyercard.app.application.port.api.ExportCard
 import at.j0s.meyercard.app.application.port.api.ShareCard
 import at.j0s.meyercard.app.application.port.spi.ExportResult
 import at.j0s.meyercard.app.application.port.spi.PreferencesStore
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.DrillGenerator
 import at.j0s.meyercard.app.domain.Hand
 import at.j0s.meyercard.app.domain.HistoricalDrill
@@ -108,7 +109,7 @@ fun FechtkarteApp(
             startDestination = Route.LIBRARY,
             modifier = Modifier.padding(contentPadding),
         ) {
-            composable(Route.LIBRARY) { LibraryRoute(browseHistoricalCards) }
+            composable(Route.LIBRARY) { LibraryRoute(browseHistoricalCards, preferencesStore) }
             composable(Route.TRAIN) {
                 TrainRoute(
                     preferencesStore,
@@ -129,16 +130,31 @@ fun FechtkarteApp(
 private data class LibraryContent(val drills: List<HistoricalDrill>, val techniqueCards: List<MeyerCard>)
 
 @Composable
-private fun LibraryRoute(browseHistoricalCards: BrowseHistoricalCards, modifier: Modifier = Modifier) {
+private fun LibraryRoute(
+    browseHistoricalCards: BrowseHistoricalCards,
+    preferencesStore: PreferencesStore,
+    modifier: Modifier = Modifier,
+) {
     val content by produceState<LibraryContent?>(initialValue = null, browseHistoricalCards) {
         value = LibraryContent(browseHistoricalCards.drills(), browseHistoricalCards.techniqueCards())
+    }
+    // Reloaded on every entry into this route (Unit-keyed, same as TrainRoute's regenerate()),
+    // so a change made on the Configure screen is reflected on returning to the Library without
+    // needing its own live-update mechanism.
+    val lineStyle by produceState(initialValue = CardLineStyle.COMPASS, preferencesStore) {
+        value = preferencesStore.load().cardLineStyle
     }
 
     val loaded = content
     if (loaded == null) {
         CircularProgressIndicator(modifier = modifier.wrapContentSize(Alignment.Center))
     } else {
-        LibraryScreen(drills = loaded.drills, techniqueCards = loaded.techniqueCards, modifier = modifier)
+        LibraryScreen(
+            drills = loaded.drills,
+            techniqueCards = loaded.techniqueCards,
+            modifier = modifier,
+            lineStyle = lineStyle,
+        )
     }
 }
 
@@ -151,6 +167,7 @@ private fun TrainRoute(
     modifier: Modifier = Modifier,
 ) {
     var card by remember { mutableStateOf<MeyerCard?>(null) }
+    var lineStyle by remember { mutableStateOf(CardLineStyle.COMPASS) }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -164,6 +181,7 @@ private fun TrainRoute(
         )
         val palette = if (outcome.card.hand == Hand.RIGHT) preferences.rightHandPalette else preferences.leftHandPalette
         card = outcome.card.copy(palette = palette)
+        lineStyle = preferences.cardLineStyle
     }
 
     suspend fun save(cardToSave: MeyerCard, export: suspend (MeyerCard) -> ExportResult) {
@@ -206,6 +224,7 @@ private fun TrainRoute(
             onSavePdf = { scope.launch { save(current, exportCard::asPdf) } },
             onShare = { scope.launch { share(current) } },
             modifier = modifier,
+            lineStyle = lineStyle,
         )
     }
 }

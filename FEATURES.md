@@ -63,6 +63,16 @@ install from GitHub updates cleanly from F-Droid and vice versa — no uninstall
 Configure screen, so it's always possible to confirm which build is actually installed — useful
 when troubleshooting whether an update really took effect.
 
+**A choice of card line style.** A "Card lines" dropdown in Configure (under a new "Card
+appearance" section), with two options today. **Compass** (the default) keeps every card's
+familiar compass rose — two diagonals plus the vertical and horizontal centre lines, edge to
+edge, unchanged. **Sequence** replaces it with a single connected line through the action
+badges in strike order — 1 to 2, 2 to 3, and so on — the way the Meyer Square's own numbering is
+meant to be read. Applies everywhere a card is shown on screen — generated cards on Train and
+historical cards in the Library — and persists across restarts like the rest of Configure.
+PNG/PDF export and the Learn screen's worked example are unaffected for now (see
+`docs/LINE_STYLE_DESIGN.md`).
+
 This section stays honest: a feature lands here when it works end to end, not when the code
 compiles.
 

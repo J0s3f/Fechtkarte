@@ -31,6 +31,10 @@
     <string name="configure_count_is_maximum">Random count, up to this many</string>
     <string name="configure_right_hand_colour">Right hand colour</string>
     <string name="configure_left_hand_colour">Left hand colour</string>
+    <string name="configure_card_appearance">Card appearance</string>
+    <string name="configure_line_style">Card lines</string>
+    <string name="line_style_compass">Compass</string>
+    <string name="line_style_sequence">Sequence</string>
     <string name="configure_generation_rules">Generation rules</string>
     <string name="rule_no_repeated_direction">No repeated direction</string>
     <string name="rule_minimum_angular_distance">Minimum angular distance</string>

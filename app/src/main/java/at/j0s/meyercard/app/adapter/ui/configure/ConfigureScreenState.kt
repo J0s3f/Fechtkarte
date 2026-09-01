@@ -1,5 +1,6 @@
 package at.j0s.meyercard.app.adapter.ui.configure
 
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardPalette
 import at.j0s.meyercard.app.domain.GenerationPreferences
 import at.j0s.meyercard.app.domain.GenerationRule
@@ -35,6 +36,8 @@ data class ConfigureScreenState(val preferences: GenerationPreferences) {
     fun withRightHandPalette(palette: CardPalette) = copy(preferences = preferences.copy(rightHandPalette = palette))
 
     fun withLeftHandPalette(palette: CardPalette) = copy(preferences = preferences.copy(leftHandPalette = palette))
+
+    fun withCardLineStyle(style: CardLineStyle) = copy(preferences = preferences.copy(cardLineStyle = style))
 
     fun isRuleEnabled(rule: GenerationRule): Boolean = rule in preferences.enabledRules
 

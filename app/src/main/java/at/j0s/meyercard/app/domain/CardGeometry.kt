@@ -30,3 +30,33 @@ fun Slot.toCardPoint(): CardPoint {
         y = CARD_CENTRE.y + (edge.y - CARD_CENTRE.y) * radius.value,
     )
 }
+
+/** A straight line between two points in normalised card space. */
+data class CardSegment(val from: CardPoint, val to: CardPoint)
+
+/** How a card's lines are drawn behind its action badges. */
+enum class CardLineStyle { COMPASS, SEQUENCE }
+
+private val LINE_AXES = listOf(
+    Direction.NW to Direction.SE,
+    Direction.NE to Direction.SW,
+    Direction.N to Direction.S,
+    Direction.E to Direction.W,
+)
+
+/**
+ * The lines drawn behind this card's action badges. Under [CardLineStyle.COMPASS] they're the
+ * fixed compass rose — two diagonals plus the vertical and horizontal centre lines, edge to
+ * edge, regardless of the card's actions — today's rendering. Under
+ * [CardLineStyle.SEQUENCE] the compass is dropped entirely in favour of the drill's own
+ * path: a line from action 1 to action 2, 2 to 3, and so on by [Action.sequenceNumber] — the
+ * order a practitioner actually strikes in, tracing the sequence the way it's meant to be read
+ * (low number to high) rather than the card's fixed geometry. A card with one action draws
+ * nothing; there is no "next" to connect it to.
+ */
+fun MeyerCard.lineSegments(style: CardLineStyle): List<CardSegment> = when (style) {
+    CardLineStyle.COMPASS -> LINE_AXES.map { (a, b) -> CardSegment(a.edgePointNormalised(), b.edgePointNormalised()) }
+    CardLineStyle.SEQUENCE -> actions.sortedBy { it.sequenceNumber }
+        .map { it.slot.toCardPoint() }
+        .zipWithNext { from, to -> CardSegment(from, to) }
+}

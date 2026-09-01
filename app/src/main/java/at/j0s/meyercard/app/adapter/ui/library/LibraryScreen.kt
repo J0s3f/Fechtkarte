@@ -45,6 +45,7 @@ import at.j0s.meyercard.app.R
 import at.j0s.meyercard.app.adapter.ui.CardArea
 import at.j0s.meyercard.app.adapter.ui.MeyerSquareCard
 import at.j0s.meyercard.app.adapter.ui.displayName
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.Hand
 import at.j0s.meyercard.app.domain.HistoricalDrill
 import at.j0s.meyercard.app.domain.Instruction
@@ -61,7 +62,12 @@ private enum class LibraryTab(@StringRes val label: Int) {
  * filtering and first/previous/next/last/±10/random navigation.
  */
 @Composable
-fun LibraryScreen(drills: List<HistoricalDrill>, techniqueCards: List<MeyerCard>, modifier: Modifier = Modifier) {
+fun LibraryScreen(
+    drills: List<HistoricalDrill>,
+    techniqueCards: List<MeyerCard>,
+    modifier: Modifier = Modifier,
+    lineStyle: CardLineStyle = CardLineStyle.COMPASS,
+) {
     var tab by remember { mutableStateOf(LibraryTab.DRILLS) }
 
     Column(modifier = modifier.fillMaxSize()) {
@@ -80,14 +86,14 @@ fun LibraryScreen(drills: List<HistoricalDrill>, techniqueCards: List<MeyerCard>
             )
         }
         when (tab) {
-            LibraryTab.DRILLS -> DrillsTab(drills, modifier = Modifier.weight(1f))
-            LibraryTab.TECHNIQUES -> TechniquesTab(techniqueCards, modifier = Modifier.weight(1f))
+            LibraryTab.DRILLS -> DrillsTab(drills, modifier = Modifier.weight(1f), lineStyle = lineStyle)
+            LibraryTab.TECHNIQUES -> TechniquesTab(techniqueCards, modifier = Modifier.weight(1f), lineStyle = lineStyle)
         }
     }
 }
 
 @Composable
-private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifier) {
+private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifier, lineStyle: CardLineStyle = CardLineStyle.COMPASS) {
     var state by remember(drills) { mutableStateOf(DrillsLibraryState(drills)) }
     val actionCounts = remember(drills) { drills.map { it.rightHandCard.actions.size }.distinct().sorted() }
 
@@ -137,7 +143,7 @@ private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifi
         val current = state.current
         CardArea(modifier = Modifier.weight(1f)) {
             if (current != null) {
-                MeyerSquareCard(current.card(state.hand), modifier = it)
+                MeyerSquareCard(current.card(state.hand), modifier = it, lineStyle = lineStyle)
             } else {
                 Text(stringResource(R.string.library_no_drills_match), style = MaterialTheme.typography.bodyLarge)
             }
@@ -162,7 +168,7 @@ private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifi
 }
 
 @Composable
-private fun TechniquesTab(cards: List<MeyerCard>, modifier: Modifier = Modifier) {
+private fun TechniquesTab(cards: List<MeyerCard>, modifier: Modifier = Modifier, lineStyle: CardLineStyle = CardLineStyle.COMPASS) {
     var state by remember(cards) { mutableStateOf(TechniqueLibraryState(cards)) }
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -187,7 +193,7 @@ private fun TechniquesTab(cards: List<MeyerCard>, modifier: Modifier = Modifier)
         val current = state.current
         CardArea(modifier = Modifier.weight(1f)) {
             if (current != null) {
-                MeyerSquareCard(current, modifier = it)
+                MeyerSquareCard(current, modifier = it, lineStyle = lineStyle)
             } else {
                 Text(stringResource(R.string.library_no_techniques_match), style = MaterialTheme.typography.bodyLarge)
             }

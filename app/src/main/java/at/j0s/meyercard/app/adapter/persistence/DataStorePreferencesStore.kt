@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import at.j0s.meyercard.app.application.port.spi.PreferencesStore
 import at.j0s.meyercard.app.domain.AlternateHands
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardPalette
 import at.j0s.meyercard.app.domain.GenerationPreferences
 import at.j0s.meyercard.app.domain.GenerationRule
@@ -50,6 +51,8 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
             rightHandPalette = stored[RIGHT_HAND_PALETTE]?.let { CardPalette.valueOf(it) } ?: defaults.rightHandPalette,
             leftHandPalette = stored[LEFT_HAND_PALETTE]?.let { CardPalette.valueOf(it) } ?: defaults.leftHandPalette,
             enabledRules = stored[ENABLED_RULES]?.mapNotNull { it.toGenerationRule() } ?: defaults.enabledRules,
+            cardLineStyle = stored[CARD_LINE_STYLE]?.let { runCatching { CardLineStyle.valueOf(it) }.getOrNull() }
+                ?: defaults.cardLineStyle,
         )
     }
 
@@ -62,6 +65,7 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
             stored[RIGHT_HAND_PALETTE] = preferences.rightHandPalette.name
             stored[LEFT_HAND_PALETTE] = preferences.leftHandPalette.name
             stored[ENABLED_RULES] = preferences.enabledRules.map { it.toToken() }.toSet()
+            stored[CARD_LINE_STYLE] = preferences.cardLineStyle.name
         }
     }
 
@@ -73,6 +77,7 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
         val RIGHT_HAND_PALETTE = stringPreferencesKey("rightHandPalette")
         val LEFT_HAND_PALETTE = stringPreferencesKey("leftHandPalette")
         val ENABLED_RULES = stringSetPreferencesKey("enabledRules")
+        val CARD_LINE_STYLE = stringPreferencesKey("cardLineStyle")
     }
 }
 

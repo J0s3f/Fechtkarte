@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import at.j0s.meyercard.app.R
 import at.j0s.meyercard.app.adapter.ui.CardArea
 import at.j0s.meyercard.app.adapter.ui.MeyerSquareCard
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.MeyerCard
 
 /**
@@ -38,13 +39,14 @@ fun TrainScreen(
     onSavePdf: () -> Unit,
     onShare: () -> Unit,
     modifier: Modifier = Modifier,
+    lineStyle: CardLineStyle = CardLineStyle.COMPASS,
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         CardArea(modifier = Modifier.weight(1f)) {
-            MeyerSquareCard(card, modifier = it.clickable(onClick = onGenerate))
+            MeyerSquareCard(card, modifier = it.clickable(onClick = onGenerate), lineStyle = lineStyle)
         }
         // FlowRow, not Row: a fixed Row silently pushes whatever doesn't fit past the screen
         // edge, with no scroll to reach it. That is exactly what happened in French, where
