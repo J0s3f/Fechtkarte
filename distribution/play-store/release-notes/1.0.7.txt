@@ -1,0 +1,2 @@
+- Saving a PNG/PDF or sharing a card now honours the "Card lines" setting, instead of always saving the compass style; the saved filename reflects which style was used, so saving both styles of the same card keeps both files.
+- Updated the F-Droid/Play Store screenshots, which still showed an older thrust-dot placement.

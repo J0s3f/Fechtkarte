@@ -68,10 +68,12 @@ appearance" section), with two options today. **Compass** (the default) keeps ev
 familiar compass rose — two diagonals plus the vertical and horizontal centre lines, edge to
 edge, unchanged. **Sequence** replaces it with a single connected line through the action
 badges in strike order — 1 to 2, 2 to 3, and so on — the way the Meyer Square's own numbering is
-meant to be read. Applies everywhere a card is shown on screen — generated cards on Train and
-historical cards in the Library — and persists across restarts like the rest of Configure.
-PNG/PDF export and the Learn screen's worked example are unaffected for now (see
-`docs/LINE_STYLE_DESIGN.md`).
+meant to be read. Applies everywhere a card is shown or saved — on screen (Train and the
+Library), in a saved PNG or PDF, and when shared to another app — and persists across restarts
+like the rest of Configure. A PNG/PDF's filename reflects which style it was saved with, so
+exporting the same card under both styles keeps both files instead of one overwriting the
+other. The Learn screen's worked example always shows the compass, regardless of the setting
+(see `docs/LINE_STYLE_DESIGN.md`).
 
 This section stays honest: a feature lands here when it works end to end, not when the code
 compiles.

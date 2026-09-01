@@ -17,6 +17,7 @@ import at.j0s.meyercard.app.application.port.spi.CardExporter
 import at.j0s.meyercard.app.application.port.spi.ExportResult
 import at.j0s.meyercard.app.domain.CARD_ASPECT_INVERSE
 import at.j0s.meyercard.app.adapter.ui.displayName
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.MeyerCard
 import at.j0s.meyercard.app.domain.contentCode
 
@@ -32,9 +33,12 @@ import at.j0s.meyercard.app.domain.contentCode
  * comment), so export simply isn't offered pre-Q rather than silently
  * failing with a `SecurityException` the caller didn't ask for.
  *
- * The saved file is named after [MeyerCard.contentCode] — what the card actually shows, not
- * when it was saved — so exporting the same card twice overwrites the one file already on disk
- * (see [findExistingEntry]) instead of piling up timestamped duplicates of an identical image.
+ * The saved file is named after [MeyerCard.contentCode] — what the card actually shows,
+ * including [lineStyle] since that changes the rendered image just as much as the actions or
+ * palette do, not when it was saved — so exporting the same card under the same line style
+ * twice overwrites the one file already on disk (see [findExistingEntry]) instead of piling up
+ * timestamped duplicates of an identical image; exporting it again under a *different* style
+ * saves as a second, distinctly named file, since that image genuinely looks different.
  */
 class MediaStoreCardExporter(
     private val contentResolver: ContentResolver,
@@ -42,10 +46,10 @@ class MediaStoreCardExporter(
     private val numeralTypeface: Typeface,
 ) : CardExporter {
 
-    override suspend fun exportPng(card: MeyerCard): ExportResult {
+    override suspend fun exportPng(card: MeyerCard, lineStyle: CardLineStyle): ExportResult {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) throwUnsupported()
-        val bitmap = renderCardBitmap(card, numeralTypeface, card.instruction?.displayName(resources))
-        val fileName = "fechtkarte-${card.contentCode()}.png"
+        val bitmap = renderCardBitmap(card, numeralTypeface, card.instruction?.displayName(resources), lineStyle)
+        val fileName = "fechtkarte-${card.contentCode(lineStyle)}.png"
 
         val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val uri = findExistingEntry(collection, fileName)
@@ -56,10 +60,10 @@ class MediaStoreCardExporter(
         return ExportResult(uri, fileName)
     }
 
-    override suspend fun exportPdf(card: MeyerCard): ExportResult {
+    override suspend fun exportPdf(card: MeyerCard, lineStyle: CardLineStyle): ExportResult {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) throwUnsupported()
-        val document = renderPdf(card)
-        val fileName = "fechtkarte-${card.contentCode()}.pdf"
+        val document = renderPdf(card, lineStyle)
+        val fileName = "fechtkarte-${card.contentCode(lineStyle)}.pdf"
 
         val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
         val uri = findExistingEntry(collection, fileName)
@@ -91,7 +95,7 @@ class MediaStoreCardExporter(
      * to edge — the card's own aspect ratio (0.692) isn't A4's (≈0.707), and
      * a real printer's margins would clip a full-bleed page anyway.
      */
-    private fun renderPdf(card: MeyerCard): PdfDocument {
+    private fun renderPdf(card: MeyerCard, lineStyle: CardLineStyle): PdfDocument {
         val document = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(A4_WIDTH_POINTS, A4_HEIGHT_POINTS, 1).create()
         val page = document.startPage(pageInfo)
@@ -108,6 +112,7 @@ class MediaStoreCardExporter(
             size = Size(cardWidthPoints, cardHeightPoints),
             numeralTypeface = numeralTypeface,
             instructionText = card.instruction?.displayName(resources),
+            lineStyle = lineStyle,
         )
 
         document.finishPage(page)

@@ -189,4 +189,9 @@ As an AI agent developing this project, you are required to keep the project doc
 2.  **Design decisions:** After making a significant design decision (e.g., adding a new library, choosing a specific architectural pattern, or making a non-obvious implementation choice), document the decision *and the reasoning behind it* — not just what was chosen, but what else was considered and why it lost. A decision recorded without its rationale is one the next reader has to re-litigate.
 3.  **Status:** After completing a major feature, update the project's status documentation so it reflects what actually ships, not what was planned.
 4. **`CLAUDE.md`:** General rules for the AI Agent. Modify if the user gives new general guidelines.
+5. **Changelogs, every version bump, both locations:** Whenever `app/build.gradle.kts`'s `versionCode`/`versionName` is bumped, add a changelog entry for that release in *both* places, kept content-identical:
+   - `fastlane/metadata/android/en-US/changelogs/<versionCode>.txt` — filename is the new `versionCode`.
+   - `distribution/play-store/release-notes/<versionName>.txt` — filename is the new `versionName`.
+
+   Write it from the user's perspective (what changed, not which files), one bullet per change, "No user-facing changes" for a pure maintenance release. Do this as part of the same commit that bumps the version — a version bump with no changelog entry is an incomplete release, the same way a feature without a `FEATURES.md` entry is.
 

@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import androidx.test.core.app.ApplicationProvider
 import at.j0s.meyercard.app.domain.Action
 import at.j0s.meyercard.app.domain.CardId
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardOrigin
 import at.j0s.meyercard.app.domain.CardPalette
 import at.j0s.meyercard.app.domain.Direction
@@ -16,6 +17,7 @@ import at.j0s.meyercard.app.domain.Slot
 import at.j0s.meyercard.app.domain.contentCode
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertThrows
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -58,9 +60,9 @@ class MediaStoreCardExporterTest {
     fun `exports a PNG at the expected resolution on Android 10+`() = runBlocking {
         val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT)
 
-        val result = exporter.exportPng(card)
+        val result = exporter.exportPng(card, CardLineStyle.COMPASS)
 
-        assertEquals("fechtkarte-${card.contentCode()}.png", result.displayName)
+        assertEquals("fechtkarte-${card.contentCode(CardLineStyle.COMPASS)}.png", result.displayName)
         context.contentResolver.openInputStream(result.uri)!!.use { input ->
             val bitmap = BitmapFactory.decodeStream(input)
             assertEquals(2048, bitmap.width)
@@ -69,21 +71,32 @@ class MediaStoreCardExporterTest {
 
     @Test
     @Config(sdk = [29])
-    fun `exporting the same card twice reuses the same file instead of duplicating it`() = runBlocking {
+    fun `exporting the same card under the same line style twice reuses the same file`() = runBlocking {
         val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT)
 
-        val first = exporter.exportPng(card)
-        val second = exporter.exportPng(card)
+        val first = exporter.exportPng(card, CardLineStyle.COMPASS)
+        val second = exporter.exportPng(card, CardLineStyle.COMPASS)
 
         assertEquals(first.uri, second.uri)
         assertEquals(first.displayName, second.displayName)
     }
 
     @Test
+    @Config(sdk = [29])
+    fun `exporting the same card under a different line style saves a distinctly named file`() = runBlocking {
+        val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT)
+
+        val compass = exporter.exportPng(card, CardLineStyle.COMPASS)
+        val sequence = exporter.exportPng(card, CardLineStyle.SEQUENCE)
+
+        assertNotEquals(compass.displayName, sequence.displayName)
+    }
+
+    @Test
     @Config(sdk = [28])
     fun `refuses to export either format on Android versions before 10`() {
         val exporter = MediaStoreCardExporter(context.contentResolver, context.resources, Typeface.DEFAULT)
-        assertThrows(IllegalStateException::class.java) { runBlocking { exporter.exportPng(card) } }
-        assertThrows(IllegalStateException::class.java) { runBlocking { exporter.exportPdf(card) } }
+        assertThrows(IllegalStateException::class.java) { runBlocking { exporter.exportPng(card, CardLineStyle.COMPASS) } }
+        assertThrows(IllegalStateException::class.java) { runBlocking { exporter.exportPdf(card, CardLineStyle.COMPASS) } }
     }
 }

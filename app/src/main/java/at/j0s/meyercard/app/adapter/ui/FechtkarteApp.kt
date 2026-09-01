@@ -184,9 +184,9 @@ private fun TrainRoute(
         lineStyle = preferences.cardLineStyle
     }
 
-    suspend fun save(cardToSave: MeyerCard, export: suspend (MeyerCard) -> ExportResult) {
+    suspend fun save(cardToSave: MeyerCard, export: suspend (MeyerCard, CardLineStyle) -> ExportResult) {
         val messageRes = try {
-            export(cardToSave)
+            export(cardToSave, lineStyle)
             R.string.card_saved
         } catch (_: Exception) {
             R.string.error_saving
@@ -196,7 +196,7 @@ private fun TrainRoute(
 
     suspend fun share(cardToShare: MeyerCard) {
         val shareable = try {
-            shareCard.prepare(cardToShare)
+            shareCard.prepare(cardToShare, lineStyle)
         } catch (_: Exception) {
             Toast.makeText(context, R.string.error_sharing, Toast.LENGTH_SHORT).show()
             return

@@ -1,19 +1,29 @@
 package at.j0s.meyercard.app.domain
 
 /**
- * A short, reversible encoding of [MeyerCard]'s visible content — its actions and palette, the
- * two things that actually change what an exported image looks like. Used as the exported
- * file's name instead of an export timestamp, so exporting the same card twice reuses the same
- * file instead of piling up identical duplicates.
+ * A short, reversible encoding of what an exported image actually looks like: [MeyerCard]'s
+ * actions and palette, plus the [lineStyle] it's rendered with (a display preference, not a
+ * property of [MeyerCard] itself — see [at.j0s.meyercard.app.application.port.spi.CardExporter]).
+ * Used as the exported file's name instead of an export timestamp, so exporting the same card
+ * under the same line style twice reuses the same file instead of piling up identical
+ * duplicates — and exporting it again under a *different* style names a genuinely different
+ * file, since the image is genuinely different.
  *
- * Deliberately reversible rather than hashed: every bit here is meaningful — palette, then each
- * action's direction/radius/thrust flag in sequence order — packed tight and Crockford
- * Base32-encoded (5 bits/character; 0/O, 1/I/L, U excluded so a written-down code can't be
- * misread), so the filename alone is enough to reconstruct the exact card, and two different
- * cards can never collide the way two different hash inputs theoretically could.
- * [decodeCardContent] exists to prove that property with a real round-trip test, not as a
- * decoder this app ships or calls in production — nothing in the UI needs to decode a filename
- * back into a card.
+ * Deliberately reversible rather than hashed: every bit here is meaningful — palette, line
+ * style, then each action's direction/radius/thrust flag in sequence order — packed tight and
+ * Crockford Base32-encoded (5 bits/character; 0/O, 1/I/L, U excluded so a written-down code
+ * can't be misread), so the filename alone is enough to reconstruct the exact rendered image,
+ * and two different images can never collide the way two different hash inputs theoretically
+ * could. [decodeCardContent] exists to prove that property with a real round-trip test, not as
+ * a decoder this app ships or calls in production — nothing in the UI needs to decode a
+ * filename back into a card.
+ *
+ * [LINE_STYLE_BITS] gives [CardLineStyle] room for two more values beyond today's
+ * `COMPASS`/`SEQUENCE` before the encoding would need to change shape — `docs/LINE_STYLE_DESIGN.md`
+ * already names two more (`BRIDGE`, `NONE`), so 2 bits (4 slots) is sized to a concrete, already-
+ * documented future rather than an arbitrary guess. Not free-floating headroom either: it
+ * exactly fills 2 bits that were previously wasted as padding at the 8-action maximum (see
+ * `CardContentCodeTest`'s length assertion), so today's filenames are no longer than before.
  *
  * Deliberately excludes [MeyerCard.hand] and [MeyerCard.origin]: [hand] only ever selects a
  * palette during generation and has no effect on rendering by itself once a palette is chosen,
@@ -25,10 +35,11 @@ package at.j0s.meyercard.app.domain
  * every card this is actually called on is a Train-screen generated card, never a continuous
  * historical radius. A different radius fails loudly rather than silently encoding it wrong.
  */
-fun MeyerCard.contentCode(): String {
+fun MeyerCard.contentCode(lineStyle: CardLineStyle): String {
     val actionsBySequence = actions.sortedBy { it.sequenceNumber }
     val bits = BitWriter()
     bits.write(palette.ordinal, PALETTE_BITS)
+    bits.write(lineStyle.ordinal, LINE_STYLE_BITS)
     bits.write(actionsBySequence.size - 1, ACTION_COUNT_BITS)
     for (action in actionsBySequence) {
         bits.write(action.slot.direction.ordinal, DIRECTION_BITS)
@@ -39,9 +50,10 @@ fun MeyerCard.contentCode(): String {
 }
 
 /** The inverse of [contentCode] — see that function's own doc comment for why this exists. */
-internal fun decodeCardContent(code: String): Pair<CardPalette, List<Action>> {
+internal fun decodeCardContent(code: String): Triple<CardPalette, CardLineStyle, List<Action>> {
     val bits = BitReader(crockfordBase32Decode(code))
     val palette = CardPalette.entries[bits.read(PALETTE_BITS)]
+    val lineStyle = CardLineStyle.entries[bits.read(LINE_STYLE_BITS)]
     val actionCount = bits.read(ACTION_COUNT_BITS) + 1
     val actions = (1..actionCount).map { sequenceNumber ->
         val direction = Direction.entries[bits.read(DIRECTION_BITS)]
@@ -49,7 +61,7 @@ internal fun decodeCardContent(code: String): Pair<CardPalette, List<Action>> {
         val isThrust = bits.read(THRUST_BITS) == 1
         Action(sequenceNumber, Slot(direction, radius), isThrust)
     }
-    return palette to actions
+    return Triple(palette, lineStyle, actions)
 }
 
 private fun radiusBit(radius: Radius): Int = when (radius) {
@@ -59,6 +71,7 @@ private fun radiusBit(radius: Radius): Int = when (radius) {
 }
 
 private const val PALETTE_BITS = 3
+private const val LINE_STYLE_BITS = 2
 private const val ACTION_COUNT_BITS = 3
 private const val DIRECTION_BITS = 3
 private const val RADIUS_BITS = 1

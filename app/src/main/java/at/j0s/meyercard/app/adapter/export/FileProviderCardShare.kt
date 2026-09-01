@@ -7,6 +7,7 @@ import androidx.core.content.FileProvider
 import at.j0s.meyercard.app.application.port.spi.CardShare
 import at.j0s.meyercard.app.application.port.spi.ShareableCard
 import at.j0s.meyercard.app.adapter.ui.displayName
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.MeyerCard
 import java.io.File
 import java.io.FileOutputStream
@@ -27,8 +28,8 @@ class FileProviderCardShare(
     private val numeralTypeface: Typeface,
 ) : CardShare {
 
-    override suspend fun prepareShare(card: MeyerCard): ShareableCard {
-        val bitmap = renderCardBitmap(card, numeralTypeface, card.instruction?.displayName(context.resources))
+    override suspend fun prepareShare(card: MeyerCard, lineStyle: CardLineStyle): ShareableCard {
+        val bitmap = renderCardBitmap(card, numeralTypeface, card.instruction?.displayName(context.resources), lineStyle)
         val file = File(sharedCardsDir(), FILE_NAME)
         FileOutputStream(file).use { out -> bitmap.compress(Bitmap.CompressFormat.PNG, 100, out) }
 

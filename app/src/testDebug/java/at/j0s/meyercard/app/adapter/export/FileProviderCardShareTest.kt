@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import androidx.test.core.app.ApplicationProvider
 import at.j0s.meyercard.app.domain.Action
 import at.j0s.meyercard.app.domain.CardId
+import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.CardOrigin
 import at.j0s.meyercard.app.domain.CardPalette
 import at.j0s.meyercard.app.domain.Direction
@@ -44,7 +45,7 @@ class FileProviderCardShareTest {
     fun `prepares a readable PNG at the expected resolution, addressed by a content URI`() = runBlocking {
         val cardShare = FileProviderCardShare(context, Typeface.DEFAULT)
 
-        val result = cardShare.prepareShare(card)
+        val result = cardShare.prepareShare(card, CardLineStyle.COMPASS)
 
         assertEquals("image/png", result.mimeType)
         assertEquals("content", result.uri.scheme)
