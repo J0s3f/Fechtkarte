@@ -25,6 +25,39 @@ package at.j0s.meyercard.app.domain
  * exactly fills 2 bits that were previously wasted as padding at the 8-action maximum (see
  * `CardContentCodeTest`'s length assertion), so today's filenames are no longer than before.
  *
+ * [VERSION_BITS] exists because a code is no longer only a filename this app reads back the same
+ * day — it's now also embedded as PNG/PDF metadata (`ExportMetadata.kt`), so it can outlive any
+ * particular encoding shape by years on a printed card or a file someone kept. A future encoding
+ * change (a new field, a wider bit width for a config option not designed yet) would otherwise
+ * be indistinguishable from today's shape to a decoder — same alphabet, same general structure,
+ * silently wrong bits instead of a clear "I don't understand this" the way a version number
+ * gives it.
+ *
+ * **Not free, checked rather than assumed.** [BitWriter.toByteArray] rounds up to a whole byte
+ * *before* Crockford's own 5-bits-per-character rounding runs, so the two padding bits
+ * [LINE_STYLE_BITS]'s own comment describes aren't always still spare once 2 more bits compete
+ * for them — a real `chars(n)` sweep for `n` = 1..8 actions shows most action counts unaffected,
+ * but `n` = 3 and `n` = 8 (the generator's actual maximum) each cost 2 extra characters, caught
+ * by `CardContentCodeTest`'s own length assertion rather than assumed to still hold. Still small
+ * in absolute terms (12 characters at 8 actions, the worst case) next to a 16+-character hash,
+ * which is the comparison that actually matters here.
+ *
+ * 2 bits, not 3: version value `3` (`0b11`, [VERSION_BITS]'s own max) is reserved as an
+ * *extension* marker rather than assigned to a fourth real format — a future decoder that sees
+ * it reads further bits for the real version number, the same escape-value technique UTF-8 uses
+ * for a byte count beyond what one leading byte can hold. Nothing about that extension is built
+ * here; there is no fourth format yet to extend into. Reserving the value now costs nothing and
+ * avoids a breaking migration later — the alternative, discovering the need for a 4th version
+ * only after 0/1/2 are all already in the wild, would mean shipping a decoder that has to guess
+ * whether `3` means "version 3" or "read more," which is exactly the ambiguity this field exists
+ * to avoid in the first place.
+ *
+ * [CURRENT_VERSION] is the only version [decodeCardContent] understands yet; it asserts on a
+ * mismatch rather than guessing, since there is nothing else to decode a mismatched version *as*
+ * until a second shape actually exists — that dispatch logic belongs with whichever future
+ * change is the first to actually need it, not speculatively built now for versions 1-2 that
+ * don't exist.
+ *
  * Deliberately excludes [MeyerCard.hand] and [MeyerCard.origin]: [hand] only ever selects a
  * palette during generation and has no effect on rendering by itself once a palette is chosen,
  * and [origin] is either a generation timestamp (which would defeat the whole point — every
@@ -38,6 +71,7 @@ package at.j0s.meyercard.app.domain
 fun MeyerCard.contentCode(lineStyle: CardLineStyle): String {
     val actionsBySequence = actions.sortedBy { it.sequenceNumber }
     val bits = BitWriter()
+    bits.write(CURRENT_VERSION, VERSION_BITS)
     bits.write(palette.ordinal, PALETTE_BITS)
     bits.write(lineStyle.ordinal, LINE_STYLE_BITS)
     bits.write(actionsBySequence.size - 1, ACTION_COUNT_BITS)
@@ -52,6 +86,8 @@ fun MeyerCard.contentCode(lineStyle: CardLineStyle): String {
 /** The inverse of [contentCode] — see that function's own doc comment for why this exists. */
 internal fun decodeCardContent(code: String): Triple<CardPalette, CardLineStyle, List<Action>> {
     val bits = BitReader(crockfordBase32Decode(code))
+    val version = bits.read(VERSION_BITS)
+    require(version == CURRENT_VERSION) { "Unsupported content code version: $version (this decoder only understands $CURRENT_VERSION)" }
     val palette = CardPalette.entries[bits.read(PALETTE_BITS)]
     val lineStyle = CardLineStyle.entries[bits.read(LINE_STYLE_BITS)]
     val actionCount = bits.read(ACTION_COUNT_BITS) + 1
@@ -70,6 +106,8 @@ private fun radiusBit(radius: Radius): Int = when (radius) {
     else -> error("contentCode only supports Radius.INNER/OUTER, was $radius")
 }
 
+private const val CURRENT_VERSION = 0
+private const val VERSION_BITS = 2
 private const val PALETTE_BITS = 3
 private const val LINE_STYLE_BITS = 2
 private const val ACTION_COUNT_BITS = 3

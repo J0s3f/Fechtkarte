@@ -1,0 +1,1 @@
+- Exportierte PDFs enthalten nun einen CC0-Vermerk (keine Rechte vorbehalten), zusätzlich zu Inhaltscode, App-Version und Link – getrennt von der Apache-2.0-Lizenz der App selbst, da eine erzeugte Karte nicht dasselbe ist wie die Software, die sie gezeichnet hat.

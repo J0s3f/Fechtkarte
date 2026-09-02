@@ -1,0 +1,3 @@
+- Corrigé : un bug empêchait les corrections de cartes historiques d'atteindre les appareils où l'application était déjà installée. Si une ancienne disposition apparaissait après une mise à jour, cette version affiche enfin la correction.
+- Deux autres cartes d'exercice historiques (12 et 56) corrigées : deux marqueurs d'action se chevauchaient à l'écran
+- Numéro de version ajouté en bas de l'écran de configuration, pour vérifier facilement la version installée

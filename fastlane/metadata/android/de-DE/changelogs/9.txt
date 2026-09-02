@@ -1,0 +1,3 @@
+- Exportierte und geteilte PNG/PDF-Dateien enthalten nun eigene Metadaten: Inhaltscode, App-Version und ein Link zu fechtkarte.j0s.at, sodass eine Datei sich selbst identifiziert, auch nach Umbenennung oder Versand.
+- Bildschirm "Quellen" (über Lernen) hinzugefügt: Fechtkartes gezeichnetes Kompassrad mit Umschalter zur echten Manuskriptseite aus dem 16. Jahrhundert, plus Zitate für beide Quellen-Manuskripte
+- Notation-Angabe auf dem Lern-Bildschirm korrigiert, die das falsche Manuskript nannte

@@ -1,0 +1,1 @@
+- Les PDF exportés incluent désormais une mention CC0 (aucun droit réservé), en plus du code de contenu, de la version de l'application et du lien déjà présents – distincte de la licence Apache 2.0 de l'application elle-même, une carte générée n'étant pas la même chose que le logiciel qui l'a dessinée.

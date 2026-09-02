@@ -1,0 +1,1 @@
+- Option "Lignes de carte" ajoutée dans la configuration : choisissez la rose des vents classique ou une seule ligne traçant l'ordre de frappe de la carte (1 vers 2, 2 vers 3, etc.) — comme la numérotation du Carré de Meyer est censée être lue

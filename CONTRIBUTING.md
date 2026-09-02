@@ -16,7 +16,7 @@ message format. Read it before writing code; PRs that don't follow it will be as
 Everything runs in a container — the host only needs a container runtime (Docker or Podman):
 
 ```bash
-podman build -t fechtkarte-builder .
+./scripts/build.sh
 ```
 
 That runs the full test suite as part of the image build (`gradle clean build`), so a

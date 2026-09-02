@@ -1,0 +1,2 @@
+- L'enregistrement PNG/PDF et le partage de cartes respectent désormais le paramètre "Lignes de carte", au lieu d'enregistrer toujours le style rose des vents. Le nom de fichier enregistré indique quel style a été utilisé, donc l'enregistrement des deux styles de la même carte conserve les deux fichiers
+- Captures d'écran F-Droid/Play Store mises à jour, qui montraient encore un ancien placement de point d'estoc

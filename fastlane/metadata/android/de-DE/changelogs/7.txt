@@ -1,0 +1,1 @@
+- Option "Kartenlinien" in der Konfiguration hinzugefügt: Wählen Sie den klassischen Kompass oder eine einzelne Linie, die die eigene Schlagreihenfolge der Karte nachzeichnet (1 zu 2, 2 zu 3 usw.) – so wie die Nummerierung des Meyer-Quadrats gelesen werden soll

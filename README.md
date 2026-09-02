@@ -1,5 +1,7 @@
 # Fechtkarte
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/at.j0s.meyercard.app/)
+
 A drill card generator for Historical European Martial Arts, built on a cutting-diagram
 notation credited to Joachim Meyer's 16th-century fencing teaching.
 
@@ -21,27 +23,33 @@ as PNG or vector PDF. Works offline, in English, German and French. See
 | [`FEATURES.md`](FEATURES.md) | What the app does, feature by feature |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | How to build, test and submit changes |
 | [`CLAUDE.md`](CLAUDE.md) | Coding conventions and the development workflow this project follows |
+| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) | Community standards for contributors |
+| [`SECURITY.md`](SECURITY.md) | How to report a vulnerability |
 | [`docs/PALETTE.md`](docs/PALETTE.md) | The card palette and its verification |
 | [`docs/ASSET_PROVENANCE.md`](docs/ASSET_PROVENANCE.md) | Licence register — every shipped asset |
 | [`PRIVACY_POLICY.md`](PRIVACY_POLICY.md) | What the app stores, and what it does not |
+| [`PLAY_DATA_SAFETY.md`](PLAY_DATA_SAFETY.md) | Google Play's Data Safety disclosure, and why every category is "not collected" |
 | [`data/original_cards.json`](data/original_cards.json) | The classic drill cards |
 | [`tools/`](tools/) | Palette verification and image-generation scripts, Python |
 
 ## Building
 
-The host needs **only a container runtime**. No Android SDK, no JDK, no Gradle install.
+The host needs **only a container runtime** (Podman or Docker). No Android SDK, no JDK, no
+Gradle install.
 
 ```bash
-podman build -t fechtkarte-builder .
+./scripts/build.sh
 ```
 
 That runs `gradle clean build` inside the image, so a successful image build is a successful
-verification. Per [`CLAUDE.md`](CLAUDE.md), no commit lands without one.
+verification. Per [`CLAUDE.md`](CLAUDE.md), no commit lands without one. For a faster inner loop
+while writing a test, see `scripts/test.sh`.
 
-Verify the palette:
+Verify the palette (light and dark theme):
 
 ```bash
 python tools/palette/verify_palette.py
+python tools/palette/verify_dark_palette.py
 ```
 
 ## The classic cards
@@ -71,8 +79,7 @@ than just their outcome, which is why this repository carries as much prose as i
 
 ## Licence
 
-**Apache License 2.0.** See [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE). An earlier draft of
-this file asserted MIT with no `LICENSE` file to back it up; that has been corrected.
+**Apache License 2.0.** See [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
 
 ## Credits
 

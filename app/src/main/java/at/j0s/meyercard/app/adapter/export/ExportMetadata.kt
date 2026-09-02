@@ -12,6 +12,14 @@ import at.j0s.meyercard.app.domain.contentCode
  */
 internal const val FECHTKARTE_URL = "https://fechtkarte.j0s.at/"
 
+/**
+ * A generated card's rights statement is CC0, deliberately distinct from the app's own
+ * Apache-2.0 licence (`NOTICE`) — see [PdfRights]'s doc comment for why a rendered drill diagram
+ * someone prints and shares doesn't carry a personal copyright claim the way the app's own
+ * source code does.
+ */
+private const val CC0_DEED_URL = "https://creativecommons.org/publicdomain/zero/1.0/"
+
 internal fun creationSoftware(): String = "Fechtkarte ${BuildConfig.VERSION_NAME}"
 
 /**
@@ -35,3 +43,14 @@ internal fun MeyerCard.pdfInfo(lineStyle: CardLineStyle): PdfInfo {
     val software = creationSoftware()
     return PdfInfo(title = "Fechtkarte card $code", author = software, subject = FECHTKARTE_URL, creator = software)
 }
+
+/**
+ * The rights-management fields embedded in every exported PDF's XMP packet — see [PdfRights]'s
+ * own doc comment for why these are CC0, not the app's own Apache-2.0.
+ */
+internal fun pdfRights(): PdfRights = PdfRights(
+    marked = false,
+    rightsStatement = "CC0 1.0 Universal — no rights reserved",
+    webStatementUrl = CC0_DEED_URL,
+    usageTerms = "No rights reserved (CC0 1.0 Universal). See the linked deed for details.",
+)

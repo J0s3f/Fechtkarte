@@ -1,0 +1,3 @@
+- Nouveau : le nombre d'actions et le nombre d'estocs peuvent chacun être définis sur "aléatoire, jusqu'à ce nombre" au lieu d'une valeur exacte
+- Corrigé : une carte générée pouvait afficher une action de cercle intérieur sans action de cercle extérieur correspondante dans la même direction
+- Exporter la même carte à nouveau écrasera désormais le fichier précédent au lieu de créer un doublon

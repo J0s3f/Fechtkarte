@@ -1,0 +1,1 @@
+- Version de maintenance : problème de pipeline de build résolu et avertissements obsolètes des outils de build effacés. Aucune modification visible pour l'utilisateur.

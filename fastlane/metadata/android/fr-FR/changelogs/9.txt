@@ -1,0 +1,3 @@
+- Les fichiers PNG/PDF exportés et partagés contiennent désormais leurs propres métadonnées : code de contenu, version de l'application et un lien vers fechtkarte.j0s.at, pour qu'un fichier s'identifie après renommage ou envoi ailleurs.
+- Écran "Sources" ajouté (via Apprendre) : la roue de compas de Fechtkarte, avec bascule vers la page manuscrite dont elle s'inspire, et les citations des deux manuscrits sources
+- Correction de la notation sur l'écran Apprendre, qui citait le mauvais manuscrit

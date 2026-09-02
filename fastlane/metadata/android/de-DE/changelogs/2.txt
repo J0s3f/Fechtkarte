@@ -1,0 +1,3 @@
+- Neu: Aktionsanzahl und Stichanzahl können jeweils auf "zufällig, bis zu dieser Anzahl" statt eines exakten Werts gesetzt werden
+- Behoben: Eine generierte Karte konnte eine Innenring-Aktion ohne passende Außenring-Aktion in derselben Richtung anzeigen
+- Das erneute Exportieren derselben Karte überschreibt nun die vorherige Datei, anstatt ein Duplikat zu erstellen

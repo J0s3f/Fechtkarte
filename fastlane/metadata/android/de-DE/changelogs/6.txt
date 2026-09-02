@@ -1,0 +1,3 @@
+- Behoben: Karten-Korrekturen erreichten Geräte mit bereits installierter App nicht. Wer nach einem Update noch ein altes Layout sah, bekommt mit diesem Release endlich die Korrektur.
+- Zwei weitere historische Übungskarten (12 und 56) korrigiert: zwei Aktionsmarker überlappten sich auf dem Bildschirm
+- Versionsnummer unten im Konfigurationsbildschirm ergänzt, um leicht zu erkennen, welche Version installiert ist

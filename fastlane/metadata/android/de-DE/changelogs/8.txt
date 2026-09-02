@@ -1,0 +1,2 @@
+- PNG/PDF-Speicherung und Karten-Freigabe berücksichtigen nun die Einstellung "Kartenlinien", anstatt immer den Kompass-Stil zu speichern. Der Dateiname der gespeicherten Datei gibt an, welcher Stil verwendet wurde, sodass das Speichern beider Stile derselben Karte beide Dateien behält
+- F-Droid/Play Store-Screenshots aktualisiert, die noch eine ältere Position des Stich-Punkts zeigten

@@ -74,7 +74,7 @@ class MediaStoreCardExporter(
         val document = renderPdf(card, lineStyle)
         val rawPdfBytes = ByteArrayOutputStream().apply { document.writeTo(this) }.toByteArray()
         document.close()
-        val pdfBytes = rawPdfBytes.withPdfInfoDictionary(card.pdfInfo(lineStyle))
+        val pdfBytes = rawPdfBytes.withPdfInfoDictionary(card.pdfInfo(lineStyle), pdfRights())
         val fileName = "fechtkarte-${card.contentCode(lineStyle)}.pdf"
 
         val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI

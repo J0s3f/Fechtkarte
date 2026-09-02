@@ -1,0 +1,1 @@
+- Zwei historische Übungskarten (11 und 86) korrigiert, bei denen die markierte Position nicht mit ihrem Spiegelhand-Gegenstück übereinstimmte. Keine weiteren Änderungen.

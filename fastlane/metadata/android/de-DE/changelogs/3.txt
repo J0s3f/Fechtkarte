@@ -1,0 +1,1 @@
+- Wartungsrelease: Behobene Build-Pipeline-Probleme und bereinigte veraltete Warnungen der Build-Tools. Keine für Benutzer sichtbaren Änderungen.
