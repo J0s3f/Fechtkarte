@@ -1,4 +1,4 @@
-FROM cimg/android:2024.04
+FROM cimg/android:2026.08.1
 
 USER root
 WORKDIR /app
