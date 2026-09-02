@@ -28,7 +28,7 @@
 # match the Kotlin version the way ksp = "1.9.24-1.0.20" once did;
 # kotlinlang.org's own KSP quickstart guide pairs "Kotlin 2.4.10" with "KSP
 # 2.3.10" in its example, one patch behind this project's 2.3.11.
-agp = "9.3.0"
+agp = "9.4.0"
 kotlin = "2.4.10"
 ksp = "2.3.11"
 # 36 is deliberately kept, not bumped to the 37 AGP 9.3.0 now supports —
@@ -49,7 +49,7 @@ coreSplashscreen = "1.2.0"
 # off to the platform so the setting also appears in Android's own app-language settings --
 # none of which a hand-rolled locale override would give us. Latest stable per Google's Maven
 # metadata.
-appcompat = "1.7.1"
+appcompat = "1.8.0"
 lifecycle = "2.7.0"
 activityCompose = "1.8.2"
 
@@ -78,7 +78,13 @@ composeBom = "2026.06.01"
 # not assumed from a changelog. See docs/NEXT_STEPS.md T3.2.
 room = "2.8.4"
 datastore = "1.0.0"
-navigationCompose = "2.7.6"
+# Deliberately not the newest (2.10.0): its navigation-compose-android AAR metadata
+# requires minCompileSdk=37, the same API-37 line this project is staying off (see
+# compileSdk's own comment above). 2.9.8 is the newest release still under that floor —
+# confirmed against the real AAR metadata (dl.google.com), not assumed from the version
+# number: 2.9.0 through 2.9.8 all declare minCompileSdk=35, including the
+# lifecycle-*-compose-android 2.9.0 it pulls in transitively.
+navigationCompose = "2.9.8"
 
 # 1.11.0 (GitHub API, published 2026-04-09) — the last kotlinx.serialization
 # release usable was pinned to 1.6.3 for Kotlin 1.9.x; this line moves with
@@ -113,7 +119,7 @@ konsist = "0.17.3"
 # captureRoboImage() on the rendered node. Robolectric 4.16.1 (GitHub API,
 # published 2026-01-21) is its current stable release and comfortably clears
 # Roborazzi's stated "4.10-alpha1 or later" floor.
-roborazzi = "1.72.0"
+roborazzi = "1.73.0"
 robolectric = "4.16.1"
 junit4 = "4.13.2"
 
