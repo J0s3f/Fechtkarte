@@ -26,7 +26,7 @@ class LearnScreenScreenshotTest {
 
     @Test
     fun learnScreenRendersCopyAndWorkedExample() {
-        composeTestRule.setContent { LearnScreen(onNoticesClick = {}) }
+        composeTestRule.setContent { LearnScreen(onNoticesClick = {}, onSourcesClick = {}) }
         composeTestRule.onRoot().captureRoboImage()
     }
 }

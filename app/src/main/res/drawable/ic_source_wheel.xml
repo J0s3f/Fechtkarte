@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- T7.3: Fechtkarte's own redraw of the compass-wheel diagram on Rostock MS Var.82, folio 2v
+     (see docs/DESIGN_CHOICES.md and docs/ASSET_PROVENANCE.md) — a centre point, eight rays to
+     two concentric rings, the direct historical ancestor of Direction/Radius/Slot. An original
+     redraw of the same geometric structure, not a trace of the scan's own linework, in the
+     app's own ink-on-paper palette (CardPalette.INK/PAPER) so it reads as one visual family with
+     every rendered MeyerSquareCard rather than as a foreign inserted image. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path android:fillColor="#FAF7F0" android:pathData="M0,0h100v100h-100z"/>
+
+    <!-- Outer and inner rings. -->
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.4" android:pathData="M90,50A40,40 0,1 1,89.99 49" />
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1" android:pathData="M76,50A26,26 0,1 1,75.99 49" />
+
+    <!-- Eight rays, centre to the outer ring. -->
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.8" android:pathData="M50,50L50,10"/>
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.8" android:pathData="M50,50L78.28,21.72"/>
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.8" android:pathData="M50,50L90,50"/>
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.8" android:pathData="M50,50L78.28,78.28"/>
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.8" android:pathData="M50,50L50,90"/>
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.8" android:pathData="M50,50L21.72,78.28"/>
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.8" android:pathData="M50,50L10,50"/>
+    <path android:strokeColor="#1A1A1A" android:strokeWidth="1.8" android:pathData="M50,50L21.72,21.72"/>
+
+    <!-- Slot points: outer and inner ring intersections, sixteen in all. -->
+    <path android:fillColor="#1A1A1A" android:pathData="M50,10m-1.6,0a1.6,1.6 0,1 1,3.2 0a1.6,1.6 0,1 1,-3.2 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M78.28,21.72m-1.6,0a1.6,1.6 0,1 1,3.2 0a1.6,1.6 0,1 1,-3.2 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M90,50m-1.6,0a1.6,1.6 0,1 1,3.2 0a1.6,1.6 0,1 1,-3.2 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M78.28,78.28m-1.6,0a1.6,1.6 0,1 1,3.2 0a1.6,1.6 0,1 1,-3.2 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M50,90m-1.6,0a1.6,1.6 0,1 1,3.2 0a1.6,1.6 0,1 1,-3.2 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M21.72,78.28m-1.6,0a1.6,1.6 0,1 1,3.2 0a1.6,1.6 0,1 1,-3.2 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M10,50m-1.6,0a1.6,1.6 0,1 1,3.2 0a1.6,1.6 0,1 1,-3.2 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M21.72,21.72m-1.6,0a1.6,1.6 0,1 1,3.2 0a1.6,1.6 0,1 1,-3.2 0"/>
+
+    <path android:fillColor="#1A1A1A" android:pathData="M50,24m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M68.38,31.62m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M76,50m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M68.38,68.38m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M50,76m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M31.62,68.38m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M24,50m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"/>
+    <path android:fillColor="#1A1A1A" android:pathData="M31.62,31.62m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"/>
+</vector>

@@ -87,7 +87,7 @@
     <string name="learn_about_title">Über Fechtkarte</string>
     <string name="learn_about_body">Fechtkarte erzeugt Übungskarten zum Aufwärmen und für die Routinearbeit im Training der Historischen Europäischen Kampfkünste (HEMA) – kurze Abfolgen, die du vor oder zwischen der eigentlichen Arbeit einer Trainingseinheit durchgehst.</string>
     <string name="learn_how_to_read_title">Wie man eine Karte liest</string>
-    <string name="learn_how_to_read_notation">Die Notation ist Joachim Meyers Diagrammen in der Lunder Handschrift nachempfunden, seinem späteren Fechtbuch. Jeder nummerierte Kreis markiert den Ausgangspunkt eines Hiebs, der seiner Linie durch die Mitte hindurch zur gegenüberliegenden Blöße folgt. Arbeite die Zahlen der Reihe nach ab – erst eins, dann zwei und so weiter.</string>
+    <string name="learn_how_to_read_notation">Die Notation ist Joachim Meyers Diagrammen in der Rostocker Handschrift nachempfunden, seinem späteren Fechtbuch. Jeder nummerierte Kreis markiert den Ausgangspunkt eines Hiebs, der seiner Linie durch die Mitte hindurch zur gegenüberliegenden Blöße folgt. Arbeite die Zahlen der Reihe nach ab – erst eins, dann zwei und so weiter.</string>
     <string name="learn_how_to_read_thrust">Ein Punkt unter einer Ziffer bedeutet: stechen statt hauen, aus demselben Ausgangspunkt.</string>
     <string name="learn_how_to_read_branching">Wo sich Linien verzweigen, hast du die Wahl – die Notation legt fest, aus welcher Blöße ein Hieb beginnt, nicht welchen Weg er dorthin nimmt.</string>
     <string name="learn_how_to_read_colour">Die Hintergrundfarbe der Karte zeigt, welche Hand führt: Die beiden Farbtöne lassen eine Übung von Karte zu Karte zwischen rechter und linker Hand wechseln. Schneide, Hut, Beinarbeit und Tempo bleiben dir überlassen – die Karte legt nur die Abfolge der Blößen fest, nicht den Weg dorthin.</string>
@@ -95,11 +95,23 @@
     <string name="learn_worked_example_title">Beispiel</string>
     <string name="learn_worked_example_intro">Eine Karte für die rechte Hand mit drei Aktionen, die zweite davon ein Stich:</string>
     <string name="learn_open_source_notices">Open-Source-Hinweise</string>
+    <string name="learn_sources">Quellen</string>
 
     <!-- Notices screen -->
     <string name="notices_title">Hinweise</string>
     <string name="notices_intro">Fechtkarte steht unter der Apache License, Version 2.0. Die App baut auf der unten aufgeführten Open-Source-Software auf.</string>
     <string name="notices_font_title">UnifrakturMaguntia (Schriftart der Ziffern)</string>
+
+    <!-- Sources screen -->
+    <string name="sources_title">Quellen</string>
+    <string name="sources_intro">Fechtkartes Notation entstammt derselben Fechttradition, die Joachim Meyer im sechzehnten Jahrhundert lehrte und niederschrieb. Das Diagramm unten ist eine echte Seite aus einer seiner Handschriften – kein Anspruch, dass eine bestimmte Karte hier sie nachbildet, sondern die Form, aus der die Notation gewachsen ist.</string>
+    <string name="sources_wheel_title">Das Kompassrad</string>
+    <string name="sources_wheel_body">Ein Mittelpunkt, acht Linien, zwei Ringe: Dieses Rad ist einer Handschrift der Universität Rostock nachgezeichnet – das eigene Diagramm eines Fechters für die acht Linien, die ein Hieb nehmen kann, dieselben acht Richtungen, aus denen Fechtkartes Karten aufgebaut sind. Die gegenüberliegende Seite trägt eine Legende, die jede Linie nach einer Zielzone am Körper benennt, von Kopf bis Fuß.</string>
+    <string name="sources_view_scan">Original-Handschriftenseite ansehen</string>
+    <string name="sources_view_redraw">Fechtkartes Nachzeichnung ansehen</string>
+    <string name="sources_citation_title">Quellenangaben</string>
+    <string name="sources_citation_lund">MS A.4º.2 – Universitätsbibliothek Lund, auf Alvin veröffentlicht. Public Domain Mark: keine bekannte Urheberrechtsbeschränkung.</string>
+    <string name="sources_citation_rostock">MS Var.82, Blatt 2v – Universitätsbibliothek Rostock, auf RosDok veröffentlicht. Gemeinfrei: keine bekannten urheberrechtlichen Beschränkungen.</string>
 
     <!-- Card description for screen readers (TalkBack). Assembled at runtime, so the spoken
          sentence reads: "Rechte Hand, drei Aktionen: eins, oben links außen; zwei, Stich,

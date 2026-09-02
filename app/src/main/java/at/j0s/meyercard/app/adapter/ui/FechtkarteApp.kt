@@ -24,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
@@ -38,6 +39,8 @@ import at.j0s.meyercard.app.adapter.ui.library.LibraryScreen
 import at.j0s.meyercard.app.adapter.ui.notices.NoticesScreen
 import at.j0s.meyercard.app.adapter.ui.notices.RUNTIME_DEPENDENCY_NOTICES
 import at.j0s.meyercard.app.adapter.ui.notices.readFontLicenceAsset
+import at.j0s.meyercard.app.adapter.ui.sources.SourcesScreen
+import at.j0s.meyercard.app.adapter.ui.sources.readSourcesScanAsset
 import at.j0s.meyercard.app.adapter.ui.train.ShakeToGenerate
 import at.j0s.meyercard.app.adapter.ui.train.TrainScreen
 import at.j0s.meyercard.app.application.port.api.BrowseHistoricalCards
@@ -58,6 +61,7 @@ private object Route {
     const val CONFIGURE = "configure"
     const val LEARN = "learn"
     const val NOTICES = "notices"
+    const val SOURCES = "sources"
 }
 
 /**
@@ -120,9 +124,13 @@ fun FechtkarteApp(
             }
             composable(Route.CONFIGURE) { ConfigureRoute(preferencesStore) }
             composable(Route.LEARN) {
-                LearnScreen(onNoticesClick = { navController.navigate(Route.NOTICES) })
+                LearnScreen(
+                    onNoticesClick = { navController.navigate(Route.NOTICES) },
+                    onSourcesClick = { navController.navigate(Route.SOURCES) },
+                )
             }
             composable(Route.NOTICES) { NoticesRoute() }
+            composable(Route.SOURCES) { SourcesRoute() }
         }
     }
 }
@@ -241,6 +249,21 @@ private fun NoticesRoute(modifier: Modifier = Modifier) {
         CircularProgressIndicator(modifier = modifier.wrapContentSize(Alignment.Center))
     } else {
         NoticesScreen(entries = RUNTIME_DEPENDENCY_NOTICES, fontLicenceText = loaded, modifier = modifier)
+    }
+}
+
+@Composable
+private fun SourcesRoute(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val scan by produceState<ImageBitmap?>(initialValue = null) {
+        value = context.readSourcesScanAsset()
+    }
+
+    val loaded = scan
+    if (loaded == null) {
+        CircularProgressIndicator(modifier = modifier.wrapContentSize(Alignment.Center))
+    } else {
+        SourcesScreen(scan = loaded, modifier = modifier)
     }
 }
 

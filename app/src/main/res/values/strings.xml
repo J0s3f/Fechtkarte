@@ -88,7 +88,7 @@
     <string name="learn_about_title">About Fechtkarte</string>
     <string name="learn_about_body">Fechtkarte generates warm-up and routine drill cards for Historical European Martial Arts practice — short sequences to run through before or between the real work of a session.</string>
     <string name="learn_how_to_read_title">How to read a card</string>
-    <string name="learn_how_to_read_notation">The notation is adapted from Joachim Meyer\'s diagrams in the Lund manuscript, his later fencing treatise. Each numbered circle marks the starting point of a cut, which travels along its line through the centre to the opening opposite. Work through the numbers in sequence — one, then two, and so on.</string>
+    <string name="learn_how_to_read_notation">The notation is adapted from Joachim Meyer\'s diagrams in the Rostock manuscript, his later fencing treatise. Each numbered circle marks the starting point of a cut, which travels along its line through the centre to the opening opposite. Work through the numbers in sequence — one, then two, and so on.</string>
     <string name="learn_how_to_read_thrust">A dot beneath a numeral means thrust instead of cut, from that same starting point.</string>
     <string name="learn_how_to_read_branching">Where lines branch, the choice is yours — the notation fixes the opening a cut starts from, not the path it takes to get there.</string>
     <string name="learn_how_to_read_colour">The card\'s background colour tells you which hand leads: the two shades alternate a drill between right and left hand, card to card. Edge, guard, footwork and tempo are left to you — the card only fixes the sequence of openings, not how you get there.</string>
@@ -96,12 +96,24 @@
     <string name="learn_worked_example_title">Worked example</string>
     <string name="learn_worked_example_intro">A right-hand card with three actions, the second a thrust:</string>
     <string name="learn_open_source_notices">Open-source notices</string>
+    <string name="learn_sources">Sources</string>
 
     <!-- Notices screen -->
     <string name="notices_title">Notices</string>
     <string name="notices_intro">Fechtkarte is licensed under the Apache License, Version 2.0. It depends on the open-source software listed below.</string>
     <string name="notices_font_title">UnifrakturMaguntia (numeral font)</string>
     <string name="notices_font_licence" translatable="false">SIL Open Font License, Version 1.1</string>
+
+    <!-- Sources screen -->
+    <string name="sources_title">Sources</string>
+    <string name="sources_intro">Fechtkarte\'s notation grows out of the same fencing tradition Joachim Meyer taught and wrote down in the sixteenth century. The diagram below is a real page from one of his manuscripts — not a claim that any particular card here reproduces it, but the shape the notation grew from.</string>
+    <string name="sources_wheel_title">The compass wheel</string>
+    <string name="sources_wheel_body">A centre point, eight lines, two rings: this wheel is redrawn from a manuscript held at the University of Rostock — a fencer\'s own diagram of the eight lines a cut can travel, the same eight directions Fechtkarte\'s cards are built from. Its facing page carries a legend, in German, naming each line after a target zone on the body, from head to foot.</string>
+    <string name="sources_view_scan">View the original manuscript page</string>
+    <string name="sources_view_redraw">View Fechtkarte\'s redraw</string>
+    <string name="sources_citation_title">Citations</string>
+    <string name="sources_citation_lund">MS A.4º.2 — Lund University Library, hosted on Alvin. Public Domain Mark: no known copyright.</string>
+    <string name="sources_citation_rostock">MS Var.82, folio 2v — Universitätsbibliothek Rostock, hosted on RosDok. Gemeinfrei: no known copyright restrictions.</string>
 
     <!-- Card description for screen readers (TalkBack). The assembly templates are
          themselves translatable so word order can differ per language — a literal

@@ -75,7 +75,7 @@ class PlayStoreScreenshotTest {
 
     @Test
     fun learnScreen() {
-        composeTestRule.setContent { LearnScreen(onNoticesClick = {}) }
+        composeTestRule.setContent { LearnScreen(onNoticesClick = {}, onSourcesClick = {}) }
         composeTestRule.onRoot().captureRoboImage()
     }
 }

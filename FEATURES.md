@@ -82,6 +82,12 @@ itself even after being renamed, copied, or sent somewhere the app that made it 
 uninstalled from. Readable with any metadata viewer (a PNG's `Software`/`Comment`/`URL` text
 chunks, a PDF's Author/Subject/Creator/Producer).
 
+**A Sources screen**, reached from Learn. Fechtkarte's own redrawn compass wheel — a centre
+point, eight lines, two rings, the same shape every card is built from — with a toggle to view
+the real page it's redrawn from: folio 2v of a 16th-century fencing manuscript held at the
+University of Rostock. Citations for both source manuscripts, and general credit to Joachim
+Meyer's fencing tradition, without claiming any particular card reproduces a particular page.
+
 This section stays honest: a feature lands here when it works end to end, not when the code
 compiles.
 
@@ -89,4 +95,3 @@ compiles.
 
 - A "Home" screen with its own title treatment, beyond the launcher label — Library is still
   the start destination
-- A Sources screen crediting Joachim Meyer's manuscripts

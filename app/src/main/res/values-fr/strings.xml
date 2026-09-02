@@ -87,7 +87,7 @@
     <string name="learn_about_title">À propos de Fechtkarte</string>
     <string name="learn_about_body">Fechtkarte génère des cartes d\'exercice pour l\'échauffement et la routine dans la pratique des arts martiaux historiques européens (AMHE) — de courtes séquences à dérouler avant le vrai travail d\'une séance, ou entre deux passages.</string>
     <string name="learn_how_to_read_title">Comment lire une carte</string>
-    <string name="learn_how_to_read_notation">La notation est adaptée des diagrammes de Joachim Meyer dans le manuscrit de Lund, son traité d\'escrime tardif. Chaque cercle numéroté marque le point de départ d\'une taille, qui suit sa ligne à travers le centre jusqu\'à l\'ouverture opposée. Parcourez les numéros dans l\'ordre — un, puis deux, et ainsi de suite.</string>
+    <string name="learn_how_to_read_notation">La notation est adaptée des diagrammes de Joachim Meyer dans le manuscrit de Rostock, son traité d\'escrime tardif. Chaque cercle numéroté marque le point de départ d\'une taille, qui suit sa ligne à travers le centre jusqu\'à l\'ouverture opposée. Parcourez les numéros dans l\'ordre — un, puis deux, et ainsi de suite.</string>
     <string name="learn_how_to_read_thrust">Un point sous un chiffre signifie estoc plutôt que taille, depuis ce même point de départ.</string>
     <string name="learn_how_to_read_branching">Là où les lignes se divisent, le choix vous appartient — la notation fixe l\'ouverture d\'où part une taille, pas le chemin qu\'elle emprunte pour y arriver.</string>
     <string name="learn_how_to_read_colour">La couleur de fond de la carte indique quelle main mène : les deux teintes font alterner un exercice entre main droite et main gauche, d\'une carte à l\'autre. Le tranchant, la garde, le jeu de jambes et le tempo vous sont laissés — la carte ne fixe que la suite des ouvertures, pas la manière d\'y parvenir.</string>
@@ -95,11 +95,23 @@
     <string name="learn_worked_example_title">Exemple commenté</string>
     <string name="learn_worked_example_intro">Une carte main droite à trois actions, dont la deuxième est un estoc :</string>
     <string name="learn_open_source_notices">Mentions open source</string>
+    <string name="learn_sources">Sources</string>
 
     <!-- Notices screen -->
     <string name="notices_title">Mentions légales</string>
     <string name="notices_intro">Fechtkarte est distribué sous licence Apache, version 2.0. L\'application s\'appuie sur les logiciels open source listés ci-dessous.</string>
     <string name="notices_font_title">UnifrakturMaguntia (police des chiffres)</string>
+
+    <!-- Sources screen -->
+    <string name="sources_title">Sources</string>
+    <string name="sources_intro">La notation de Fechtkarte s\'inscrit dans la même tradition d\'escrime que Joachim Meyer a enseignée et consignée au seizième siècle. Le diagramme ci-dessous est une véritable page de l\'un de ses manuscrits — non pas l\'affirmation qu\'une carte en particulier ici le reproduit, mais la forme dont la notation est issue.</string>
+    <string name="sources_wheel_title">La roue des directions</string>
+    <string name="sources_wheel_body">Un point central, huit lignes, deux anneaux : cette roue est redessinée d\'après un manuscrit conservé à l\'université de Rostock — le propre diagramme d\'un escrimeur pour les huit lignes qu\'une taille peut emprunter, les mêmes huit directions dont sont construites les cartes de Fechtkarte. La page en regard porte une légende, en allemand, nommant chaque ligne d\'après une zone cible sur le corps, de la tête aux pieds.</string>
+    <string name="sources_view_scan">Voir la page manuscrite originale</string>
+    <string name="sources_view_redraw">Voir le dessin de Fechtkarte</string>
+    <string name="sources_citation_title">Références</string>
+    <string name="sources_citation_lund">MS A.4º.2 — Bibliothèque de l\'université de Lund, publié sur Alvin. Public Domain Mark : aucun droit d\'auteur connu.</string>
+    <string name="sources_citation_rostock">MS Var.82, folio 2v — Bibliothèque universitaire de Rostock, publié sur RosDok. Gemeinfrei : aucune restriction de droit d\'auteur connue.</string>
 
     <!-- Card description for screen readers (TalkBack). Read aloud, the whole sentence runs:
          « Main droite, trois actions : un, en haut à gauche, anneau extérieur ; deux, estoc

@@ -36,7 +36,7 @@ import java.time.Instant
  * content for FOSS distribution.
  */
 @Composable
-fun LearnScreen(onNoticesClick: () -> Unit, modifier: Modifier = Modifier) {
+fun LearnScreen(onNoticesClick: () -> Unit, onSourcesClick: () -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -59,6 +59,7 @@ fun LearnScreen(onNoticesClick: () -> Unit, modifier: Modifier = Modifier) {
             Text(action.spoken(resources).replaceFirstChar(Char::uppercase) + ".")
         }
 
+        TextButton(onClick = onSourcesClick) { Text(stringResource(R.string.learn_sources)) }
         TextButton(onClick = onNoticesClick) { Text(stringResource(R.string.learn_open_source_notices)) }
     }
 }

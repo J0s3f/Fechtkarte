@@ -75,9 +75,7 @@ thrusts, in a notation credited to Joachim Meyer's 16th-century fencing teaching
 a short numeric fact — "action 3 starts north-east, outer ring, and is a thrust" — not
 narrative or pictorial expression.
 
-## Manuscript imagery — provenance cleared, no specific page scans chosen or bundled yet
-
-Needed for the Sources screen (task T7.3).
+## Manuscript imagery — one page chosen, bundled, and redrawn (task T7.3)
 
 **Both source manuscripts' figures are confirmed public domain by their holding institutions
 directly** — not just by Wiktenauer's own policy (which separately treats manuscript scans as
@@ -103,12 +101,27 @@ The Wiktenauer URN link for Lund (`urn:nbn:se:lu:ub-MeyerJ_Faktbok-12232688`) is
 (resolves to "no valid destination"); the live Alvin link above was found via web search and
 should replace it if this document is updated again.
 
-**What's still open, not a licensing question anymore:** which specific page(s)/diagram(s) to
-actually use for the Sources screen, and whether to bundle an institution-hosted scan directly
-or fall back to Fechtkarte's own vector redraw of the diagram, which also suits the app's own
-visual identity better and sidesteps any residual "faithful reproduction" nuance entirely.
-Downloading and bundling an actual scan file is a distinct decision from clearing its licence —
-not done as part of this research pass.
+**Resolved.** Every page of both digitised manuscripts was reviewed visually (Lund: all 89
+folios, via Alvin's per-attachment endpoints and the manuscript's own bundled fulltext PDF;
+Rostock: all 269 canvases, via its IIIF manifest at
+`https://rosdok.uni-rostock.de/api/iiif/presentation/v2/rosdok_ppn780606825/manifest`) looking
+for a page in Fechtkarte's own card shape — a centre point, eight lines, two rings. Exactly one
+page matches: **Rostock MS Var.82, folio 2v**, a hand-drawn compass wheel. (Lund MS A.4º.2 has
+no page in this shape — its illustrations are watercolour combat-pose pairs, folios 11r/15r/17r/
+19r/20r/27r/29r, and a separate rectangular proportion/measure diagram, folios ~84r–87r, an
+unrelated construction.)
+
+Bundled at `app/src/main/assets/sources/rostock_f2v_scan.jpg` — downloaded from
+`https://rosdok.uni-rostock.de/api/iiif/image/v2/rosdok_ppn780606825__phys_0010/full/1400,/0/default.jpg`
+(2026-09-02), re-encoded to 1200×1664 / quality 82 / stripped metadata (291KB) to keep the app's
+first-ever bundled raster asset a reasonable size. Shown only as a toggle, behind Fechtkarte's own
+vector redraw (`app/src/main/res/drawable/ic_source_wheel.xml`, hand-authored, in
+`CardPalette.INK`/`PAPER`) — see `DESIGN_CHOICES.md`'s T7.3 entry for why redraw-first was chosen.
+
+Folio 2v's facing page, folio 2r, carries the diagram's own legend (labels A–G and a–g naming
+body-target zones in German secretary hand) — not transcribed or bundled; the Sources screen
+mentions its existence in prose only, since transcribing/translating period secretary hand into
+three languages is real extra work with no clear v1 payoff.
 
 ### Two sources that must not be used
 
