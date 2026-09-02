@@ -25,7 +25,7 @@
 # KSP 2.3.11 is its current release (GitHub API, 2026-08-03) — KSP dropped
 # the old "{kotlinVersion}-{kspRevision}" naming around 2.3.7 and now
 # versions itself independently, which is why this number doesn't visually
-# match the Kotlin version the way ksp = "1.9.24-1.0.20" once did;
+# match the Kotlin version the way ksp = "2.3.11" once did;
 # kotlinlang.org's own KSP quickstart guide pairs "Kotlin 2.4.10" with "KSP
 # 2.3.10" in its example, one patch behind this project's 2.3.11.
 agp = "9.3.0"
