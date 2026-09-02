@@ -49,7 +49,7 @@ coreSplashscreen = "1.2.0"
 # off to the platform so the setting also appears in Android's own app-language settings --
 # none of which a hand-rolled locale override would give us. Latest stable per Google's Maven
 # metadata.
-appcompat = "1.7.1"
+appcompat = "1.8.0"
 lifecycle = "2.7.0"
 activityCompose = "1.8.2"
 
