@@ -1,0 +1,25 @@
+version: 2
+updates:
+  # Gradle/Kotlin dependencies and plugins (app/build.gradle.kts, build.gradle.kts).
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+
+  # Base image for the CI build container (Dockerfile).
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"
+
+  # Actions referenced from .github/workflows/*.yml.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore"

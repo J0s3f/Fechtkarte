@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Canvas
 import at.j0s.meyercard.app.adapter.ui.render.CardRenderer
+import java.io.ByteArrayOutputStream
 import at.j0s.meyercard.app.application.port.spi.CardExporter
 import at.j0s.meyercard.app.application.port.spi.ExportResult
 import at.j0s.meyercard.app.domain.CARD_ASPECT_INVERSE
@@ -39,6 +40,10 @@ import at.j0s.meyercard.app.domain.contentCode
  * twice overwrites the one file already on disk (see [findExistingEntry]) instead of piling up
  * timestamped duplicates of an identical image; exporting it again under a *different* style
  * saves as a second, distinctly named file, since that image genuinely looks different.
+ *
+ * The same content code, plus which software made it and where to learn more, is also embedded
+ * in the file itself — [withPngTextChunks]/[withPdfInfoDictionary] — so it survives a rename or
+ * a copy onto a device that never had this app installed.
  */
 class MediaStoreCardExporter(
     private val contentResolver: ContentResolver,
@@ -49,12 +54,16 @@ class MediaStoreCardExporter(
     override suspend fun exportPng(card: MeyerCard, lineStyle: CardLineStyle): ExportResult {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) throwUnsupported()
         val bitmap = renderCardBitmap(card, numeralTypeface, card.instruction?.displayName(resources), lineStyle)
+        val pngBytes = ByteArrayOutputStream()
+            .apply { bitmap.compress(Bitmap.CompressFormat.PNG, 100, this) }
+            .toByteArray()
+            .withPngTextChunks(*card.pngMetadataEntries(lineStyle).toTypedArray())
         val fileName = "fechtkarte-${card.contentCode(lineStyle)}.png"
 
         val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val uri = findExistingEntry(collection, fileName)
             ?: createMediaStoreEntry(collection, fileName, mimeType = "image/png", relativePath = "Pictures/$ALBUM_NAME")
-        contentResolver.openOutputStream(uri)?.use { out -> bitmap.compress(Bitmap.CompressFormat.PNG, 100, out) }
+        contentResolver.openOutputStream(uri)?.use { out -> out.write(pngBytes) }
             ?: error("Could not open an output stream for $uri")
 
         return ExportResult(uri, fileName)
@@ -63,14 +72,16 @@ class MediaStoreCardExporter(
     override suspend fun exportPdf(card: MeyerCard, lineStyle: CardLineStyle): ExportResult {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) throwUnsupported()
         val document = renderPdf(card, lineStyle)
+        val rawPdfBytes = ByteArrayOutputStream().apply { document.writeTo(this) }.toByteArray()
+        document.close()
+        val pdfBytes = rawPdfBytes.withPdfInfoDictionary(card.pdfInfo(lineStyle))
         val fileName = "fechtkarte-${card.contentCode(lineStyle)}.pdf"
 
         val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
         val uri = findExistingEntry(collection, fileName)
             ?: createMediaStoreEntry(collection, fileName, mimeType = "application/pdf", relativePath = "Download/$ALBUM_NAME")
-        contentResolver.openOutputStream(uri)?.use { out -> document.writeTo(out) }
+        contentResolver.openOutputStream(uri)?.use { out -> out.write(pdfBytes) }
             ?: error("Could not open an output stream for $uri")
-        document.close()
 
         return ExportResult(uri, fileName)
     }

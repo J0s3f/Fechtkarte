@@ -75,6 +75,13 @@ exporting the same card under both styles keeps both files instead of one overwr
 other. The Learn screen's worked example always shows the compass, regardless of the setting
 (see `docs/LINE_STYLE_DESIGN.md`).
 
+**Exported and shared files carry their own metadata.** Every PNG or PDF saved from Train, and
+every card shared to another app, embeds the same content code used in the filename, which
+version of Fechtkarte produced it, and a link to fechtkarte.j0s.at — so the file identifies
+itself even after being renamed, copied, or sent somewhere the app that made it never gets
+uninstalled from. Readable with any metadata viewer (a PNG's `Software`/`Comment`/`URL` text
+chunks, a PDF's Author/Subject/Creator/Producer).
+
 This section stays honest: a feature lands here when it works end to end, not when the code
 compiles.
 
