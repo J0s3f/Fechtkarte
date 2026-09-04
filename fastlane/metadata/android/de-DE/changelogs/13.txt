@@ -1,0 +1,1 @@
+- Behoben: Das Wechseln der App-Sprache ändert nicht mehr die Karte, mit der auf dem Trainingsbildschirm geübt wird.

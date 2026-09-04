@@ -21,6 +21,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,11 +50,16 @@ import at.j0s.meyercard.app.application.port.api.ExportCard
 import at.j0s.meyercard.app.application.port.api.ShareCard
 import at.j0s.meyercard.app.application.port.spi.ExportResult
 import at.j0s.meyercard.app.application.port.spi.PreferencesStore
+import at.j0s.meyercard.app.domain.CardId
 import at.j0s.meyercard.app.domain.CardLineStyle
+import at.j0s.meyercard.app.domain.CardOrigin
 import at.j0s.meyercard.app.domain.DrillGenerator
 import at.j0s.meyercard.app.domain.Hand
 import at.j0s.meyercard.app.domain.HistoricalDrill
 import at.j0s.meyercard.app.domain.MeyerCard
+import at.j0s.meyercard.app.domain.contentCode
+import at.j0s.meyercard.app.domain.decodeCardContent
+import java.time.Instant
 import kotlinx.coroutines.launch
 
 private object Route {
@@ -62,6 +69,41 @@ private object Route {
     const val LEARN = "learn"
     const val NOTICES = "notices"
     const val SOURCES = "sources"
+}
+
+private val TrainCardSaver = Saver<MeyerCard?, String>(
+    save = { card -> encodeTrainCard(card) },
+    restore = { code -> decodeTrainCard(code) },
+)
+
+/**
+ * [TrainCardSaver]'s actual logic, as plain functions — directly unit-testable without touching
+ * Compose's `Saver`/`SaverScope` machinery at all.
+ *
+ * [MeyerCard] has no `Parcelable`/`Serializable` of its own, so it isn't directly
+ * [rememberSaveable]-compatible. Reuses [contentCode]/[decodeCardContent] rather than a bespoke
+ * encoding — see [decodeCardContent]'s own doc comment for why that's a genuine second caller,
+ * not a layering violation. Safe to drop [MeyerCard.hand]/`origin`/`id`/`instruction` on the way
+ * through: none of them is ever read back out of a Train-generated card by Train, export, or
+ * share (confirmed by grep, not assumed) — `hand` only ever selected a palette already baked in
+ * by generation time, and a generated card's own `instruction` is always null. The line style
+ * passed to [contentCode] here is a fixed placeholder, not the card's real displayed style —
+ * [decodeTrainCard] only reads back the actions/palette part; the real line style is saved
+ * independently, right beside [TrainCardSaver]'s own use in [FechtkarteApp].
+ *
+ * Found the hard way: switching the in-app language (`AppCompatDelegate.setApplicationLocales`)
+ * recreates the activity to apply it, which wipes plain `remember`/`rememberSaveable`-less state
+ * — the Train-hoisting fix for losing the card on ordinary navigation didn't cover this, since a
+ * `remember` alone only survives recomposition and navigation within the same activity instance,
+ * not an actual activity recreation.
+ */
+internal fun encodeTrainCard(card: MeyerCard?): String = card?.contentCode(CardLineStyle.COMPASS).orEmpty()
+
+/** The inverse of [encodeTrainCard] — see that function's own doc comment. */
+internal fun decodeTrainCard(code: String): MeyerCard? {
+    if (code.isEmpty()) return null
+    val (palette, _, actions) = decodeCardContent(code)
+    return MeyerCard(id = CardId(0L), actions = actions, hand = Hand.RIGHT, palette = palette, origin = CardOrigin.Generated(Instant.EPOCH))
 }
 
 /**
@@ -89,8 +131,15 @@ fun FechtkarteApp(
     // which is correct there (a static list) but wasn't here (a card the user was mid-drill
     // with). Found on a real device: visiting Library or Learn and coming back silently
     // replaced the active card with a freshly generated one, with no tap on "Generate".
-    var trainCard by remember { mutableStateOf<MeyerCard?>(null) }
-    var trainLineStyle by remember { mutableStateOf(CardLineStyle.COMPASS) }
+    //
+    // `rememberSaveable`, not `remember`: a plain `remember` only survives recomposition and
+    // navigation within the same activity instance, not an actual activity recreation — found
+    // on a real device again, this time switching the in-app language, which recreates the
+    // activity to apply the new locale and silently generated a fresh card the same way leaving
+    // Train once did. `trainCard` needs [TrainCardSaver] since [MeyerCard] isn't directly
+    // saveable; `trainLineStyle` (a plain enum) needs none.
+    var trainLineStyle by rememberSaveable { mutableStateOf(CardLineStyle.COMPASS) }
+    var trainCard by rememberSaveable(stateSaver = TrainCardSaver) { mutableStateOf<MeyerCard?>(null) }
 
     Scaffold(
         modifier = modifier,

@@ -14,9 +14,13 @@ package at.j0s.meyercard.app.domain
  * Crockford Base32-encoded (5 bits/character; 0/O, 1/I/L, U excluded so a written-down code
  * can't be misread), so the filename alone is enough to reconstruct the exact rendered image,
  * and two different images can never collide the way two different hash inputs theoretically
- * could. [decodeCardContent] exists to prove that property with a real round-trip test, not as
- * a decoder this app ships or calls in production — nothing in the UI needs to decode a
- * filename back into a card.
+ * could. [decodeCardContent] originally existed only to prove that property with a real
+ * round-trip test; it's since gained a second, genuine caller —
+ * [at.j0s.meyercard.app.adapter.ui.FechtkarteApp]'s Train-card `rememberSaveable` state reuses
+ * it as a ready-made, already-losslessly-round-tripped encoding rather than inventing a second
+ * one, since a language switch (an `AppCompatDelegate`-triggered activity recreate) needs the
+ * generated card to survive exactly the kind of state loss this encoding was already built to
+ * survive.
  *
  * [LINE_STYLE_BITS] gives [CardLineStyle] room for two more values beyond today's
  * `COMPASS`/`SEQUENCE` before the encoding would need to change shape — `docs/LINE_STYLE_DESIGN.md`

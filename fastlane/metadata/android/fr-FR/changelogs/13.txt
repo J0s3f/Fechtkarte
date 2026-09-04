@@ -1,0 +1,1 @@
+- Corrigé : changer la langue de l'application ne modifie plus la carte utilisée pour s'entraîner sur l'écran Entraînement.

@@ -10,53 +10,11 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import at.j0s.meyercard.app.R
-import at.j0s.meyercard.app.application.port.api.BrowseHistoricalCards
-import at.j0s.meyercard.app.application.port.api.ExportCard
-import at.j0s.meyercard.app.application.port.api.ShareCard
-import at.j0s.meyercard.app.application.port.spi.ExportResult
 import at.j0s.meyercard.app.application.port.spi.PreferencesStore
-import at.j0s.meyercard.app.application.port.spi.ShareableCard
-import at.j0s.meyercard.app.domain.CardLineStyle
-import at.j0s.meyercard.app.domain.GenerationPreferences
-import at.j0s.meyercard.app.domain.HistoricalDrill
-import at.j0s.meyercard.app.domain.MeyerCard
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-/** No drills/technique cards needed — the routes under test here never render an individual card's content. */
-private object FakeBrowseHistoricalCards : BrowseHistoricalCards {
-    override suspend fun drills(): List<HistoricalDrill> = emptyList()
-    override suspend fun techniqueCards(): List<MeyerCard> = emptyList()
-}
-
-private class FakePreferencesStore(initial: GenerationPreferences = GenerationPreferences()) : PreferencesStore {
-    private var preferences = initial
-
-    /** How many times [load] has been called — a proxy for how many times Train has (re)generated a card. */
-    var loadCallCount = 0
-        private set
-
-    override suspend fun load(): GenerationPreferences {
-        loadCallCount++
-        return preferences
-    }
-
-    override suspend fun save(preferences: GenerationPreferences) {
-        this.preferences = preferences
-    }
-}
-
-/** Never actually invoked by these tests — no test here clicks Save/Share — so failing loudly beats a silent stub. */
-private object FakeExportCard : ExportCard {
-    override suspend fun asPng(card: MeyerCard, lineStyle: CardLineStyle): ExportResult = error("not exercised by navigation tests")
-    override suspend fun asPdf(card: MeyerCard, lineStyle: CardLineStyle): ExportResult = error("not exercised by navigation tests")
-}
-
-private object FakeShareCard : ShareCard {
-    override suspend fun prepare(card: MeyerCard, lineStyle: CardLineStyle): ShareableCard = error("not exercised by navigation tests")
-}
 
 /**
  * [FechtkarteApp] wires together six routes behind a three-item bottom nav bar; nothing until now
