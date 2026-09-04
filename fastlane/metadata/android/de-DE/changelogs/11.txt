@@ -1,0 +1,1 @@
+- Exportierte PNGs enthalten nun ebenfalls einen CC0-Vermerk (keine Rechte vorbehalten), wie bereits bei exportierten PDFs – getrennt von der Apache-2.0-Lizenz der App selbst, da eine erzeugte Karte nicht dasselbe ist wie die Software, die sie gezeichnet hat.

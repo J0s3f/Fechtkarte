@@ -129,6 +129,13 @@ class CardContentCodeTest {
         assertTrue(code.length <= 12, "expected at most 12 characters, got ${code.length}: $code")
     }
 
+    @Test
+    @DisplayName("a radius other than INNER/OUTER is rejected rather than silently miscoded")
+    fun `unsupported radius is rejected`() {
+        val actions = listOf(Action(1, Slot(Direction.N, Radius.CENTRE), isThrust = false))
+        assertThrows(IllegalStateException::class.java) { card(actions).contentCode(CardLineStyle.COMPASS) }
+    }
+
     @ParameterizedTest(name = "{0}")
     @MethodSource("goldenCodes")
     @DisplayName("a known card and line style always produces its known, previously-recorded code")

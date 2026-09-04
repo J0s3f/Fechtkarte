@@ -43,7 +43,9 @@ import at.j0s.meyercard.app.domain.contentCode
  *
  * The same content code, plus which software made it and where to learn more, is also embedded
  * in the file itself — [withPngTextChunks]/[withPdfInfoDictionary] — so it survives a rename or
- * a copy onto a device that never had this app installed.
+ * a copy onto a device that never had this app installed. Both formats also carry an XMP rights
+ * statement ([withPngXmpChunk]/[withPdfInfoDictionary]'s own `/Metadata` handling) — CC0, not the
+ * app's own Apache-2.0.
  */
 class MediaStoreCardExporter(
     private val contentResolver: ContentResolver,
@@ -58,6 +60,7 @@ class MediaStoreCardExporter(
             .apply { bitmap.compress(Bitmap.CompressFormat.PNG, 100, this) }
             .toByteArray()
             .withPngTextChunks(*card.pngMetadataEntries(lineStyle).toTypedArray())
+            .withPngXmpChunk(card.pngXmpPacket(lineStyle))
         val fileName = "fechtkarte-${card.contentCode(lineStyle)}.png"
 
         val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -74,7 +77,7 @@ class MediaStoreCardExporter(
         val document = renderPdf(card, lineStyle)
         val rawPdfBytes = ByteArrayOutputStream().apply { document.writeTo(this) }.toByteArray()
         document.close()
-        val pdfBytes = rawPdfBytes.withPdfInfoDictionary(card.pdfInfo(lineStyle), pdfRights())
+        val pdfBytes = rawPdfBytes.withPdfInfoDictionary(card.pdfInfo(lineStyle), xmpRights())
         val fileName = "fechtkarte-${card.contentCode(lineStyle)}.pdf"
 
         val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI

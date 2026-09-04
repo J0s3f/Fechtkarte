@@ -1,0 +1,1 @@
+- Les PNG exportés incluent désormais eux aussi une mention CC0 (aucun droit réservé), comme c'est déjà le cas pour les PDF exportés – distincte de la licence Apache 2.0 de l'application elle-même, une carte générée n'étant pas la même chose que le logiciel qui l'a dessinée.

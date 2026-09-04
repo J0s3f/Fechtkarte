@@ -10,6 +10,30 @@ import kotlin.random.Random
 
 private fun action(direction: Direction, seq: Int = 1) = Action(seq, Slot(direction, Radius.OUTER), isThrust = false)
 
+/**
+ * Every concrete rule in this file overrides exactly one of [GenerationRule]'s two methods, so
+ * neither existing rule's own tests ever exercise the *other* method's permissive default —
+ * this class does, directly, against a minimal implementation that overrides neither. Guards the
+ * interface's own contract (identity pool, always satisfied) independently of any specific rule.
+ */
+class GenerationRuleDefaultsTest {
+    private object NoOverrides : GenerationRule
+
+    @Test
+    @DisplayName("candidateSlots defaults to identity — the pool passed in comes back unchanged")
+    fun `candidateSlots default is identity`() {
+        val pool = Slot.GENERATOR_SLOTS
+        assertEquals(pool, NoOverrides.candidateSlots(pool, Random(1)))
+    }
+
+    @Test
+    @DisplayName("isSatisfiedBy defaults to true, regardless of actions or hands")
+    fun `isSatisfiedBy default is true`() {
+        val actions = listOf(action(Direction.N), action(Direction.N, 2))
+        assertTrue(NoOverrides.isSatisfiedBy(actions, Hand.RIGHT, previousHand = Hand.RIGHT))
+    }
+}
+
 class NoRepeatedDirectionTest {
 
     @Test

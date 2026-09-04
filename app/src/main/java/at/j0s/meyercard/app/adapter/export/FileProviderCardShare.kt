@@ -26,6 +26,7 @@ import java.io.FileOutputStream
  * card's content code (same encoding [MediaStoreCardExporter] names its files with), the
  * creating software, and a link are still embedded in the image itself — see
  * [withPngTextChunks] — so that identity travels with the file even though its own name doesn't.
+ * An XMP rights statement (CC0) rides along too, via [withPngXmpChunk].
  */
 class FileProviderCardShare(
     private val context: Context,
@@ -38,6 +39,7 @@ class FileProviderCardShare(
             .apply { bitmap.compress(Bitmap.CompressFormat.PNG, 100, this) }
             .toByteArray()
             .withPngTextChunks(*card.pngMetadataEntries(lineStyle).toTypedArray())
+            .withPngXmpChunk(card.pngXmpPacket(lineStyle))
         val file = File(sharedCardsDir(), FILE_NAME)
         FileOutputStream(file).use { out -> out.write(pngBytes) }
 

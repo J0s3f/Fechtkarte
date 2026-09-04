@@ -148,4 +148,21 @@ class DrillGeneratorTest {
         assertTrue(outcome.relaxedRules.isEmpty())
         assertTrue(NoRepeatedDirection.isSatisfiedBy(outcome.card.actions, outcome.card.hand, null))
     }
+
+    @Test
+    @DisplayName("generate works with its default random and clock, not only an explicitly-injected one")
+    fun `generate works with its default random and clock`() {
+        // Every other test in this file injects both, deliberately, for reproducibility — this
+        // one exists solely so the real defaults (Random.Default, Clock.systemUTC()) are
+        // exercised at least once rather than left as dead-in-practice signature decoration.
+        val card = DrillGenerator.generate(actionCount = 4, thrustCount = 1)
+        assertEquals(4, card.actions.size)
+    }
+
+    @Test
+    @DisplayName("generateWithRules works with its default random and clock, not only an explicitly-injected one")
+    fun `generateWithRules works with its default random and clock`() {
+        val outcome = DrillGenerator.generateWithRules(actionCount = 4, thrustCount = 1, rules = emptyList())
+        assertEquals(4, outcome.card.actions.size)
+    }
 }

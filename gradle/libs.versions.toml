@@ -40,7 +40,11 @@ compileSdk = "36"
 minSdk = "24"
 targetSdk = "36"
 
-coreKtx = "1.12.0"
+# Deliberately not the newest (1.19.0): its AAR declares minCompileSdk=37 and
+# minAndroidGradlePluginVersion=9.1.0 (dl.google.com's real AAR metadata, not assumed) — one
+# past where this project is staying, same reasoning as navigationCompose/composeBom below.
+# 1.18.0 is the newest release still under that floor (minCompileSdk=36, AGP 8.9.1+).
+coreKtx = "1.18.0"
 # Latest stable per Google's Maven metadata (dl.google.com/android/maven2/androidx/core/
 # core-splashscreen/maven-metadata.xml) — 1.2.0 is the newest non-alpha/beta/rc release.
 coreSplashscreen = "1.2.0"
@@ -104,7 +108,7 @@ espresso = "3.5.1"
 # on-device) is still deliberately not added — see docs/NEXT_STEPS.md T1.1;
 # revisit its version requirement against this now-modern Kotlin when
 # instrumentation tests actually land.
-junit5 = "5.14.1"
+junit5 = "6.1.3"
 konsist = "0.17.3"
 
 # Roborazzi, not Paparazzi — see docs/NEXT_STEPS.md T2.4 for the full story.
@@ -127,6 +131,13 @@ robolectric = "4.16.1"
 junit4 = "4.13.2"
 
 licenseReport = "3.1.4"
+
+# 0.9.9 (GitHub releases API, published 2026-07-17) is current. JetBrains' own coverage tool,
+# not raw JaCoCo — instruments Kotlin bytecode directly rather than through JaCoCo's JVM-generic
+# assumptions, which matters for a Kotlin-only project like this one. Explicit Android host-test
+# support, confirmed via its own release notes fixing "0% coverage for classes in com.android.*
+# packages" in this exact version — not assumed compatible with AGP 9 without checking.
+kover = "0.9.9"
 
 # Core library desugaring: java.time.Instant (used by domain/CardOrigin.kt) is
 # API 26+ natively. minSdk is 24, so desugaring is what makes it safe there —
@@ -184,6 +195,7 @@ robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectr
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 license-report = { id = "com.github.jk1.dependency-license-report", version.ref = "licenseReport" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }

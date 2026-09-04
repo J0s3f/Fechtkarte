@@ -80,7 +80,7 @@ every card shared to another app, embeds the same content code used in the filen
 version of Fechtkarte produced it, and a link to fechtkarte.j0s.at — so the file identifies
 itself even after being renamed, copied, or sent somewhere the app that made it never gets
 uninstalled from. Readable with any metadata viewer (a PNG's `Software`/`Comment`/`URL` text
-chunks, a PDF's Author/Subject/Creator/Producer). A PDF also carries an embedded XMP rights
+chunks, a PDF's Author/Subject/Creator/Producer). Both formats also carry an embedded XMP rights
 statement: a generated card is CC0 (no rights reserved), deliberately distinct from the app's
 own Apache-2.0 source licence — a rendered drill diagram someone prints and shares isn't the
 same thing as the software that drew it.

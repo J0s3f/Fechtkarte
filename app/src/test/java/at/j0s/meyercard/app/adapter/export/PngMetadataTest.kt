@@ -98,4 +98,96 @@ class PngMetadataTest {
             "not a png".toByteArray().withPngTextChunks("Software" to "Fechtkarte 1.0.8")
         }
     }
+
+    @Test
+    @DisplayName("bytes that aren't a PNG are rejected by the XMP chunk writer too")
+    fun `non-PNG bytes are rejected by withPngXmpChunk`() {
+        assertThrows(IllegalArgumentException::class.java) {
+            "not a png".toByteArray().withPngXmpChunk("<x:xmpmeta/>")
+        }
+    }
+
+    /** Walks the PNG chunk stream from just after the signature, returning the first `iTXt` chunk's raw data, if any. */
+    private fun iTXtDataOf(png: ByteArray): ByteArray? {
+        var offset = 8
+        while (offset < png.size) {
+            val length = ((png[offset].toInt() and 0xFF) shl 24) or ((png[offset + 1].toInt() and 0xFF) shl 16) or
+                ((png[offset + 2].toInt() and 0xFF) shl 8) or (png[offset + 3].toInt() and 0xFF)
+            val type = String(png, offset + 4, 4, Charsets.US_ASCII)
+            if (type == "iTXt") return png.copyOfRange(offset + 8, offset + 8 + length)
+            offset += 4 + 4 + length + 4
+            if (type == "IEND") break
+        }
+        return null
+    }
+
+    @Test
+    @DisplayName("the iTXt chunk carries the XMP:com.adobe.xmp keyword, is uncompressed, and its text is exactly the packet given")
+    fun `iTXt chunk carries the given XMP packet uncompressed under the Adobe keyword`() {
+        val packet = "<x:xmpmeta>hello</x:xmpmeta>"
+        val data = iTXtDataOf(realPng().withPngXmpChunk(packet)) ?: error("no iTXt chunk found")
+
+        val keywordEnd = data.indexOf(0)
+        val keyword = String(data, 0, keywordEnd, Charsets.ISO_8859_1)
+        assertEquals("XML:com.adobe.xmp", keyword)
+
+        val compressionFlag = data[keywordEnd + 1]
+        val compressionMethod = data[keywordEnd + 2]
+        assertEquals(0, compressionFlag.toInt())
+        assertEquals(0, compressionMethod.toInt())
+
+        // Language tag and translated keyword are both empty, so their own null terminators sit
+        // back to back right after the compression method byte.
+        val languageTagEnd = keywordEnd + 3
+        val translatedKeywordEnd = languageTagEnd + 1
+        assertEquals(0, data[languageTagEnd].toInt())
+        assertEquals(0, data[translatedKeywordEnd].toInt())
+
+        val text = String(data, translatedKeywordEnd + 1, data.size - translatedKeywordEnd - 1, Charsets.UTF_8)
+        assertEquals(packet, text)
+    }
+
+    @Test
+    @DisplayName("the XMP packet's own non-Latin-1 characters survive, unlike a tEXt chunk which would corrupt them")
+    fun `iTXt chunk round trips non-Latin-1 text`() {
+        val packet = "<x:xmpmeta>— CC0 1.0 Universal — no rights reserved —</x:xmpmeta>"
+        val data = iTXtDataOf(realPng().withPngXmpChunk(packet)) ?: error("no iTXt chunk found")
+
+        val translatedKeywordEnd = data.indexOf(0) + 3 + 1
+        val text = String(data, translatedKeywordEnd + 1, data.size - translatedKeywordEnd - 1, Charsets.UTF_8)
+        assertEquals(packet, text)
+    }
+
+    @Test
+    @DisplayName("the iTXt chunk is inserted directly after IHDR, same as a tEXt chunk")
+    fun `iTXt chunk lands directly after IHDR`() {
+        val withXmp = realPng().withPngXmpChunk("<x:xmpmeta/>")
+
+        val ihdrEndOffset = 8 + 4 + 4 + 13 + 4
+        val firstChunkAfterIhdr = String(withXmp, ihdrEndOffset + 4, 4, Charsets.US_ASCII)
+        assertEquals("iTXt", firstChunkAfterIhdr)
+    }
+
+    @Test
+    @DisplayName("tEXt entries and the XMP chunk can be chained together without corrupting either")
+    fun `tEXt chunks and the XMP chunk coexist`() {
+        val png = realPng()
+            .withPngTextChunks("Software" to "Fechtkarte 1.0.10", "Comment" to "ABCDEFGHIJ")
+            .withPngXmpChunk("<x:xmpmeta>chained</x:xmpmeta>")
+
+        assertEquals(listOf("Software" to "Fechtkarte 1.0.10", "Comment" to "ABCDEFGHIJ"), textChunksOf(png))
+        val xmpData = iTXtDataOf(png) ?: error("no iTXt chunk found")
+        val translatedKeywordEnd = xmpData.indexOf(0) + 3 + 1
+        assertEquals("<x:xmpmeta>chained</x:xmpmeta>", String(xmpData, translatedKeywordEnd + 1, xmpData.size - translatedKeywordEnd - 1, Charsets.UTF_8))
+    }
+
+    @Test
+    @DisplayName("the result is still a real, readable PNG at the original dimensions after adding the XMP chunk")
+    fun `result with XMP chunk is still a readable PNG at the original size`() {
+        val png = realPng(width = 6, height = 9).withPngXmpChunk("<x:xmpmeta/>")
+
+        val decoded = ImageIO.read(png.inputStream())
+        assertEquals(6, decoded.width)
+        assertEquals(9, decoded.height)
+    }
 }

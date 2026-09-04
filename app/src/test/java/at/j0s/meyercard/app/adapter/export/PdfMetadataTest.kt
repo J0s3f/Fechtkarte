@@ -1,6 +1,7 @@
 package at.j0s.meyercard.app.adapter.export
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.Test
 class PdfMetadataTest {
 
     private fun testInfo() = PdfInfo(title = "t", author = "a", subject = "s", creator = "c")
-    private fun testRights() = PdfRights(
+    private fun testRights() = XmpRights(
         marked = false,
         rightsStatement = "CC0 1.0 Universal — no rights reserved",
         webStatementUrl = "https://creativecommons.org/publicdomain/zero/1.0/",
@@ -180,7 +181,7 @@ class PdfMetadataTest {
     @Test
     @DisplayName("the Metadata stream object is a well-formed XML XMP stream carrying the given rights fields")
     fun `Metadata stream carries the given rights fields`() {
-        val rights = PdfRights(
+        val rights = XmpRights(
             marked = false,
             rightsStatement = "CC0 1.0 Universal — no rights reserved",
             webStatementUrl = "https://creativecommons.org/publicdomain/zero/1.0/",
@@ -215,5 +216,47 @@ class PdfMetadataTest {
     fun `result ends with the EOF marker`() {
         val result = String(minimalPdf().withPdfInfoDictionary(testInfo(), testRights()), Charsets.ISO_8859_1)
         assertTrue(result.endsWith("%%EOF"))
+    }
+
+    /** [minimalPdf] with [replacement] substituted for [target] in its trailer/xref tail — a malformed variant for the guard tests below. */
+    private fun minimalPdf(target: String, replacement: String): ByteArray {
+        val text = String(minimalPdf(), Charsets.ISO_8859_1)
+        require(text.contains(target)) { "'$target' not found in the fixture to mutate" }
+        return text.replace(target, replacement).toByteArray(Charsets.ISO_8859_1)
+    }
+
+    @Test
+    @DisplayName("a PDF with no startxref is rejected rather than silently miscoded")
+    fun `missing startxref is rejected`() {
+        val malformed = minimalPdf("startxref", "xxxxxxxxx")
+        assertThrows(IllegalStateException::class.java) { malformed.withPdfInfoDictionary(testInfo(), testRights()) }
+    }
+
+    @Test
+    @DisplayName("a PDF with no trailer dictionary is rejected rather than silently miscoded")
+    fun `missing trailer is rejected`() {
+        val malformed = minimalPdf("trailer\n<<", "xxxxxxx\n<<")
+        assertThrows(IllegalStateException::class.java) { malformed.withPdfInfoDictionary(testInfo(), testRights()) }
+    }
+
+    @Test
+    @DisplayName("a trailer with no /Root is rejected rather than silently miscoded")
+    fun `missing Root in trailer is rejected`() {
+        val malformed = minimalPdf("/Root 1 0 R", "")
+        assertThrows(IllegalStateException::class.java) { malformed.withPdfInfoDictionary(testInfo(), testRights()) }
+    }
+
+    @Test
+    @DisplayName("a trailer with no /Size is rejected rather than silently miscoded")
+    fun `missing Size in trailer is rejected`() {
+        val malformed = minimalPdf("/Size 4 ", "")
+        assertThrows(IllegalStateException::class.java) { malformed.withPdfInfoDictionary(testInfo(), testRights()) }
+    }
+
+    @Test
+    @DisplayName("a /Root pointing at an object that doesn't exist is rejected rather than silently miscoded")
+    fun `Root pointing at a missing object is rejected`() {
+        val malformed = minimalPdf("/Root 1 0 R", "/Root 99 0 R")
+        assertThrows(IllegalStateException::class.java) { malformed.withPdfInfoDictionary(testInfo(), testRights()) }
     }
 }
