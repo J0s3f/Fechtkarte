@@ -20,6 +20,7 @@ import at.j0s.meyercard.app.domain.CardLineStyle
 import at.j0s.meyercard.app.domain.GenerationPreferences
 import at.j0s.meyercard.app.domain.HistoricalDrill
 import at.j0s.meyercard.app.domain.MeyerCard
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,7 +33,16 @@ private object FakeBrowseHistoricalCards : BrowseHistoricalCards {
 
 private class FakePreferencesStore(initial: GenerationPreferences = GenerationPreferences()) : PreferencesStore {
     private var preferences = initial
-    override suspend fun load(): GenerationPreferences = preferences
+
+    /** How many times [load] has been called — a proxy for how many times Train has (re)generated a card. */
+    var loadCallCount = 0
+        private set
+
+    override suspend fun load(): GenerationPreferences {
+        loadCallCount++
+        return preferences
+    }
+
     override suspend fun save(preferences: GenerationPreferences) {
         this.preferences = preferences
     }
@@ -71,11 +81,11 @@ class FechtkarteAppNavigationTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private fun setApp() {
+    private fun setApp(preferencesStore: PreferencesStore = FakePreferencesStore()) {
         composeTestRule.setContent {
             FechtkarteApp(
                 browseHistoricalCards = FakeBrowseHistoricalCards,
-                preferencesStore = FakePreferencesStore(),
+                preferencesStore = preferencesStore,
                 exportCard = FakeExportCard,
                 shareCard = FakeShareCard,
             )
@@ -138,5 +148,33 @@ class FechtkarteAppNavigationTest {
         composeTestRule.onNodeWithText(context.getString(R.string.nav_learn)).performClick()
         composeTestRule.onNodeWithText(context.getString(R.string.learn_open_source_notices)).performScrollTo().performClick()
         composeTestRule.onNodeWithText(context.getString(R.string.notices_title)).assertIsDisplayed()
+    }
+
+    @Test
+    fun `leaving Train and coming back does not silently replace the active card`() {
+        // Found on a real device (PrimeTestLab report M-03): visiting Library or Learn and
+        // returning to Train replaced the active drill with a freshly generated one, with no
+        // tap on "Generate". regenerate() calls preferencesStore.load() exactly once per actual
+        // generation, so a load count that doesn't grow across a Train -> Learn -> Train round
+        // trip is direct evidence no second generation happened -- independent of the generated
+        // card's own (random, unseeded) content. The baseline isn't asserted as exactly 1: Library
+        // (the start destination) mounts before Train ever does and makes its own independent
+        // preferencesStore.load() call for its line style, so the true baseline is 2, not 1 --
+        // found the hard way, by attaching each call's own stack trace rather than guessing.
+        // Learn specifically for the round trip itself, not Library again: Learn takes no
+        // preferencesStore at all, so it can't add a second confound the same way.
+        val store = FakePreferencesStore()
+        setApp(store)
+        composeTestRule.onNodeWithText(context.getString(R.string.nav_train)).performClick()
+        // Waits for the card to actually finish generating and render (as opposed to a bare
+        // performClick(), which doesn't guarantee that) -- matching the real repro exactly: the
+        // tester was looking at an already-rendered card, not navigating away mid-generation.
+        composeTestRule.onNodeWithText(context.getString(R.string.configure)).assertIsDisplayed()
+        val countAfterFirstEntry = store.loadCallCount
+
+        composeTestRule.onNodeWithText(context.getString(R.string.nav_learn)).performClick()
+        composeTestRule.onNodeWithText(context.getString(R.string.nav_train)).performClick()
+
+        assertEquals(countAfterFirstEntry, store.loadCallCount)
     }
 }

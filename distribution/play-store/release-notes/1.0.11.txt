@@ -1,0 +1,3 @@
+- Fixed: choosing a different app language (e.g. German) now applies immediately and stays selected after reopening the app.
+- Fixed: the Library screen's navigation buttons now grey out when a filter matches no drills, instead of staying enabled with nothing to show.
+- Fixed: leaving Train for Library or Learn and coming back no longer replaces the card you were practicing with.

@@ -156,6 +156,7 @@ private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifi
         }
 
         BrowseControls(
+            enabled = current != null,
             onFirst = { state = state.first() },
             onFastBackward = { state = state.fastBackward() },
             onPrevious = { state = state.previous() },
@@ -206,6 +207,7 @@ private fun TechniquesTab(cards: List<MeyerCard>, modifier: Modifier = Modifier,
         }
 
         BrowseControls(
+            enabled = current != null,
             onFirst = { state = state.first() },
             onFastBackward = { state = state.fastBackward() },
             onPrevious = { state = state.previous() },
@@ -244,14 +246,18 @@ private fun BrowseControls(
     onLast: () -> Unit,
     onRandom: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
+    // Disabled, not hidden, when there is nothing to navigate to (an empty filter result):
+    // a user who reaches this state by narrowing filters still sees the controls they were
+    // just using, just visibly inert, rather than the layout jumping as the row disappears.
     Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        IconButton(onClick = onFirst) { Icon(Icons.Filled.FirstPage, contentDescription = stringResource(R.string.library_nav_first)) }
-        IconButton(onClick = onFastBackward) { Icon(Icons.Filled.FastRewind, contentDescription = stringResource(R.string.library_nav_back_ten)) }
-        IconButton(onClick = onPrevious) { Icon(Icons.Filled.ChevronLeft, contentDescription = stringResource(R.string.library_nav_previous)) }
-        IconButton(onClick = onNext) { Icon(Icons.Filled.ChevronRight, contentDescription = stringResource(R.string.library_nav_next)) }
-        IconButton(onClick = onFastForward) { Icon(Icons.Filled.FastForward, contentDescription = stringResource(R.string.library_nav_forward_ten)) }
-        IconButton(onClick = onLast) { Icon(Icons.AutoMirrored.Filled.LastPage, contentDescription = stringResource(R.string.library_nav_last)) }
-        IconButton(onClick = onRandom) { Icon(Icons.Filled.Shuffle, contentDescription = stringResource(R.string.library_nav_random)) }
+        IconButton(onClick = onFirst, enabled = enabled) { Icon(Icons.Filled.FirstPage, contentDescription = stringResource(R.string.library_nav_first)) }
+        IconButton(onClick = onFastBackward, enabled = enabled) { Icon(Icons.Filled.FastRewind, contentDescription = stringResource(R.string.library_nav_back_ten)) }
+        IconButton(onClick = onPrevious, enabled = enabled) { Icon(Icons.Filled.ChevronLeft, contentDescription = stringResource(R.string.library_nav_previous)) }
+        IconButton(onClick = onNext, enabled = enabled) { Icon(Icons.Filled.ChevronRight, contentDescription = stringResource(R.string.library_nav_next)) }
+        IconButton(onClick = onFastForward, enabled = enabled) { Icon(Icons.Filled.FastForward, contentDescription = stringResource(R.string.library_nav_forward_ten)) }
+        IconButton(onClick = onLast, enabled = enabled) { Icon(Icons.AutoMirrored.Filled.LastPage, contentDescription = stringResource(R.string.library_nav_last)) }
+        IconButton(onClick = onRandom, enabled = enabled) { Icon(Icons.Filled.Shuffle, contentDescription = stringResource(R.string.library_nav_random)) }
     }
 }

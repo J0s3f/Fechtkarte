@@ -1,0 +1,3 @@
+- Behoben: Die Wahl einer anderen App-Sprache (z. B. Deutsch) wirkt sich nun sofort aus und bleibt nach dem erneuten Öffnen der App erhalten.
+- Behoben: Die Navigationsschaltflächen im Bibliotheks-Bildschirm werden nun ausgegraut, wenn ein Filter keine Übungen findet, statt aktiv zu bleiben, obwohl nichts anzuzeigen ist.
+- Behoben: Das Verlassen von Training zugunsten von Bibliothek oder Lernen und die Rückkehr ersetzen nicht mehr die Karte, mit der geübt wurde.

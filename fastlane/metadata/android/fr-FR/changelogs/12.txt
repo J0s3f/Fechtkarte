@@ -1,0 +1,3 @@
+- Corrigé : le choix d'une autre langue de l'application (par ex. l'allemand) s'applique désormais immédiatement et reste sélectionné après la réouverture de l'application.
+- Corrigé : les boutons de navigation de l'écran Bibliothèque sont désormais grisés lorsqu'un filtre ne trouve aucun exercice, au lieu de rester actifs sans rien à afficher.
+- Corrigé : quitter Entraînement pour Bibliothèque ou Apprendre puis revenir ne remplace plus la carte en cours d'exercice.

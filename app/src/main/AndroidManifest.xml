@@ -33,6 +33,22 @@
             </intent-filter>
         </activity>
 
+        <!-- Backport of per-app language selection (Configure's LanguagePicker,
+             AppCompatDelegate.setApplicationLocales) for API < 33: without this declaration,
+             AppCompat doesn't opt the app into automatic locale storage/application at all, so
+             a chosen language neither applies immediately (Configure/Learn/the bottom nav all
+             stayed in English on a real API 31 device) nor survives reopening the app (it
+             silently reverted to "System default"). API 33+ instead uses android:localeConfig
+             above, unaffected by this. -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
         <!-- Share (T6.3) renders into the app's private cache, not MediaStore — sharing
              shouldn't silently also save a copy into the user's public gallery/downloads.
              FileProvider is what exposes that one private file to the receiving app for the

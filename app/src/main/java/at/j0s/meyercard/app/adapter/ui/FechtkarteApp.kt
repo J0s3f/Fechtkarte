@@ -83,6 +83,15 @@ fun FechtkarteApp(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
+    // Hoisted above TrainRoute itself (not `remember`ed inside it) so the generated card
+    // survives leaving and returning to Train — TrainRoute's own composition is torn down and
+    // rebuilt by NavHost on every visit, the same way Library's content reloads on every visit,
+    // which is correct there (a static list) but wasn't here (a card the user was mid-drill
+    // with). Found on a real device: visiting Library or Learn and coming back silently
+    // replaced the active card with a freshly generated one, with no tap on "Generate".
+    var trainCard by remember { mutableStateOf<MeyerCard?>(null) }
+    var trainLineStyle by remember { mutableStateOf(CardLineStyle.COMPASS) }
+
     Scaffold(
         modifier = modifier,
         bottomBar = {
@@ -119,6 +128,10 @@ fun FechtkarteApp(
                     preferencesStore,
                     exportCard,
                     shareCard,
+                    card = trainCard,
+                    onCardChange = { trainCard = it },
+                    lineStyle = trainLineStyle,
+                    onLineStyleChange = { trainLineStyle = it },
                     onConfigure = { navController.navigate(Route.CONFIGURE) },
                 )
             }
@@ -171,11 +184,13 @@ private fun TrainRoute(
     preferencesStore: PreferencesStore,
     exportCard: ExportCard,
     shareCard: ShareCard,
+    card: MeyerCard?,
+    onCardChange: (MeyerCard?) -> Unit,
+    lineStyle: CardLineStyle,
+    onLineStyleChange: (CardLineStyle) -> Unit,
     onConfigure: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var card by remember { mutableStateOf<MeyerCard?>(null) }
-    var lineStyle by remember { mutableStateOf(CardLineStyle.COMPASS) }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -188,8 +203,8 @@ private fun TrainRoute(
             rules = preferences.enabledRules,
         )
         val palette = if (outcome.card.hand == Hand.RIGHT) preferences.rightHandPalette else preferences.leftHandPalette
-        card = outcome.card.copy(palette = palette)
-        lineStyle = preferences.cardLineStyle
+        onCardChange(outcome.card.copy(palette = palette))
+        onLineStyleChange(preferences.cardLineStyle)
     }
 
     suspend fun save(cardToSave: MeyerCard, export: suspend (MeyerCard, CardLineStyle) -> ExportResult) {
@@ -217,7 +232,10 @@ private fun TrainRoute(
         context.startActivity(Intent.createChooser(sendIntent, null))
     }
 
-    LaunchedEffect(Unit) { regenerate() }
+    // Only the very first time Train is ever entered — card is hoisted to FechtkarteApp
+    // specifically so it survives leaving and returning (see that state's own comment); a plain
+    // LaunchedEffect(Unit) here would regenerate a fresh card on every re-entry instead.
+    LaunchedEffect(Unit) { if (card == null) regenerate() }
     ShakeToGenerate(onShake = { scope.launch { regenerate() } })
 
     val current = card
