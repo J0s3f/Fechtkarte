@@ -11,15 +11,17 @@ count and thrust count) and a Techniques tab (21 technique cards, filterable by
 technique). Each tab has first/previous/next/last, ±10, and a random pick.
 
 **Random drill generation.** The Train screen generates a new drill card on demand — tap the
-Generate button, tap the card itself, or shake the device. Hand (and so background colour) is
-picked at random per card.
+Generate button, tap the card itself, or shake the device (shake can be turned off in Configure,
+for anyone who finds it fires by accident). Hand (and so background colour) is picked at random
+per card.
 
 **Configurable generation.** A Configure screen (reached from Train) controls how cards are
 generated: how many actions (1–8) and how many of those are thrusts, which of the 6 palettes
-each hand uses, and five opt-in shaping rules — no repeated direction between consecutive
-actions, a minimum angular distance between them (adjustable), alternating hands card to card,
-restricting to the outer ring only, and weighting directions to match the frequencies observed
-across the classic cards. All of it persists across restarts.
+each hand uses, whether shaking the device generates a new card, and five opt-in shaping rules —
+no repeated direction between consecutive actions, a minimum angular distance between them
+(adjustable), alternating hands card to card, restricting to the outer ring only, and weighting
+directions to match the frequencies observed across the classic cards. All of it persists across
+restarts.
 
 **Export as PNG or vector PDF, and share.** From the Train screen: Save PNG writes a
 high-resolution image to the gallery; Save PDF writes a true-vector, print-ready PDF sized to

@@ -1,1 +1,0 @@
-- Fixed: switching the app language no longer changes the card you're practicing with on Train.

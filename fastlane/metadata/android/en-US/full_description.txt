@@ -10,4 +10,4 @@ Features:
 * Export a generated card as a high-resolution PNG or a true-vector, print-ready PDF, or share it directly to another app
 * Works fully offline, with no accounts, no analytics, and no network access required
 
-Fechtkarte is free and open-source software (Apache License 2.0), with no proprietary dependencies.
+Fechtkarte is free and open-source software (Apache License 2.0), with no proprietary dependencies. See PRIVACY_POLICY.md in the source repository for the full data-handling disclosure.

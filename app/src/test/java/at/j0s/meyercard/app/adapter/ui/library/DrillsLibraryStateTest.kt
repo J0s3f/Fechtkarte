@@ -12,8 +12,10 @@ import at.j0s.meyercard.app.domain.Radius
 import at.j0s.meyercard.app.domain.Slot
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import kotlin.random.Random
 
 private fun drill(number: Int, actionCount: Int = 2, thrustCount: Int = 0): HistoricalDrill {
     fun card(hand: Hand, id: Int) = MeyerCard(
@@ -84,5 +86,34 @@ class DrillsLibraryStateTest {
         val filtered = DrillsLibraryState(fourDrills).withFilter(DrillFilter(actionCount = 8))
         assertEquals(emptyList<HistoricalDrill>(), filtered.visibleDrills)
         assertNull(filtered.current)
+    }
+
+    @Test
+    @DisplayName("first jumps back to the first drill")
+    fun `first jumps to the first drill`() {
+        val state = DrillsLibraryState(fourDrills).last()
+        assertEquals(1, state.first().current?.number)
+    }
+
+    @Test
+    @DisplayName("fastForward and fastBackward move by ten and clamp at the ends")
+    fun `fastForward and fastBackward move by ten and clamp`() {
+        val state = DrillsLibraryState(fourDrills)
+        assertEquals(4, state.fastForward().current?.number)
+        assertEquals(1, state.last().fastBackward().current?.number)
+    }
+
+    @Test
+    @DisplayName("random lands on one of the visible drills")
+    fun `random lands on a visible drill`() {
+        val landed = DrillsLibraryState(fourDrills).random(Random(1)).current?.number
+        assertTrue(fourDrills.map { it.number }.contains(landed))
+    }
+
+    @Test
+    @DisplayName("random on an empty filtered list stays null rather than throwing")
+    fun `random on an empty filtered list stays null`() {
+        val filtered = DrillsLibraryState(fourDrills).withFilter(DrillFilter(actionCount = 8))
+        assertNull(filtered.random().current)
     }
 }

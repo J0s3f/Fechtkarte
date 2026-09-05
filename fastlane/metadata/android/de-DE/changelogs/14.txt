@@ -1,0 +1,1 @@
+- Neu: Schütteln zum Erzeugen kann jetzt in den Einstellungen deaktiviert werden, für alle, bei denen es versehentlich auslöst.

@@ -119,6 +119,19 @@ class ConfigureScreenStateTest {
     }
 
     @Test
+    @DisplayName("toggling shakeToGenerateEnabled flips only that flag")
+    fun `toggling shakeToGenerateEnabled flips only that flag`() {
+        val state = ConfigureScreenState(GenerationPreferences())
+        assertTrue(state.preferences.shakeToGenerateEnabled)
+
+        val disabled = state.toggleShakeToGenerate()
+        assertFalse(disabled.preferences.shakeToGenerateEnabled)
+
+        val reenabled = disabled.toggleShakeToGenerate()
+        assertTrue(reenabled.preferences.shakeToGenerateEnabled)
+    }
+
+    @Test
     @DisplayName("selecting a palette replaces only that hand's palette")
     fun `selecting a palette replaces only that hand's palette`() {
         val state = ConfigureScreenState(GenerationPreferences())

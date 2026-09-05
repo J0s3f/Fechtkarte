@@ -12,8 +12,10 @@ import at.j0s.meyercard.app.domain.Radius
 import at.j0s.meyercard.app.domain.Slot
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import kotlin.random.Random
 
 private fun techniqueCard(id: Int, instruction: Instruction?) = MeyerCard(
     id = CardId(id.toLong()),
@@ -63,5 +65,28 @@ class TechniqueLibraryStateTest {
         assertEquals(90, state.next().current?.id?.value?.toInt())
         assertEquals(104, state.last().current?.id?.value?.toInt())
         assertEquals(104, state.last().next().current?.id?.value?.toInt())
+    }
+
+    @Test
+    @DisplayName("first and previous move back through the visible cards and clamp")
+    fun `first and previous move back and clamp`() {
+        val state = TechniqueLibraryState(techniqueCards)
+        assertEquals(89, state.last().first().current?.id?.value?.toInt())
+        assertEquals(89, state.next().previous().previous().current?.id?.value?.toInt())
+    }
+
+    @Test
+    @DisplayName("fastForward and fastBackward move by ten and clamp at the ends")
+    fun `fastForward and fastBackward move by ten and clamp`() {
+        val state = TechniqueLibraryState(techniqueCards)
+        assertEquals(104, state.fastForward().current?.id?.value?.toInt())
+        assertEquals(89, state.last().fastBackward().current?.id?.value?.toInt())
+    }
+
+    @Test
+    @DisplayName("random lands on one of the visible technique cards")
+    fun `random lands on a visible card`() {
+        val landed = TechniqueLibraryState(techniqueCards).random(Random(1)).current?.id?.value?.toInt()
+        assertTrue(techniqueCards.map { it.id.value.toInt() }.contains(landed))
     }
 }

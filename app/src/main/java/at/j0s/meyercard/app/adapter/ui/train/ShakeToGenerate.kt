@@ -13,18 +13,26 @@ import kotlin.math.sqrt
 
 /**
  * Registers an accelerometer listener for as long as this is in
- * composition, calling [onShake] on each debounced shake ([ShakeDebouncer]).
- * Composed into [at.j0s.meyercard.app.adapter.ui.FechtkarteApp]'s Train
- * route only, so it's active exactly while Train is on screen — leaving
- * Train (Compose Navigation disposes the previous destination) unregisters
- * the listener automatically via [DisposableEffect]'s `onDispose`.
+ * composition and [enabled] is true, calling [onShake] on each debounced
+ * shake ([ShakeDebouncer]). Composed into
+ * [at.j0s.meyercard.app.adapter.ui.FechtkarteApp]'s Train route only, so
+ * it's active exactly while Train is on screen — leaving Train (Compose
+ * Navigation disposes the previous destination) unregisters the listener
+ * automatically via [DisposableEffect]'s `onDispose`.
+ *
+ * Keyed on [enabled], not `Unit`: a user who turns this off in Configure
+ * shouldn't have to leave and re-enter Train (or generate a new card) for
+ * it to actually stop listening — the effect tears down and, if still
+ * enabled, re-registers whenever the value changes.
  */
 @Composable
-fun ShakeToGenerate(onShake: () -> Unit) {
+fun ShakeToGenerate(enabled: Boolean, onShake: () -> Unit) {
     val context = LocalContext.current
     val currentOnShake = rememberUpdatedState(onShake)
 
-    DisposableEffect(Unit) {
+    DisposableEffect(enabled) {
+        if (!enabled) return@DisposableEffect onDispose {}
+
         val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
         val accelerometer = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         val debouncer = ShakeDebouncer()

@@ -43,8 +43,8 @@ class FechtkarteAppActivityRecreationTest {
             FechtkarteApp(
                 browseHistoricalCards = FakeBrowseHistoricalCards,
                 preferencesStore = store,
-                exportCard = FakeExportCard,
-                shareCard = FakeShareCard,
+                exportCard = FakeExportCard(),
+                shareCard = FakeShareCard(),
             )
         }
     }

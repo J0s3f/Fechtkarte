@@ -1,0 +1,1 @@
+- Ajouté : secouer pour générer peut désormais être désactivé dans Configurer, pour celles et ceux à qui cela arrive par accident.

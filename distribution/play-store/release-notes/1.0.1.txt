@@ -1,3 +1,0 @@
-- New: action count and thrust count can each be set to "random, up to this many" instead of an exact value
-- Fixed: a generated card could show an inner-ring action with no matching outer action on the same direction
-- Exporting the same card again now overwrites the previous file instead of creating a duplicate

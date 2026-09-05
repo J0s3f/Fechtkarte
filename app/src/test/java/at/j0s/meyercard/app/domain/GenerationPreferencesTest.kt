@@ -18,6 +18,12 @@ class GenerationPreferencesTest {
     }
 
     @Test
+    @DisplayName("shake to generate is enabled by default, matching today's always-on behaviour")
+    fun `shake to generate defaults to enabled`() {
+        assertTrue(GenerationPreferences().shakeToGenerateEnabled)
+    }
+
+    @Test
     @DisplayName("counts are exact by default, whatever the seed")
     fun `resolveCounts is exact by default`() {
         val preferences = GenerationPreferences(actionCount = 5, thrustCount = 2)

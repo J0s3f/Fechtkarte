@@ -1,5 +1,6 @@
 package at.j0s.meyercard.app.adapter.ui
 
+import android.net.Uri
 import at.j0s.meyercard.app.application.port.api.BrowseHistoricalCards
 import at.j0s.meyercard.app.application.port.api.ExportCard
 import at.j0s.meyercard.app.application.port.api.ShareCard
@@ -25,7 +26,9 @@ internal object FakeBrowseHistoricalCards : BrowseHistoricalCards {
 }
 
 internal class FakePreferencesStore(initial: GenerationPreferences = GenerationPreferences()) : PreferencesStore {
-    private var preferences = initial
+    /** Read directly rather than through the suspending [load] -- lets a plain (non-coroutine) test body check what the last [save] call actually stored. */
+    var preferences = initial
+        private set
 
     /** How many times [load] has been called — a proxy for how many times Train has (re)generated a card. */
     var loadCallCount = 0
@@ -41,12 +44,39 @@ internal class FakePreferencesStore(initial: GenerationPreferences = GenerationP
     }
 }
 
-/** Never actually invoked by these tests — none of them click Save/Share — so failing loudly beats a silent stub. */
-internal object FakeExportCard : ExportCard {
-    override suspend fun asPng(card: MeyerCard, lineStyle: CardLineStyle): ExportResult = error("not exercised by this test")
-    override suspend fun asPdf(card: MeyerCard, lineStyle: CardLineStyle): ExportResult = error("not exercised by this test")
+/**
+ * Tracks call counts rather than returning anything meaningful -- these tests check that a
+ * button click reached the port, not what it did with the card. [shouldThrow] exists for the
+ * one other thing worth checking here: that a failed export surfaces as the error toast
+ * `TrainRoute.save` promises, not a silent failure or an uncaught crash.
+ */
+internal class FakeExportCard(private val shouldThrow: Boolean = false) : ExportCard {
+    var pngCallCount = 0
+        private set
+    var pdfCallCount = 0
+        private set
+
+    override suspend fun asPng(card: MeyerCard, lineStyle: CardLineStyle): ExportResult {
+        pngCallCount++
+        if (shouldThrow) error("export failed")
+        return ExportResult(Uri.EMPTY, "fake.png")
+    }
+
+    override suspend fun asPdf(card: MeyerCard, lineStyle: CardLineStyle): ExportResult {
+        pdfCallCount++
+        if (shouldThrow) error("export failed")
+        return ExportResult(Uri.EMPTY, "fake.pdf")
+    }
 }
 
-internal object FakeShareCard : ShareCard {
-    override suspend fun prepare(card: MeyerCard, lineStyle: CardLineStyle): ShareableCard = error("not exercised by this test")
+/** [shouldThrow]: see [FakeExportCard] -- same reasoning, for `TrainRoute.share`'s own error toast. */
+internal class FakeShareCard(private val shouldThrow: Boolean = false) : ShareCard {
+    var callCount = 0
+        private set
+
+    override suspend fun prepare(card: MeyerCard, lineStyle: CardLineStyle): ShareableCard {
+        callCount++
+        if (shouldThrow) error("share failed")
+        return ShareableCard(Uri.EMPTY, "image/png")
+    }
 }

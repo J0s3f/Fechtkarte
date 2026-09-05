@@ -1,1 +1,0 @@
-- The release APK is now reproducible: F-Droid can rebuild it from source and confirm, byte for byte, that it matches the APK published here. F-Droid users get this project's own signature rather than F-Droid's, so the same install updates from GitHub or F-Droid interchangeably. No user-facing changes.

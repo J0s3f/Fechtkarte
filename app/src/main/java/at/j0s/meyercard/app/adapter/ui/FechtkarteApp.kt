@@ -140,6 +140,7 @@ fun FechtkarteApp(
     // saveable; `trainLineStyle` (a plain enum) needs none.
     var trainLineStyle by rememberSaveable { mutableStateOf(CardLineStyle.COMPASS) }
     var trainCard by rememberSaveable(stateSaver = TrainCardSaver) { mutableStateOf<MeyerCard?>(null) }
+    var trainShakeToGenerateEnabled by rememberSaveable { mutableStateOf(true) }
 
     Scaffold(
         modifier = modifier,
@@ -181,6 +182,8 @@ fun FechtkarteApp(
                     onCardChange = { trainCard = it },
                     lineStyle = trainLineStyle,
                     onLineStyleChange = { trainLineStyle = it },
+                    shakeToGenerateEnabled = trainShakeToGenerateEnabled,
+                    onShakeToGenerateEnabledChange = { trainShakeToGenerateEnabled = it },
                     onConfigure = { navController.navigate(Route.CONFIGURE) },
                 )
             }
@@ -237,6 +240,8 @@ private fun TrainRoute(
     onCardChange: (MeyerCard?) -> Unit,
     lineStyle: CardLineStyle,
     onLineStyleChange: (CardLineStyle) -> Unit,
+    shakeToGenerateEnabled: Boolean,
+    onShakeToGenerateEnabledChange: (Boolean) -> Unit,
     onConfigure: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -254,6 +259,7 @@ private fun TrainRoute(
         val palette = if (outcome.card.hand == Hand.RIGHT) preferences.rightHandPalette else preferences.leftHandPalette
         onCardChange(outcome.card.copy(palette = palette))
         onLineStyleChange(preferences.cardLineStyle)
+        onShakeToGenerateEnabledChange(preferences.shakeToGenerateEnabled)
     }
 
     suspend fun save(cardToSave: MeyerCard, export: suspend (MeyerCard, CardLineStyle) -> ExportResult) {
@@ -285,7 +291,7 @@ private fun TrainRoute(
     // specifically so it survives leaving and returning (see that state's own comment); a plain
     // LaunchedEffect(Unit) here would regenerate a fresh card on every re-entry instead.
     LaunchedEffect(Unit) { if (card == null) regenerate() }
-    ShakeToGenerate(onShake = { scope.launch { regenerate() } })
+    ShakeToGenerate(enabled = shakeToGenerateEnabled, onShake = { scope.launch { regenerate() } })
 
     val current = card
     if (current == null) {

@@ -1,3 +1,0 @@
-- Exported and shared PNG/PDF files now carry their own metadata: the filename's content code, the app version, and a link to fechtkarte.j0s.at, so a file identifies itself even after being renamed or sent elsewhere.
-- Added a Sources screen (via Learn): Fechtkarte's redrawn compass wheel, with a toggle to the real 16th-century manuscript page it's redrawn from, plus citations for both source manuscripts.
-- Corrected the Learn screen's notation credit, which named the wrong manuscript.

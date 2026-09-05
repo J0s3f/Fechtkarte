@@ -171,6 +171,52 @@ jobs:
           releaseName: ${{ needs.check_release_tag.outputs.tag }}
           whatsNewDirectory: fastlane/metadata/android
 
+  # r0adkll/upload-google-play above has no input for the store listing itself -- only the
+  # binary, track, and "what's new" text. The listing (title/descriptions/screenshots/feature
+  # graphic) needs real `fastlane supply`, which reads the exact same fastlane/metadata/android/
+  # tree `deploy` already reads its changelog from -- one metadata source, two upload paths.
+  #
+  # Independent of `build-aab`/`deploy` on purpose: it needs no built artifact, only the tagged
+  # commit's metadata, so it runs in parallel rather than waiting on the binary build. Like
+  # `deploy`, `github-release` doesn't depend on it -- a listing-push failure (e.g. the service
+  # account not yet having the Play Console "Store presence" permission) must not block the
+  # GitHub release, same reasoning as `deploy` itself already documented above.
+  deploy-listing:
+    if: needs.check_release_tag.outputs.tagged == 'true'
+    needs:
+      - check_release_tag
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v7
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      # No Gemfile/Fastfile: `fastlane supply` has always worked as a standalone CLI tool, and
+      # this workflow needs nothing else from the fastlane toolchain -- a Fastfile would only
+      # add a layer of indirection around a single command.
+      - name: Install fastlane
+        run: gem install fastlane --no-document
+
+      # apk/aab/changelog uploads are `deploy`'s job, not this one's -- skipped here so the two
+      # jobs' Play Console edits don't fight over the same release, and so a `deploy` failure
+      # (e.g. still waiting on the closed-testing prerequisite mentioned above) doesn't also
+      # block the listing text/images from going out.
+      - name: Push store listing (title, descriptions, images) to Google Play
+        env:
+          SUPPLY_JSON_KEY_DATA: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          fastlane supply \
+            --package_name at.j0s.meyercard.app \
+            --metadata_path fastlane/metadata/android \
+            --skip_upload_apk true \
+            --skip_upload_aab true \
+            --skip_upload_changelogs true
+
   github-release:
     if: needs.check_release_tag.outputs.tagged == 'true'
     needs:

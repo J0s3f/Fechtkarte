@@ -1,1 +1,0 @@
-- Added a "Card lines" option in Configure: choose the classic compass rose, or a single line tracing the card's own strike order (1 to 2, 2 to 3, and so on) — the way the Meyer Square's numbering is meant to be read.

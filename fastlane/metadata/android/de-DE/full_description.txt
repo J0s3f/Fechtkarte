@@ -10,4 +10,4 @@ Funktionen:
 * Export einer generierten Karte als hochauflösendes PNG oder druckfertiges Vektor-PDF, oder direktes Teilen in einer anderen App
 * Funktioniert vollständig offline, ohne Konten, ohne Analyse-Tools und ohne Netzwerkzugriff
 
-Fechtkarte ist Freie und Open-Source-Software (Apache-Lizenz 2.0) ohne proprietäre Abhängigkeiten.
+Fechtkarte ist Freie und Open-Source-Software (Apache-Lizenz 2.0) ohne proprietäre Abhängigkeiten. Die vollständige Offenlegung der Datenverarbeitung findet sich in PRIVACY_POLICY.md im Quellcode-Repository.

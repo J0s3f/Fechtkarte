@@ -34,6 +34,8 @@
     <string name="configure_line_style">Lignes de la carte</string>
     <string name="line_style_compass">Boussole</string>
     <string name="line_style_sequence">Séquence</string>
+    <string name="configure_interaction">Interaction</string>
+    <string name="configure_shake_to_generate">Secouer pour générer</string>
     <string name="configure_generation_rules">Règles de génération</string>
     <string name="rule_no_repeated_direction">Pas de direction répétée</string>
     <string name="rule_minimum_angular_distance">Distance angulaire minimale</string>

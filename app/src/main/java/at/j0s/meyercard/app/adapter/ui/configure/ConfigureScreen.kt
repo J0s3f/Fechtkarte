@@ -40,6 +40,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import at.j0s.meyercard.app.BuildConfig
 import at.j0s.meyercard.app.R
@@ -127,6 +128,15 @@ fun ConfigureScreen(state: ConfigureScreenState, onStateChange: (ConfigureScreen
         LineStylePicker(
             selected = state.preferences.cardLineStyle,
             onSelect = { onStateChange(state.withCardLineStyle(it)) },
+        )
+
+        HorizontalDivider()
+
+        Text(stringResource(R.string.configure_interaction), style = MaterialTheme.typography.titleMedium)
+        RuleToggleRow(
+            label = stringResource(R.string.configure_shake_to_generate),
+            checked = state.preferences.shakeToGenerateEnabled,
+            onCheckedChange = { onStateChange(state.toggleShakeToGenerate()) },
         )
 
         HorizontalDivider()
@@ -255,7 +265,13 @@ private fun RuleToggleRow(label: String, checked: Boolean, onCheckedChange: (Boo
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(label, style = MaterialTheme.typography.bodyLarge)
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
+        // testTag, not just the label text: this bare Row has no semantics boundary of its own
+        // (no clickable/mergeDescendants), so Text and Switch flatten into the whole screen's
+        // single, undifferentiated sibling list rather than being grouped as "this row's two
+        // children" -- confirmed against the real semantics tree, not assumed. The tag is the
+        // only reliable way a test can single out one specific row's own switch among several
+        // otherwise-identical ones.
+        Switch(checked = checked, onCheckedChange = onCheckedChange, modifier = Modifier.testTag(label))
     }
 }
 

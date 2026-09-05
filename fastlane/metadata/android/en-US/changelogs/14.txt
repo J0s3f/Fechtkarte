@@ -1,0 +1,1 @@
+- Added: shake-to-generate can now be turned off in Configure, for anyone who finds it fires by accident.

@@ -39,6 +39,9 @@ data class ConfigureScreenState(val preferences: GenerationPreferences) {
 
     fun withCardLineStyle(style: CardLineStyle) = copy(preferences = preferences.copy(cardLineStyle = style))
 
+    fun toggleShakeToGenerate() =
+        copy(preferences = preferences.copy(shakeToGenerateEnabled = !preferences.shakeToGenerateEnabled))
+
     fun isRuleEnabled(rule: GenerationRule): Boolean = rule in preferences.enabledRules
 
     fun toggleRule(rule: GenerationRule): ConfigureScreenState {

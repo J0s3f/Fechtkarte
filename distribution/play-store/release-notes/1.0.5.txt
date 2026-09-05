@@ -1,3 +1,0 @@
-- Fixed a bug where historical-card corrections in an update could fail to reach devices that already had the app installed. If you saw an old card layout after updating, this release should finally show the fix.
-- Fixed two more historical drill cards (12 and 56) where two action markers overlapped on screen.
-- Added a version number at the bottom of the Configure screen, to make it easy to confirm which version is actually installed.

@@ -1,1 +1,0 @@
-- Corrected two historical drill cards (11 and 86) where an action's marked position didn't match its mirror-hand counterpart. No other changes.

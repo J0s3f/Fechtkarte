@@ -53,6 +53,7 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
             enabledRules = stored[ENABLED_RULES]?.mapNotNull { it.toGenerationRule() } ?: defaults.enabledRules,
             cardLineStyle = stored[CARD_LINE_STYLE]?.let { runCatching { CardLineStyle.valueOf(it) }.getOrNull() }
                 ?: defaults.cardLineStyle,
+            shakeToGenerateEnabled = stored[SHAKE_TO_GENERATE_ENABLED] ?: defaults.shakeToGenerateEnabled,
         )
     }
 
@@ -66,6 +67,7 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
             stored[LEFT_HAND_PALETTE] = preferences.leftHandPalette.name
             stored[ENABLED_RULES] = preferences.enabledRules.map { it.toToken() }.toSet()
             stored[CARD_LINE_STYLE] = preferences.cardLineStyle.name
+            stored[SHAKE_TO_GENERATE_ENABLED] = preferences.shakeToGenerateEnabled
         }
     }
 
@@ -78,6 +80,7 @@ class DataStorePreferencesStore(private val dataStore: DataStore<Preferences>) :
         val LEFT_HAND_PALETTE = stringPreferencesKey("leftHandPalette")
         val ENABLED_RULES = stringSetPreferencesKey("enabledRules")
         val CARD_LINE_STYLE = stringPreferencesKey("cardLineStyle")
+        val SHAKE_TO_GENERATE_ENABLED = booleanPreferencesKey("shakeToGenerateEnabled")
     }
 }
 

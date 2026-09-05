@@ -48,6 +48,7 @@ class DataStorePreferencesStoreTest {
             leftHandPalette = CardPalette.MOSS,
             enabledRules = listOf(NoRepeatedDirection, MinimumAngularDistance(3)),
             cardLineStyle = CardLineStyle.SEQUENCE,
+            shakeToGenerateEnabled = false,
         )
 
         store.save(saved)

@@ -10,4 +10,4 @@ Fonctionnalités :
 * Exporter une carte générée en PNG haute résolution ou en PDF vectoriel prêt pour l'impression, ou la partager directement vers une autre application
 * Fonctionne entièrement hors ligne, sans comptes, sans outils d'analyse et sans accès réseau requis
 
-Fechtkarte est un logiciel libre et open source (Licence Apache 2.0), sans dépendances propriétaires.
+Fechtkarte est un logiciel libre et open source (Licence Apache 2.0), sans dépendances propriétaires. Voir PRIVACY_POLICY.md dans le dépôt source pour la divulgation complète du traitement des données.

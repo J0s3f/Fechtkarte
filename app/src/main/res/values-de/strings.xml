@@ -34,6 +34,8 @@
     <string name="configure_line_style">Kartenlinien</string>
     <string name="line_style_compass">Kompass</string>
     <string name="line_style_sequence">Sequenz</string>
+    <string name="configure_interaction">Interaktion</string>
+    <string name="configure_shake_to_generate">Schütteln zum Erzeugen</string>
     <string name="configure_generation_rules">Regeln für die Erzeugung</string>
     <string name="rule_no_repeated_direction">Keine Richtung wiederholen</string>
     <string name="rule_minimum_angular_distance">Mindestwinkelabstand</string>

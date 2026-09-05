@@ -1,1 +1,0 @@
-- Exported PNGs now also include a CC0 (no rights reserved) rights statement, matching what exported PDFs already carry — distinct from the app's own Apache-2.0 licence, since a generated card isn't the same thing as the software that drew it.
