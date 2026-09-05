@@ -1,1 +1,2 @@
-- Maintenance release: Play Store releases now go to closed testing instead of internal testing. No user-facing changes.
+- Added: shake-to-generate can now be turned off in Configure, for anyone who finds it fires by accident.
+- Maintenance: Play Store releases now go through closed testing instead of internal testing.

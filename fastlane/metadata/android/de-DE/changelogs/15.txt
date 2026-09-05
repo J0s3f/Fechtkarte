@@ -1,1 +1,2 @@
-- Wartungs-Release: Play-Store-Veröffentlichungen laufen jetzt über den geschlossenen Test statt über den internen Test. Keine sichtbaren Änderungen für Nutzer.
+- Neu: Schütteln zum Erzeugen kann jetzt in den Einstellungen deaktiviert werden, für alle, bei denen es versehentlich auslöst.
+- Wartung: Play-Store-Veröffentlichungen laufen jetzt über den geschlossenen Test statt über den internen Test.

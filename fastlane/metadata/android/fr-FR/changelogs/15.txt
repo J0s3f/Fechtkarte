@@ -1,1 +1,2 @@
-- Version de maintenance : les publications sur le Play Store passent désormais par les tests fermés au lieu des tests internes. Aucun changement visible pour les utilisateurs.
+- Ajouté : secouer pour générer peut désormais être désactivé dans Configurer, pour celles et ceux à qui cela arrive par accident.
+- Maintenance : les publications sur le Play Store passent désormais par les tests fermés au lieu des tests internes.
