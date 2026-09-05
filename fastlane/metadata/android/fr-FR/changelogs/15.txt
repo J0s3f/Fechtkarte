@@ -1,0 +1,1 @@
+- Version de maintenance : les publications sur le Play Store passent désormais par les tests fermés au lieu des tests internes. Aucun changement visible pour les utilisateurs.

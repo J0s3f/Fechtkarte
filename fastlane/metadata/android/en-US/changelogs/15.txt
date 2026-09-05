@@ -1,0 +1,1 @@
+- Maintenance release: Play Store releases now go to closed testing instead of internal testing. No user-facing changes.

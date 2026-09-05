@@ -1,0 +1,1 @@
+- Wartungs-Release: Play-Store-Veröffentlichungen laufen jetzt über den geschlossenen Test statt über den internen Test. Keine sichtbaren Änderungen für Nutzer.
