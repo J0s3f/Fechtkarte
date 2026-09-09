@@ -133,10 +133,12 @@ internal fun thrustDotCenter(discCenter: Offset, cardWidthPx: Float): Offset {
  * of the device's theme, the same reasoning a printed page doesn't have a "dark mode" — only
  * the live on-screen Composable (T2.4's `MeyerSquareCard`) passes the device's actual setting.
  *
- * [lineStyle] (docs/LINE_STYLE_DESIGN.md) selects between the fixed compass rose drawn behind
- * the action badges regardless of [card]'s actions ([CardLineStyle.COMPASS], the default and
- * today's behaviour) and a line tracing the drill's own strike order, action 1 to 2, 2 to 3,
- * and so on ([CardLineStyle.SEQUENCE]).
+ * [lineStyle] (docs/LINE_STYLE_DESIGN.md) selects what's drawn behind the action badges: the
+ * fixed compass rose regardless of [card]'s actions ([CardLineStyle.COMPASS], the default and
+ * today's behaviour), a line tracing the drill's own strike order, action 1 to 2, 2 to 3, and so
+ * on ([CardLineStyle.SEQUENCE]), a non-crossing bar-and-legs shape added at a user's request
+ * instead of the compass cross ([CardLineStyle.BRIDGE]), or no lines at all ([CardLineStyle.NONE]).
+ * See [MeyerCard.lineSegments] for how each is computed — this renderer only strokes what it's given.
  */
 object CardRenderer {
 

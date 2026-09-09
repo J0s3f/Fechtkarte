@@ -24,6 +24,12 @@ class GenerationPreferencesTest {
     }
 
     @Test
+    @DisplayName("tap to generate is enabled by default, matching today's always-on behaviour")
+    fun `tap to generate defaults to enabled`() {
+        assertTrue(GenerationPreferences().tapToGenerateEnabled)
+    }
+
+    @Test
     @DisplayName("counts are exact by default, whatever the seed")
     fun `resolveCounts is exact by default`() {
         val preferences = GenerationPreferences(actionCount = 5, thrustCount = 2)

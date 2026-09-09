@@ -42,6 +42,9 @@ data class ConfigureScreenState(val preferences: GenerationPreferences) {
     fun toggleShakeToGenerate() =
         copy(preferences = preferences.copy(shakeToGenerateEnabled = !preferences.shakeToGenerateEnabled))
 
+    fun toggleTapToGenerate() =
+        copy(preferences = preferences.copy(tapToGenerateEnabled = !preferences.tapToGenerateEnabled))
+
     fun isRuleEnabled(rule: GenerationRule): Boolean = rule in preferences.enabledRules
 
     fun toggleRule(rule: GenerationRule): ConfigureScreenState {

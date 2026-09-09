@@ -156,6 +156,56 @@ class MeyerSquareCardScreenshotTest {
         composeTestRule.onRoot().captureRoboImage()
     }
 
+    /**
+     * `CardLineStyle.BRIDGE`: a non-crossing bar-and-legs shape instead of the compass cross - a
+     * bar across the two upper diagonal actions (NW/NE) with a leg down to each lower one
+     * (SW/SE), all four present here.
+     */
+    @Test
+    fun bridgeLineStyle_fourCornerActions() {
+        composeTestRule.setContent {
+            MeyerSquareCard(
+                card(
+                    listOf(
+                        action(1, Direction.NW),
+                        action(2, Direction.NE),
+                        action(3, Direction.SW),
+                        action(4, Direction.SE),
+                    ),
+                ),
+                lineStyle = CardLineStyle.BRIDGE,
+            )
+        }
+        composeTestRule.onRoot().captureRoboImage()
+    }
+
+    /**
+     * `CardLineStyle.BRIDGE` on a card missing a corner action (no SW here) - the bar and the
+     * one remaining leg (NE-SE) still draw, the missing leg simply doesn't.
+     */
+    @Test
+    fun bridgeLineStyle_partialBridge() {
+        composeTestRule.setContent {
+            MeyerSquareCard(
+                card(listOf(action(1, Direction.NW), action(2, Direction.NE), action(3, Direction.SE))),
+                lineStyle = CardLineStyle.BRIDGE,
+            )
+        }
+        composeTestRule.onRoot().captureRoboImage()
+    }
+
+    /** `CardLineStyle.NONE`: action badges on a plain quadrant field, no connecting lines at all. */
+    @Test
+    fun noneLineStyle_fourActionCard() {
+        composeTestRule.setContent {
+            MeyerSquareCard(
+                card(listOf(action(1, Direction.W), action(2, Direction.N), action(3, Direction.E), action(4, Direction.S))),
+                lineStyle = CardLineStyle.NONE,
+            )
+        }
+        composeTestRule.onRoot().captureRoboImage()
+    }
+
     @Test
     fun cardWithThrusts() {
         composeTestRule.setContent {

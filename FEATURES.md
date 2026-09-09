@@ -11,17 +11,17 @@ count and thrust count) and a Techniques tab (21 technique cards, filterable by
 technique). Each tab has first/previous/next/last, ±10, and a random pick.
 
 **Random drill generation.** The Train screen generates a new drill card on demand — tap the
-Generate button, tap the card itself, or shake the device (shake can be turned off in Configure,
-for anyone who finds it fires by accident). Hand (and so background colour) is picked at random
-per card.
+Generate button, tap the card itself, or shake the device (both tap and shake can be turned off
+in Configure, for anyone who finds either fires by accident). Hand (and so background colour) is
+picked at random per card.
 
 **Configurable generation.** A Configure screen (reached from Train) controls how cards are
 generated: how many actions (1–8) and how many of those are thrusts, which of the 6 palettes
-each hand uses, whether shaking the device generates a new card, and five opt-in shaping rules —
-no repeated direction between consecutive actions, a minimum angular distance between them
-(adjustable), alternating hands card to card, restricting to the outer ring only, and weighting
-directions to match the frequencies observed across the classic cards. All of it persists across
-restarts.
+each hand uses, whether tapping the card or shaking the device generates a new one, and five
+opt-in shaping rules — no repeated direction between consecutive actions, a minimum angular
+distance between them (adjustable), alternating hands card to card, restricting to the outer
+ring only, and weighting directions to match the frequencies observed across the classic cards.
+All of it persists across restarts.
 
 **Export as PNG or vector PDF, and share.** From the Train screen: Save PNG writes a
 high-resolution image to the gallery; Save PDF writes a true-vector, print-ready PDF sized to
@@ -66,15 +66,19 @@ Configure screen, so it's always possible to confirm which build is actually ins
 when troubleshooting whether an update really took effect.
 
 **A choice of card line style.** A "Card lines" dropdown in Configure (under a new "Card
-appearance" section), with two options today. **Compass** (the default) keeps every card's
+appearance" section), with four options. **Compass** (the default) keeps every card's
 familiar compass rose — two diagonals plus the vertical and horizontal centre lines, edge to
 edge, unchanged. **Sequence** replaces it with a single connected line through the action
 badges in strike order — 1 to 2, 2 to 3, and so on — the way the Meyer Square's own numbering is
-meant to be read. Applies everywhere a card is shown or saved — on screen (Train and the
+meant to be read. **Bridge**, added at a user's request, draws a horizontal bar across the card's
+two upper diagonal actions with a leg descending to each lower diagonal action instead of a
+crossing compass; other cards draw only the segments their own actions support, down to nothing
+if the card has no diagonal actions at all. **None** removes the connecting lines entirely, leaving
+just the action badges. Applies everywhere a card is shown or saved — on screen (Train and the
 Library), in a saved PNG or PDF, and when shared to another app — and persists across restarts
 like the rest of Configure. A PNG/PDF's filename reflects which style it was saved with, so
-exporting the same card under both styles keeps both files instead of one overwriting the
-other. The Learn screen's worked example always shows the compass, regardless of the setting
+exporting the same card under two different styles keeps both files instead of one overwriting
+the other. The Learn screen's worked example always shows the compass, regardless of the setting
 (see `docs/LINE_STYLE_DESIGN.md`).
 
 **Exported and shared files carry their own metadata.** Every PNG or PDF saved from Train, and

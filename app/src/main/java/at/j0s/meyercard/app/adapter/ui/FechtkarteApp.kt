@@ -141,6 +141,7 @@ fun FechtkarteApp(
     var trainLineStyle by rememberSaveable { mutableStateOf(CardLineStyle.COMPASS) }
     var trainCard by rememberSaveable(stateSaver = TrainCardSaver) { mutableStateOf<MeyerCard?>(null) }
     var trainShakeToGenerateEnabled by rememberSaveable { mutableStateOf(true) }
+    var trainTapToGenerateEnabled by rememberSaveable { mutableStateOf(true) }
 
     Scaffold(
         modifier = modifier,
@@ -184,6 +185,8 @@ fun FechtkarteApp(
                     onLineStyleChange = { trainLineStyle = it },
                     shakeToGenerateEnabled = trainShakeToGenerateEnabled,
                     onShakeToGenerateEnabledChange = { trainShakeToGenerateEnabled = it },
+                    tapToGenerateEnabled = trainTapToGenerateEnabled,
+                    onTapToGenerateEnabledChange = { trainTapToGenerateEnabled = it },
                     onConfigure = { navController.navigate(Route.CONFIGURE) },
                 )
             }
@@ -242,6 +245,8 @@ private fun TrainRoute(
     onLineStyleChange: (CardLineStyle) -> Unit,
     shakeToGenerateEnabled: Boolean,
     onShakeToGenerateEnabledChange: (Boolean) -> Unit,
+    tapToGenerateEnabled: Boolean,
+    onTapToGenerateEnabledChange: (Boolean) -> Unit,
     onConfigure: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -260,6 +265,7 @@ private fun TrainRoute(
         onCardChange(outcome.card.copy(palette = palette))
         onLineStyleChange(preferences.cardLineStyle)
         onShakeToGenerateEnabledChange(preferences.shakeToGenerateEnabled)
+        onTapToGenerateEnabledChange(preferences.tapToGenerateEnabled)
     }
 
     suspend fun save(cardToSave: MeyerCard, export: suspend (MeyerCard, CardLineStyle) -> ExportResult) {
@@ -306,6 +312,7 @@ private fun TrainRoute(
             onShare = { scope.launch { share(current) } },
             modifier = modifier,
             lineStyle = lineStyle,
+            tapToGenerateEnabled = tapToGenerateEnabled,
         )
     }
 }

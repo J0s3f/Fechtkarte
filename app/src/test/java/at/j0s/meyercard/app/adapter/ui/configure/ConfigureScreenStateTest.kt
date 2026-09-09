@@ -132,6 +132,20 @@ class ConfigureScreenStateTest {
     }
 
     @Test
+    @DisplayName("toggling tapToGenerateEnabled flips only that flag")
+    fun `toggling tapToGenerateEnabled flips only that flag`() {
+        val state = ConfigureScreenState(GenerationPreferences())
+        assertTrue(state.preferences.tapToGenerateEnabled)
+
+        val disabled = state.toggleTapToGenerate()
+        assertFalse(disabled.preferences.tapToGenerateEnabled)
+        assertTrue(disabled.preferences.shakeToGenerateEnabled)
+
+        val reenabled = disabled.toggleTapToGenerate()
+        assertTrue(reenabled.preferences.tapToGenerateEnabled)
+    }
+
+    @Test
     @DisplayName("selecting a palette replaces only that hand's palette")
     fun `selecting a palette replaces only that hand's palette`() {
         val state = ConfigureScreenState(GenerationPreferences())

@@ -1,0 +1,4 @@
+- Neu: Kartenlinien-Optionen „Brücke“ und „Keine“ in den Einstellungen, zusätzlich zu Kompass und Sequenz. „Brücke“ (auf Nutzerwunsch) zeichnet eine kreuzungsfreie Form; „Keine“ entfernt die Linien vollständig.
+- Neu: Antippen zum Erzeugen kann jetzt deaktiviert werden, zusätzlich zum Schütteln.
+- Behoben: Die Trainingskarte schrumpft im Querformat nicht mehr zu einem Miniaturbild.
+- Behoben: Der Tab-Wechsel in der Bibliothek löscht nicht mehr die ausgewählten Filter.

@@ -1,0 +1,4 @@
+- Ajouté : options de lignes de carte « Pont » et « Aucune » dans Configurer, en plus de Boussole et Séquence. « Pont » (à la demande d'un utilisateur) dessine une forme sans croisement ; « Aucune » supprime entièrement les lignes.
+- Ajouté : toucher la carte pour générer peut désormais être désactivé, en plus de secouer.
+- Corrigé : la carte d'entraînement ne rétrécit plus en une miniature en paysage.
+- Corrigé : changer d'onglet dans la Bibliothèque n'efface plus les filtres sélectionnés.

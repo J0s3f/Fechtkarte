@@ -12,8 +12,8 @@ import org.junit.runner.RunWith
 /**
  * Runs on a real device/emulator (`.github/workflows/instrumented-tests.yml`), not Robolectric:
  * [AppLocalesManifestTest] (Robolectric) only confirms `AndroidManifest.xml` declares
- * AppCompat's per-app-language backport correctly — the manifest fact behind the PrimeTestLab
- * M-01 fix — not that the actual runtime persistence mechanism that declaration turns on
+ * AppCompat's per-app-language backport correctly — the manifest fact behind the M-01 fix — not
+ * that the actual runtime persistence mechanism that declaration turns on
  * (real `SharedPreferences`/`LocaleManager` plumbing Robolectric doesn't run) genuinely engages.
  * This closes that gap directly, reproducing M-01's own repro steps almost verbatim: choose a
  * language, then "close and reopen the app."

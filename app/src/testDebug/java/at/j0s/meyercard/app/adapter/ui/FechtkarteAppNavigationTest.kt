@@ -117,7 +117,7 @@ class FechtkarteAppNavigationTest {
 
     @Test
     fun `leaving Train and coming back does not silently replace the active card`() {
-        // Found on a real device (PrimeTestLab report M-03): visiting Library or Learn and
+        // Found on a real device (QA report M-03): visiting Library or Learn and
         // returning to Train replaced the active drill with a freshly generated one, with no
         // tap on "Generate". regenerate() calls preferencesStore.load() exactly once per actual
         // generation, so a load count that doesn't grow across a Train -> Learn -> Train round
@@ -201,6 +201,18 @@ class FechtkarteAppNavigationTest {
         assertEquals(true, store.preferences.shakeToGenerateEnabled)
         composeTestRule.onNodeWithTag(context.getString(R.string.configure_shake_to_generate)).performScrollTo().performClick()
         assertEquals(false, store.preferences.shakeToGenerateEnabled)
+    }
+
+    @Test
+    fun `turning off tap to generate in Configure persists the change`() {
+        val store = FakePreferencesStore()
+        setApp(preferencesStore = store)
+        composeTestRule.onNodeWithText(context.getString(R.string.nav_train)).performClick()
+        composeTestRule.onNodeWithText(context.getString(R.string.configure)).performClick()
+
+        assertEquals(true, store.preferences.tapToGenerateEnabled)
+        composeTestRule.onNodeWithTag(context.getString(R.string.configure_tap_to_generate)).performScrollTo().performClick()
+        assertEquals(false, store.preferences.tapToGenerateEnabled)
     }
 
     @Test

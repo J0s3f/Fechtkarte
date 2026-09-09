@@ -49,6 +49,7 @@ class DataStorePreferencesStoreTest {
             enabledRules = listOf(NoRepeatedDirection, MinimumAngularDistance(3)),
             cardLineStyle = CardLineStyle.SEQUENCE,
             shakeToGenerateEnabled = false,
+            tapToGenerateEnabled = false,
         )
 
         store.save(saved)

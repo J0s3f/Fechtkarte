@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 /**
- * PrimeTestLab report M-01: choosing "Deutsch" in Configure's `LanguagePicker` neither applied
+ * QA report M-01: choosing "Deutsch" in Configure's `LanguagePicker` neither applied
  * immediately nor survived reopening the app, on a real API 31 device. Root cause: AppCompat's
  * `AppLocalesMetadataHolderService` manifest declaration -- required to opt an app into
  * automatic locale storage/application on API < 33 -- was missing entirely; without it,

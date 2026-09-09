@@ -27,7 +27,7 @@ import org.junit.runner.RunWith
 import java.time.Instant
 
 /**
- * PrimeTestLab report M-02: selecting a filter combination with no matching drills left the
+ * QA report M-02: selecting a filter combination with no matching drills left the
  * card-navigation toolbar (first/back-ten/previous/next/forward-ten/last/random) looking fully
  * enabled, with nothing for any of its buttons to actually navigate to. Semantic-tree
  * assertions, not a screenshot -- "enabled or not" isn't something a pixel golden checks well,

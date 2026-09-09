@@ -138,6 +138,11 @@ fun ConfigureScreen(state: ConfigureScreenState, onStateChange: (ConfigureScreen
             checked = state.preferences.shakeToGenerateEnabled,
             onCheckedChange = { onStateChange(state.toggleShakeToGenerate()) },
         )
+        RuleToggleRow(
+            label = stringResource(R.string.configure_tap_to_generate),
+            checked = state.preferences.tapToGenerateEnabled,
+            onCheckedChange = { onStateChange(state.toggleTapToGenerate()) },
+        )
 
         HorizontalDivider()
 
@@ -303,9 +308,10 @@ private fun PalettePicker(label: String, selected: CardPalette, onSelect: (CardP
 
 /**
  * A dropdown, not a switch: [CardLineStyle] is deliberately an enum, not a boolean, because more
- * styles than these two are expected (docs/LINE_STYLE_DESIGN.md's `BRIDGE`/`NONE`) — a picker
- * that already reads as "choose one of several" needs no rework when a third option arrives,
- * where a switch would need replacing outright. `ExposedDropdownMenuBox` over a `FilterChip` row
+ * than two styles were always expected (docs/LINE_STYLE_DESIGN.md's `BRIDGE`/`NONE`, both now
+ * shipped alongside compass/sequence) — a picker that already reads as "choose one of several"
+ * needed no rework when a third and fourth option arrived, where a switch would have needed
+ * replacing outright. `ExposedDropdownMenuBox` over a `FilterChip` row
  * (this screen's usual precedent, see [PalettePicker]/[LanguagePicker]) for the same reason: a
  * chip row grows wider with every option, a dropdown doesn't.
  */
@@ -340,4 +346,6 @@ private fun LineStylePicker(selected: CardLineStyle, onSelect: (CardLineStyle) -
 private fun CardLineStyle.displayName(): String = when (this) {
     CardLineStyle.COMPASS -> stringResource(R.string.line_style_compass)
     CardLineStyle.SEQUENCE -> stringResource(R.string.line_style_sequence)
+    CardLineStyle.BRIDGE -> stringResource(R.string.line_style_bridge)
+    CardLineStyle.NONE -> stringResource(R.string.line_style_none)
 }

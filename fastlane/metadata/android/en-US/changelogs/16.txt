@@ -1,0 +1,4 @@
+- Added: "Bridge" and "None" card line options in Configure, alongside Compass and Sequence. Bridge (a user request) draws a non-crossing shape; None removes the connecting lines entirely.
+- Added: tap-to-generate on Train can now be turned off in Configure, alongside shake-to-generate.
+- Fixed: the Train card no longer shrinks to a thumbnail in landscape.
+- Fixed: switching Library tabs no longer clears your selected filters.

@@ -147,4 +147,22 @@ class LibraryInteractionTest {
         composeTestRule.onNodeWithText(context.getString(R.string.library_filter_all)).performClick()
         composeTestRule.onNodeWithText(cardPosition(1, of = 2)).assertIsDisplayed()
     }
+
+    @Test
+    fun `switching to Techniques and back preserves the Drills filter and position`() {
+        // Found via real-device QA testing, M-02: DrillsTab/TechniquesTab each held their own filter
+        // state in a `remember` scoped to themselves, disposed the moment `LibraryScreen`'s
+        // `when(tab)` swapped the other one in -- switching back produced a fresh, unfiltered
+        // state instead of the one the user had set up.
+        setScreen()
+        val oneAction = context.resources.getQuantityString(R.plurals.library_filter_actions, 1, 1)
+        composeTestRule.onNodeWithText(oneAction).performClick()
+        composeTestRule.onNodeWithContentDescription(context.getString(R.string.library_nav_next)).performClick()
+        composeTestRule.onNodeWithText(drillPosition(2, of = 2)).assertIsDisplayed()
+
+        composeTestRule.onNodeWithText(context.getString(R.string.library_tab_techniques)).performClick()
+        composeTestRule.onNodeWithText(context.getString(R.string.library_tab_drills)).performClick()
+
+        composeTestRule.onNodeWithText(drillPosition(2, of = 2)).assertIsDisplayed()
+    }
 }

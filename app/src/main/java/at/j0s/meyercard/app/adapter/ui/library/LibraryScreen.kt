@@ -60,6 +60,14 @@ private enum class LibraryTab(@StringRes val label: Int) {
  * The Library screen: the 44 historical drills with a hand
  * toggle, and the 21 technique cards, each in their own tab with independent
  * filtering and first/previous/next/last/±10/random navigation.
+ *
+ * [DrillsTab]/[TechniquesTab]'s own filter/position state is hoisted up here rather than
+ * `remember`ed inside either tab composable: the `when(tab)` below only ever composes one of
+ * them at a time, so a tab's own `remember` gets disposed the moment the other tab is selected
+ * — switching back silently reset the filter and browse position to their defaults (found via
+ * real-device QA testing, M-02). Hoisting to this composable, which stays in composition across
+ * the tab switch, is the same fix this project already used for Train's card surviving a
+ * Library/Learn round trip (`FechtkarteApp.kt`'s own `trainCard`/`trainLineStyle`).
  */
 @Composable
 fun LibraryScreen(
@@ -69,6 +77,8 @@ fun LibraryScreen(
     lineStyle: CardLineStyle = CardLineStyle.COMPASS,
 ) {
     var tab by remember { mutableStateOf(LibraryTab.DRILLS) }
+    var drillsState by remember(drills) { mutableStateOf(DrillsLibraryState(drills)) }
+    var techniqueState by remember(techniqueCards) { mutableStateOf(TechniqueLibraryState(techniqueCards)) }
 
     Column(modifier = modifier.fillMaxSize()) {
         PrimaryTabRow(selectedTabIndex = tab.ordinal) {
@@ -86,16 +96,30 @@ fun LibraryScreen(
             )
         }
         when (tab) {
-            LibraryTab.DRILLS -> DrillsTab(drills, modifier = Modifier.weight(1f), lineStyle = lineStyle)
-            LibraryTab.TECHNIQUES -> TechniquesTab(techniqueCards, modifier = Modifier.weight(1f), lineStyle = lineStyle)
+            LibraryTab.DRILLS -> DrillsTab(
+                state = drillsState,
+                onStateChange = { drillsState = it },
+                modifier = Modifier.weight(1f),
+                lineStyle = lineStyle,
+            )
+            LibraryTab.TECHNIQUES -> TechniquesTab(
+                state = techniqueState,
+                onStateChange = { techniqueState = it },
+                modifier = Modifier.weight(1f),
+                lineStyle = lineStyle,
+            )
         }
     }
 }
 
 @Composable
-private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifier, lineStyle: CardLineStyle = CardLineStyle.COMPASS) {
-    var state by remember(drills) { mutableStateOf(DrillsLibraryState(drills)) }
-    val actionCounts = remember(drills) { drills.map { it.rightHandCard.actions.size }.distinct().sorted() }
+private fun DrillsTab(
+    state: DrillsLibraryState,
+    onStateChange: (DrillsLibraryState) -> Unit,
+    modifier: Modifier = Modifier,
+    lineStyle: CardLineStyle = CardLineStyle.COMPASS,
+) {
+    val actionCounts = remember(state.allDrills) { state.allDrills.map { it.rightHandCard.actions.size }.distinct().sorted() }
 
     Column(modifier = modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(
@@ -108,7 +132,7 @@ private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifi
                     label = pluralStringResource(R.plurals.library_filter_actions, count, count),
                     onClick = {
                         val newCount = if (state.filter.actionCount == count) null else count
-                        state = state.withFilter(state.filter.copy(actionCount = newCount))
+                        onStateChange(state.withFilter(state.filter.copy(actionCount = newCount)))
                     },
                 )
             }
@@ -123,12 +147,12 @@ private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifi
                     label = pluralStringResource(R.plurals.library_filter_thrusts, count, count),
                     onClick = {
                         val newCount = if (state.filter.thrustCount == count) null else count
-                        state = state.withFilter(state.filter.copy(thrustCount = newCount))
+                        onStateChange(state.withFilter(state.filter.copy(thrustCount = newCount)))
                     },
                 )
             }
         }
-        TextButton(onClick = { state = state.toggleHand() }) {
+        TextButton(onClick = { onStateChange(state.toggleHand()) }) {
             Icon(Icons.Filled.SwapHoriz, contentDescription = null, modifier = Modifier.size(20.dp))
             Text(
                 " " + stringResource(
@@ -157,21 +181,24 @@ private fun DrillsTab(drills: List<HistoricalDrill>, modifier: Modifier = Modifi
 
         BrowseControls(
             enabled = current != null,
-            onFirst = { state = state.first() },
-            onFastBackward = { state = state.fastBackward() },
-            onPrevious = { state = state.previous() },
-            onNext = { state = state.next() },
-            onFastForward = { state = state.fastForward() },
-            onLast = { state = state.last() },
-            onRandom = { state = state.random() },
+            onFirst = { onStateChange(state.first()) },
+            onFastBackward = { onStateChange(state.fastBackward()) },
+            onPrevious = { onStateChange(state.previous()) },
+            onNext = { onStateChange(state.next()) },
+            onFastForward = { onStateChange(state.fastForward()) },
+            onLast = { onStateChange(state.last()) },
+            onRandom = { onStateChange(state.random()) },
         )
     }
 }
 
 @Composable
-private fun TechniquesTab(cards: List<MeyerCard>, modifier: Modifier = Modifier, lineStyle: CardLineStyle = CardLineStyle.COMPASS) {
-    var state by remember(cards) { mutableStateOf(TechniqueLibraryState(cards)) }
-
+private fun TechniquesTab(
+    state: TechniqueLibraryState,
+    onStateChange: (TechniqueLibraryState) -> Unit,
+    modifier: Modifier = Modifier,
+    lineStyle: CardLineStyle = CardLineStyle.COMPASS,
+) {
     Column(modifier = modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState()),
@@ -180,13 +207,13 @@ private fun TechniquesTab(cards: List<MeyerCard>, modifier: Modifier = Modifier,
             SelectableChip(
                 selected = state.filter.instruction == null,
                 label = stringResource(R.string.library_filter_all),
-                onClick = { state = state.withFilter(TechniqueFilter(null)) },
+                onClick = { onStateChange(state.withFilter(TechniqueFilter(null))) },
             )
             Instruction.entries.forEach { instruction ->
                 SelectableChip(
                     selected = state.filter.instruction == instruction,
                     label = instruction.displayName(LocalContext.current.resources),
-                    onClick = { state = state.withFilter(TechniqueFilter(instruction)) },
+                    onClick = { onStateChange(state.withFilter(TechniqueFilter(instruction))) },
                 )
             }
         }
@@ -208,13 +235,13 @@ private fun TechniquesTab(cards: List<MeyerCard>, modifier: Modifier = Modifier,
 
         BrowseControls(
             enabled = current != null,
-            onFirst = { state = state.first() },
-            onFastBackward = { state = state.fastBackward() },
-            onPrevious = { state = state.previous() },
-            onNext = { state = state.next() },
-            onFastForward = { state = state.fastForward() },
-            onLast = { state = state.last() },
-            onRandom = { state = state.random() },
+            onFirst = { onStateChange(state.first()) },
+            onFastBackward = { onStateChange(state.fastBackward()) },
+            onPrevious = { onStateChange(state.previous()) },
+            onNext = { onStateChange(state.next()) },
+            onFastForward = { onStateChange(state.fastForward()) },
+            onLast = { onStateChange(state.last()) },
+            onRandom = { onStateChange(state.random()) },
         )
     }
 }
