@@ -35,8 +35,8 @@ android {
         applicationId = "at.j0s.meyercard.app"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 16
-        versionName = "1.0.15"
+        versionCode = 17
+        versionName = "1.0.16"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -79,6 +79,12 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            // Flagged by Google Play's automated pre-launch feedback on 1.0.15 ("resource
+            // shrinking is not enabled"): without this, R8 strips unreachable code but
+            // `res/`/`assets/` entries no longer referenced by that surviving code still ship
+            // in full, needing isMinifyEnabled=true (already on) to know what's actually
+            // reachable.
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

@@ -1,0 +1,1 @@
+- Amélioré : consommation de mémoire réduite lors de l'affichage du scan du manuscrit dans « Sources », et une taille de téléchargement de l'application plus petite.

@@ -158,19 +158,17 @@ jobs:
           name: fechtkarte_aab
           path: ${{ github.workspace }}/play-store
 
-      # 'alpha' is the Play Developer API's own track id for closed testing (Play Console's UI
-      # calls it "Closed testing", but the API/fastlane's Supply::Tracks still use the legacy
-      # "alpha" name). Not 'internal': a new developer account can't reach production access at
-      # all without first clearing the closed-testing prerequisite, and internal testing doesn't
-      # count toward it -- confirmed the hard way, this project's v1.0.13 uploaded fine to
-      # 'internal' but did nothing toward satisfying that requirement.
+      # 'production' -- the app cleared Play's closed-testing prerequisite and is now live for
+      # all users. Went internal -> alpha (closed testing) -> here as each stage's own
+      # requirement was satisfied; see DESIGN_CHOICES.md for that history if this ever needs
+      # rolling back to a testing track.
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: 'at.j0s.meyercard.app'
           releaseFiles: ${{ github.workspace }}/play-store/app-release.aab
-          tracks: 'alpha'
+          tracks: 'production'
           releaseName: ${{ needs.check_release_tag.outputs.tag }}
           whatsNewDirectory: fastlane/metadata/android
 
@@ -209,14 +207,12 @@ jobs:
       # jobs' Play Console edits don't fight over the same release, and so a `deploy` failure
       # doesn't also block the listing text/images from going out.
       #
-      # `--track alpha`, matching `deploy`'s own track (Play Console's "Closed testing", the
-      # Developer API's legacy 'alpha' id -- see `deploy`'s own comment above): `supply` defaults
-      # to `production` (Supply::Tracks::DEFAULT) and looks up that track's latest release to
-      # resolve a version code even for a metadata-only push with changelogs skipped -- confirmed
-      # the hard way, not guessed: the first real attempt at this job failed with "Could not find
-      # release for version code ''" because it was checking a track with no release on it while
-      # the app's real release sat on a different one. Update this if `deploy`'s own track ever
-      # changes.
+      # `--track production`, matching `deploy`'s own track: `supply` looks up that track's
+      # latest release to resolve a version code even for a metadata-only push with changelogs
+      # skipped -- confirmed the hard way, not guessed: an early attempt at this job failed with
+      # "Could not find release for version code ''" because it was checking a track with no
+      # release on it while the app's real release sat on a different one. Update this if
+      # `deploy`'s own track ever changes.
       - name: Push store listing (title, descriptions, images) to Google Play
         env:
           SUPPLY_JSON_KEY_DATA: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
@@ -224,7 +220,7 @@ jobs:
           fastlane supply \
             --package_name at.j0s.meyercard.app \
             --metadata_path fastlane/metadata/android \
-            --track alpha \
+            --track production \
             --skip_upload_apk true \
             --skip_upload_aab true \
             --skip_upload_changelogs true

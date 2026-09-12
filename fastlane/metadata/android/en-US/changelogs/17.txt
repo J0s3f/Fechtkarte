@@ -1,0 +1,1 @@
+- Improved: lower memory use when viewing the Sources manuscript scan, and a smaller app download size.

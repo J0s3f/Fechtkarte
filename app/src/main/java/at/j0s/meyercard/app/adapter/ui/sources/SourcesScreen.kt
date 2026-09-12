@@ -76,5 +76,26 @@ fun SourcesScreen(scan: ImageBitmap, modifier: Modifier = Modifier) {
     }
 }
 
-internal fun Context.readSourcesScanAsset(): ImageBitmap =
-    assets.open("sources/rostock_f2v_scan.jpg").use { BitmapFactory.decodeStream(it) }.asImageBitmap()
+/**
+ * Downsamples to this device's own display width rather than decoding the bundled 1200x1664 scan
+ * at full resolution — Google Play's automated pre-launch feedback flagged the previous plain
+ * `decodeStream` call on exactly this size-scaling ground, and it would only get worse if the
+ * bundled scan is ever replaced with a higher-resolution one. `inJustDecodeBounds` reads the real
+ * dimensions without allocating any pixel data before the real (downsampled) decode.
+ */
+internal fun Context.readSourcesScanAsset(): ImageBitmap {
+    val assetPath = "sources/rostock_f2v_scan.jpg"
+    val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+    assets.open(assetPath).use { BitmapFactory.decodeStream(it, null, bounds) }
+
+    val targetWidth = resources.displayMetrics.widthPixels
+    val options = BitmapFactory.Options().apply { inSampleSize = sampleSizeForWidth(bounds.outWidth, targetWidth) }
+    return assets.open(assetPath).use { BitmapFactory.decodeStream(it, null, options) }!!.asImageBitmap()
+}
+
+/** The largest power-of-two downsample factor that still leaves the decoded width at or above [targetWidth]. */
+internal fun sampleSizeForWidth(sourceWidth: Int, targetWidth: Int): Int {
+    var inSampleSize = 1
+    while (sourceWidth / (inSampleSize * 2) >= targetWidth) inSampleSize *= 2
+    return inSampleSize
+}

@@ -1,0 +1,1 @@
+- Verbessert: geringerer Arbeitsspeicherverbrauch beim Anzeigen des Handschriften-Scans in „Quellen“ und eine kleinere App-Downloadgröße.
