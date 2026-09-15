@@ -1,5 +1,6 @@
 # Fechtkarte
 
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=at.j0s.meyercard.app)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/at.j0s.meyercard.app/)
 
 A drill card generator for Historical European Martial Arts, built on a cutting-diagram
