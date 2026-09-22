@@ -1,0 +1,89 @@
+name: "CodeQL"
+
+# Replaces this repo's GitHub-side "default setup" for code scanning: its generic Gradle
+# autobuilder can't figure out how to build an AGP 9.x project and fails the java-kotlin
+# analysis the same way on every run (autobuild.sh exits 1 -- see
+# https://docs.github.com/en/code-security/code-scanning/troubleshooting-code-scanning/automatic-build-failed).
+# This is the documented fix: an "advanced setup" workflow with a real, traceable build recipe
+# for the languages that need one.
+#
+# Builds natively on the runner rather than through this project's own Dockerfile the way
+# scripts/build.sh and the other workflows do (see DESIGN_CHOICES.md for why that's usually
+# preferred): CodeQL's build tracer has to observe the actual javac/kotlinc invocations, and a
+# nested `docker build` would hide those from it the same way instrumented-tests.yml's emulator
+# job already can't run through Docker for its own, different reason.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Matches the weekly cadence the default setup this replaces was already running on.
+    - cron: '30 1 * * 0'
+  workflow_dispatch:
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ubuntu-24.04
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Only java-kotlin needs an actual build; python and actions (workflow YAML) are
+          # source-only analyses, same as they were under default setup.
+          - language: java-kotlin
+            build-mode: manual
+          - language: python
+            build-mode: none
+          - language: actions
+            build-mode: none
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v7
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - name: Set up JDK 21
+        if: matrix.build-mode == 'manual'
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # The runner image's bundled SDK doesn't reliably carry compileSdk 36 (Android 16, GA only
+      # recently) or its matching build-tools -- install and accept explicitly rather than hope
+      # it's already there. The same components this project's own local setup needed.
+      - name: Install the Android SDK components this project needs
+        if: matrix.build-mode == 'manual'
+        run: |
+          SDKMANAGER="$(command -v sdkmanager || echo "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager")"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
+
+      # Compiling is enough for CodeQL to see every source file it needs to analyze -- no need
+      # to also run the full test/lint pass scripts/build.sh's Docker image already covers.
+      - name: Build
+        if: matrix.build-mode == 'manual'
+        run: ./gradlew --no-daemon compileDebugKotlin compileDebugJavaWithJavac
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
