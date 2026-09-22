@@ -150,6 +150,14 @@ android {
                     "roborazzi.output.dir",
                     rootProject.file("app/src/testDebug/screenshots").absolutePath
                 )
+                // Robolectric 4.17's ApplicationSharedMemory shadow reflects into the JDK-internal
+                // jdk.internal.access.SharedSecrets to poke a raw FileDescriptor, which JDK 17+'s
+                // module system blocks by default (IllegalAccessException: AndroidInterceptors.java).
+                // 4.16.1 didn't need this.
+                it.jvmArgs(
+                    "--add-exports=java.base/jdk.internal.access=ALL-UNNAMED",
+                    "--add-opens=java.base/jdk.internal.access=ALL-UNNAMED"
+                )
             }
         }
     }

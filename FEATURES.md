@@ -40,7 +40,10 @@ outer; two, thrust to right outer; three, bottom outer").
 
 **A Learn screen explaining the notation**, with a live worked example: an actual rendered
 card alongside a step-by-step breakdown of what each numbered action means, in the same wording
-a screen reader would announce.
+a screen reader would announce. In English, German and French, it also explains the four
+openings, eight directions, passing through Langort at the centre, and transitions between
+actions. Each line style is explained separately so connections between numbered starting
+points are not mistaken for blade paths.
 
 **An open-source notices screen** (reached from Learn), listing every runtime dependency's
 licence and the numeral font's full OFL licence text.

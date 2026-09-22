@@ -51,6 +51,18 @@ fun LearnScreen(onNoticesClick: () -> Unit, onSourcesClick: () -> Unit, modifier
         Text(stringResource(R.string.learn_how_to_read_colour))
         Text(stringResource(R.string.learn_how_to_read_repetitions))
 
+        Text(stringResource(R.string.learn_openings_title), style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.learn_openings_body))
+
+        Text(stringResource(R.string.learn_centre_title), style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.learn_centre_body))
+
+        Text(stringResource(R.string.learn_lines_title), style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.learn_lines_compass))
+        Text(stringResource(R.string.learn_lines_sequence))
+        Text(stringResource(R.string.learn_lines_bridge))
+        Text(stringResource(R.string.learn_lines_none))
+
         Text(stringResource(R.string.learn_worked_example_title), style = MaterialTheme.typography.titleLarge)
         Text(stringResource(R.string.learn_worked_example_intro))
         CardArea { MeyerSquareCard(WORKED_EXAMPLE_CARD, modifier = it) }
