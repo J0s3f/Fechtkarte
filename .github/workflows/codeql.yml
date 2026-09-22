@@ -12,6 +12,14 @@ name: "CodeQL"
 # preferred): CodeQL's build tracer has to observe the actual javac/kotlinc invocations, and a
 # nested `docker build` would hide those from it the same way instrumented-tests.yml's emulator
 # job already can't run through Docker for its own, different reason.
+#
+# java-kotlin is commented out of the matrix below, not fixed: with this same manual build
+# recipe, it gets past autobuild's failure and reaches the real compiler, which then fails with
+# "Kotlin version 2.4.20 is too recent. CodeQL currently supports versions below 2.4.20" --
+# CodeQL's own Kotlin extractor hasn't caught up to the Kotlin bump this project took on
+# 2026-09-22. Nothing on this project's side can fix an upstream CodeQL version ceiling, and
+# downgrading Kotlin just to satisfy it isn't a real fix either. Re-add the matrix entry once
+# github/codeql-action supports Kotlin 2.4.20+.
 
 on:
   push:
@@ -41,10 +49,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Only java-kotlin needs an actual build; python and actions (workflow YAML) are
-          # source-only analyses, same as they were under default setup.
-          - language: java-kotlin
-            build-mode: manual
+          # java-kotlin is temporarily excluded here -- see the header comment above.
           - language: python
             build-mode: none
           - language: actions
