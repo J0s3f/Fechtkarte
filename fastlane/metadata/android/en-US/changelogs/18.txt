@@ -1,0 +1,1 @@
+- Improved: the Learn screen now explains the four openings and eight directions, passing through Langort, and how each line style (Compass, Sequence, Bridge, None) works, in English, German and French.

@@ -1,0 +1,1 @@
+- Amélioré : « Apprendre » explique désormais les quatre ouvertures et huit directions, le passage par le Langort, et le fonctionnement de chaque style de ligne (Boussole, Séquence, Pont, Aucune), en anglais, allemand et français.
