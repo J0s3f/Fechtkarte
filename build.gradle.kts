@@ -14,6 +14,7 @@ buildscript {
             add("classpath", "org.jdom:jdom2:2.0.6.1")
             add("classpath", "org.apache.commons:commons-lang3:3.18.0")
             add("classpath", "org.apache.httpcomponents:httpclient:4.5.13")
+            add("classpath", "org.freemarker:freemarker:2.3.35")
         }
     }
 }
