@@ -28,7 +28,7 @@
 # match the Kotlin version the way ksp = "2.3.12" once did;
 # kotlinlang.org's own KSP quickstart guide pairs "Kotlin 2.4.10" with "KSP
 # 2.3.10" in its example, one patch behind this project's 2.3.11.
-agp = "9.4.0"
+agp = "9.4.1"
 kotlin = "2.4.20"
 ksp = "2.3.11"
 # 36 is deliberately kept, not bumped to the 37 AGP 9.3.0 now supports —
