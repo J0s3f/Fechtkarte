@@ -1,0 +1,1 @@
+- Wartung: einen Fehler im Amazon-Appstore-Veröffentlichungsprozess behoben. Keine sichtbaren Änderungen.

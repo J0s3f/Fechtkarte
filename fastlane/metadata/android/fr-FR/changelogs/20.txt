@@ -1,0 +1,1 @@
+- Maintenance : correction d'un bug dans le processus de publication sur l'Amazon Appstore. Aucun changement visible.

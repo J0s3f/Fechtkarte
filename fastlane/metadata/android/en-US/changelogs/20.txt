@@ -1,0 +1,1 @@
+- Maintenance: fixed a bug in the Amazon Appstore release process. No user-facing changes.

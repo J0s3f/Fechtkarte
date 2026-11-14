@@ -22,6 +22,7 @@ import argparse
 import json
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 TOKEN_URL = "https://api.amazon.com/auth/O2/token"
@@ -59,9 +60,16 @@ def _request(method: str, url: str, token: str, data=None, extra_headers=None, r
 
 
 def get_access_token(client_id: str, client_secret: str) -> str:
-    body = (
-        f"grant_type=client_credentials&client_id={client_id}"
-        f"&client_secret={client_secret}&scope=appstore::apps:readwrite"
+    # urlencode, not an f-string: a client secret containing '+', '=' or '&' (common in these
+    # credentials) corrupts a hand-built form body silently -- Amazon just sees a different,
+    # wrong secret and returns an opaque 401 with no indication the body was ever malformed.
+    body = urllib.parse.urlencode(
+        {
+            "grant_type": "client_credentials",
+            "client_id": client_id,
+            "client_secret": client_secret,
+            "scope": "appstore::apps:readwrite",
+        }
     ).encode("utf-8")
     request = urllib.request.Request(
         TOKEN_URL,
@@ -69,8 +77,12 @@ def get_access_token(client_id: str, client_secret: str) -> str:
         headers={"Content-Type": "application/x-www-form-urlencoded"},
         method="POST",
     )
-    with urllib.request.urlopen(request) as response:
-        return json.loads(response.read())["access_token"]
+    try:
+        with urllib.request.urlopen(request) as response:
+            return json.loads(response.read())["access_token"]
+    except urllib.error.HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"POST {TOKEN_URL} failed: {error.code} {detail}") from error
 
 
 def create_edit(app_id: str, token: str) -> str:
