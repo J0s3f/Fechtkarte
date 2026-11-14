@@ -1,0 +1,1 @@
+- Maintenance : mise à jour des outils de compilation et des dépendances, dont un correctif de sécurité. Aucun changement visible.

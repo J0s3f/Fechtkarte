@@ -4,7 +4,7 @@
 # Gradle build, deliberately not reusing anything from a previous run of the app
 # layers. For the fast inner loop while writing a test, use scripts/test.sh instead.
 #
-# Uses podman if available, otherwise docker — see scripts/container-engine.sh.
+# Uses podman if available, otherwise docker, otherwise wslc — see scripts/container-engine.sh.
 #
 # Usage: scripts/build.sh [--no-cache]
 

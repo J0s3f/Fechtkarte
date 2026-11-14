@@ -8,7 +8,7 @@
 # baked into the image. This script does not rebuild the image itself, by design —
 # rebuilding on every test run would defeat the point.
 #
-# Uses podman if available, otherwise docker — see scripts/container-engine.sh.
+# Uses podman if available, otherwise docker, otherwise wslc — see scripts/container-engine.sh.
 #
 # Usage: scripts/test.sh [gradle task...]   defaults to `test`
 

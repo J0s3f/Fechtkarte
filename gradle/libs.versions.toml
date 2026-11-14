@@ -29,7 +29,7 @@
 # kotlinlang.org's own KSP quickstart guide pairs "Kotlin 2.4.10" with "KSP
 # 2.3.10" in its example, one patch behind this project's 2.3.11.
 agp = "9.4.1"
-kotlin = "2.4.20"
+kotlin = "2.4.21"
 ksp = "2.3.11"
 # 36 is deliberately kept, not bumped to the 37 AGP 9.3.0 now supports —
 # that's a separate decision (targetSdk changes carry their own Android
@@ -126,7 +126,7 @@ konsist = "0.17.3"
 # captureRoboImage() on the rendered node. Robolectric 4.16.1 (GitHub API,
 # published 2026-01-21) is its current stable release and comfortably clears
 # Roborazzi's stated "4.10-alpha1 or later" floor.
-roborazzi = "1.74.0"
+roborazzi = "1.76.0"
 robolectric = "4.17"
 junit4 = "4.13.2"
 
@@ -137,7 +137,7 @@ licenseReport = "3.1.4"
 # assumptions, which matters for a Kotlin-only project like this one. Explicit Android host-test
 # support, confirmed via its own release notes fixing "0% coverage for classes in com.android.*
 # packages" in this exact version — not assumed compatible with AGP 9 without checking.
-kover = "0.9.9"
+kover = "0.9.11"
 
 # Core library desugaring: java.time.Instant (used by domain/CardOrigin.kt) is
 # API 26+ natively. minSdk is 24, so desugaring is what makes it safe there —

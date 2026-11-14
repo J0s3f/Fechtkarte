@@ -225,6 +225,50 @@ jobs:
             --skip_upload_aab true \
             --skip_upload_changelogs true
 
+  # One job, one Amazon "edit" covering both the binary and the listing text -- unlike the
+  # Google Play deploy/deploy-listing split above, Amazon allows only one open edit per app, so
+  # splitting this the same way would mean two jobs racing to create/commit the same edit.
+  # scripts/publish_amazon_appstore.py owns the whole edit lifecycle: create, upload APK, push
+  # fastlane/metadata/android listing text, submit for review.
+  deploy-amazon:
+    if: needs.check_release_tag.outputs.tagged == 'true'
+    needs:
+      - check_release_tag
+      - build-aab
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v7
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: fechtkarte_apk
+          path: ${{ github.workspace }}/amazon-appstore
+
+      # Amazon's `recentChanges` listing field is keyed by versionCode, same lookup the
+      # github-release job below uses for its own changelog file.
+      - name: Determine version code
+        id: version
+        run: |
+          CODE="$(grep -oP 'versionCode\s*=\s*\K[0-9]+' app/build.gradle.kts)"
+          echo "code=$CODE" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to Amazon Appstore
+        env:
+          AMAZON_CLIENT_ID: ${{ secrets.AMAZON_CLIENT_ID }}
+          AMAZON_CLIENT_SECRET: ${{ secrets.AMAZON_CLIENT_SECRET }}
+          AMAZON_APP_ID: ${{ secrets.AMAZON_APP_ID }}
+        run: |
+          python3 scripts/publish_amazon_appstore.py \
+            --app-id "$AMAZON_APP_ID" \
+            --client-id "$AMAZON_CLIENT_ID" \
+            --client-secret "$AMAZON_CLIENT_SECRET" \
+            --apk "${{ github.workspace }}/amazon-appstore/app-release.apk" \
+            --metadata-dir fastlane/metadata/android \
+            --version-code "${{ steps.version.outputs.code }}"
+
   github-release:
     if: needs.check_release_tag.outputs.tagged == 'true'
     needs:

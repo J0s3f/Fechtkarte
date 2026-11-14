@@ -1,0 +1,1 @@
+- Maintenance: updated build tooling and dependencies, including a security fix. No user-facing changes.

@@ -12,9 +12,17 @@ buildscript {
             add("classpath", "org.bouncycastle:bcpkix-jdk18on:1.86")
             add("classpath", "org.bitbucket.b_c:jose4j:0.9.7")
             add("classpath", "org.jdom:jdom2:2.0.6.1")
-            add("classpath", "org.apache.commons:commons-lang3:3.20.0")
+            add("classpath", "org.apache.commons:commons-lang3:3.21.0")
             add("classpath", "org.apache.httpcomponents:httpclient:4.5.14")
             add("classpath", "org.freemarker:freemarker:2.3.35")
+            // CVE-2026-102554 (CompactHashMap/CompactHashSet/MapMakerInternalMap deserialization
+            // DoS): the version actually present in the Gradle cache before this pin is a mix of
+            // 33.4.0-jre and 33.6.0-android, pulled in transitively through AGP's/the license
+            // report plugin's own tooling, not declared by this project directly -- Dependabot
+            // can't open a PR for it for the same reason as the others above. 33.8.0-jre's
+            // leading numeric segments (33.8.0) outrank both requested versions regardless of
+            // their jre/android qualifier, so this constraint wins resolution for either.
+            add("classpath", "com.google.guava:guava:33.8.0-jre")
         }
     }
 }
