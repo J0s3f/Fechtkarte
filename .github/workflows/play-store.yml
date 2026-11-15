@@ -255,6 +255,9 @@ jobs:
           CODE="$(grep -oP 'versionCode\s*=\s*\K[0-9]+' app/build.gradle.kts)"
           echo "code=$CODE" >> "$GITHUB_OUTPUT"
 
+      # Credentials go through the environment only, never interpolated into this script's own
+      # argv -- a shell `run:` step still expands `$`/backticks inside double-quoted "$VAR", so
+      # a secret containing either would otherwise reach the script already corrupted.
       - name: Publish to Amazon Appstore
         env:
           AMAZON_CLIENT_ID: ${{ secrets.AMAZON_CLIENT_ID }}
@@ -262,9 +265,6 @@ jobs:
           AMAZON_APP_ID: ${{ secrets.AMAZON_APP_ID }}
         run: |
           python3 scripts/publish_amazon_appstore.py \
-            --app-id "$AMAZON_APP_ID" \
-            --client-id "$AMAZON_CLIENT_ID" \
-            --client-secret "$AMAZON_CLIENT_SECRET" \
             --apk "${{ github.workspace }}/amazon-appstore/app-release.apk" \
             --metadata-dir fastlane/metadata/android \
             --version-code "${{ steps.version.outputs.code }}"

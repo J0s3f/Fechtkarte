@@ -13,13 +13,15 @@ so a binary upload and a listing update racing in two concurrently-running jobs 
 collide or silently clobber each other. Google's API has no such shared resource to race over,
 which is why that split is safe there and isn't attempted here.
 
-Usage: publish_amazon_appstore.py --app-id ID --client-id ID --client-secret SECRET
-           --apk PATH --metadata-dir fastlane/metadata/android --version-code N
+Usage: AMAZON_APP_ID=... AMAZON_CLIENT_ID=... AMAZON_CLIENT_SECRET=... \
+           publish_amazon_appstore.py --apk PATH --metadata-dir fastlane/metadata/android \
+           --version-code N
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import urllib.error
 import urllib.parse
@@ -38,7 +40,9 @@ LOCALES = ("en-US", "de-DE", "fr-FR")
 MAX_RECENT_CHANGES_LEN = 500
 
 
-def _request(method: str, url: str, token: str, data=None, extra_headers=None, raw_body=False):
+def _request(
+    method: str, url: str, token: str, data=None, extra_headers=None, raw_body=False, not_found_ok=False
+):
     headers = {"Accept": "application/json", "Authorization": f"Bearer {token}"}
     if extra_headers:
         headers.update(extra_headers)
@@ -55,6 +59,8 @@ def _request(method: str, url: str, token: str, data=None, extra_headers=None, r
             payload = response.read()
             return (json.loads(payload) if payload else {}), response.headers.get("ETag")
     except urllib.error.HTTPError as error:
+        if not_found_ok and error.code == 404:
+            return None, None
         detail = error.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"{method} {url} failed: {error.code} {detail}") from error
 
@@ -85,25 +91,60 @@ def get_access_token(client_id: str, client_secret: str) -> str:
         raise RuntimeError(f"POST {TOKEN_URL} failed: {error.code} {detail}") from error
 
 
-def create_edit(app_id: str, token: str) -> str:
+def get_or_create_edit(app_id: str, token: str) -> str:
+    # An app can have only one open edit at a time; createEdit fails outright if one already
+    # exists (confirmed live: error_new_version_creation_not_allowed), so a previous run that
+    # got interrupted after creating its edit but before committing it leaves that edit open
+    # for every later run to continue, not just the one that created it.
+    active_edit, _ = _request(
+        "GET", f"{API_BASE}/applications/{app_id}/edits", token, not_found_ok=True
+    )
+    if active_edit:
+        return active_edit["id"]
     edit, _ = _request("POST", f"{API_BASE}/applications/{app_id}/edits", token, data={})
     return edit["id"]
 
 
 def upload_apk(app_id: str, edit_id: str, token: str, apk_path: str) -> None:
-    apk_slot, etag = _request(
-        "POST", f"{API_BASE}/applications/{app_id}/edits/{edit_id}/apks", token, data={}
-    )
     with open(apk_path, "rb") as apk_file:
         apk_bytes = apk_file.read()
-    _request(
-        "PUT",
-        f"{API_BASE}/applications/{app_id}/edits/{edit_id}/apks/{apk_slot['id']}/replace",
-        token,
-        data=apk_bytes,
-        raw_body=True,
-        extra_headers={"Content-Type": "application/octet-stream", "If-Match": etag},
+    file_name = apk_path.rsplit("/", 1)[-1]
+
+    # A fresh edit carries over the app's existing APK(s): replaceApk (PUT .../replace) is the
+    # right call for an update, since it preserves that APK's device-targeting configuration --
+    # uploadApk (POST .../apks/upload) adds a SEPARATE new APK alongside it instead, which is
+    # for multi-APK device targeting, not for shipping a new version of the one APK this app
+    # ships. Only fall back to uploadApk when the edit has no APK yet at all (first-ever
+    # publish, carried over from nothing).
+    existing_apks, _ = _request(
+        "GET", f"{API_BASE}/applications/{app_id}/edits/{edit_id}/apks", token
     )
+    if existing_apks:
+        apk_id = existing_apks[0]["id"]
+        _, etag = _request(
+            "GET", f"{API_BASE}/applications/{app_id}/edits/{edit_id}/apks/{apk_id}", token
+        )
+        _request(
+            "PUT",
+            f"{API_BASE}/applications/{app_id}/edits/{edit_id}/apks/{apk_id}/replace",
+            token,
+            data=apk_bytes,
+            raw_body=True,
+            extra_headers={
+                "Content-Type": "application/octet-stream",
+                "If-Match": etag,
+                "fileName": file_name,
+            },
+        )
+    else:
+        _request(
+            "POST",
+            f"{API_BASE}/applications/{app_id}/edits/{edit_id}/apks/upload",
+            token,
+            data=apk_bytes,
+            raw_body=True,
+            extra_headers={"Content-Type": "application/octet-stream", "fileName": file_name},
+        )
 
 
 def push_listing(app_id: str, edit_id: str, token: str, metadata_dir: str, version_code: str) -> None:
@@ -114,7 +155,7 @@ def push_listing(app_id: str, edit_id: str, token: str, metadata_dir: str, versi
         )
         listing["title"] = _read(f"{locale_dir}/title.txt")
         listing["shortDescription"] = _read(f"{locale_dir}/short_description.txt")
-        listing["description"] = _read(f"{locale_dir}/full_description.txt")
+        listing["fullDescription"] = _read(f"{locale_dir}/full_description.txt")
         listing["recentChanges"] = _read(f"{locale_dir}/changelogs/{version_code}.txt")[
             :MAX_RECENT_CHANGES_LEN
         ]
@@ -134,24 +175,46 @@ def _read(path: str) -> str:
 
 def submit_edit(app_id: str, edit_id: str, token: str) -> None:
     _request("POST", f"{API_BASE}/applications/{app_id}/edits/{edit_id}/validate", token, data={})
-    _request("POST", f"{API_BASE}/applications/{app_id}/edits/{edit_id}/commit", token, data={})
+    # commit requires the edit resource's own current ETag as If-Match -- fetched fresh here
+    # rather than reused from get_or_create_edit(), since the apk/listing writes above are sub-resource
+    # mutations that may have advanced the parent edit's ETag in between.
+    _, etag = _request("GET", f"{API_BASE}/applications/{app_id}/edits/{edit_id}", token)
+    # data=None, not {}: commitEdit defines no body parameter at all (confirmed against the real
+    # API -- sending an empty JSON body with Content-Type: application/json, which createEdit and
+    # validateEdit both silently tolerate, gets this specific endpoint rejected with a bare 403
+    # Forbidden and no validation detail, easy to mistake for a permissions problem instead).
+    _request(
+        "POST",
+        f"{API_BASE}/applications/{app_id}/edits/{edit_id}/commit",
+        token,
+        data=None,
+        extra_headers={"If-Match": etag},
+    )
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--app-id", required=True)
-    parser.add_argument("--client-id", required=True)
-    parser.add_argument("--client-secret", required=True)
     parser.add_argument("--apk", required=True)
     parser.add_argument("--metadata-dir", required=True)
     parser.add_argument("--version-code", required=True)
     args = parser.parse_args()
 
-    token = get_access_token(args.client_id, args.client_secret)
-    edit_id = create_edit(args.app_id, token)
-    upload_apk(args.app_id, edit_id, token, args.apk)
-    push_listing(args.app_id, edit_id, token, args.metadata_dir, args.version_code)
-    submit_edit(args.app_id, edit_id, token)
+    # Credentials come from the environment, not argv: a shell `run:` step still expands `$`
+    # and backticks inside double-quoted "$VAR" interpolation, so a secret containing either
+    # would arrive here silently corrupted. Reading os.environ directly skips the shell
+    # entirely for these three values.
+    try:
+        app_id = os.environ["AMAZON_APP_ID"]
+        client_id = os.environ["AMAZON_CLIENT_ID"]
+        client_secret = os.environ["AMAZON_CLIENT_SECRET"]
+    except KeyError as missing:
+        raise SystemExit(f"Required environment variable {missing} is not set.") from missing
+
+    token = get_access_token(client_id, client_secret)
+    edit_id = get_or_create_edit(app_id, token)
+    upload_apk(app_id, edit_id, token, args.apk)
+    push_listing(app_id, edit_id, token, args.metadata_dir, args.version_code)
+    submit_edit(app_id, edit_id, token)
     print(f"Amazon Appstore edit {edit_id} submitted for review.")
     return 0
 

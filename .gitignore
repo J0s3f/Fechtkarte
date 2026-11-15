@@ -31,6 +31,9 @@ local.properties
 *.jks
 keystore.properties
 
+# Amazon Appstore local debugging (scripts/publish_amazon_appstore.py) -- credentials never committed
+amazon-credentials.env
+
 # Python
 __pycache__/
 *.pyc
